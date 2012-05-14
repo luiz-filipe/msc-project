@@ -9,10 +9,23 @@ import net.jcip.annotations.ThreadSafe;
 
 import com.luizabrahao.msc.model.agent.Agent;
 
+/**
+ * This class is the basic implementation of Node. It hold references to
+ * neighbour nodes and utility methods to navigate through them.
+ * 
+ * Note that this class is thread-safe as far as the agents are concerned. The
+ * methods getNeighbour, setNeighbour and setNeighbours do expose the neighbour
+ * nodes, but they were deliberately left without synchronisation because they
+ * must be used only at setup time, that is, the environment does not change
+ * after the simulation starts. getNeighbour is extensively used throughout the
+ * simulation, so the overhead added by the synchronisation would not pay off.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 @ThreadSafe
 public class BasicNode implements Node {
 	private final String id;
-	
 	protected Node north = null;
 	protected Node east = null;
 	protected Node south = null;
@@ -139,12 +152,8 @@ public class BasicNode implements Node {
 		return true;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "BasicNode [id=" + id + "]";
 	}
-
-
-	
 }
