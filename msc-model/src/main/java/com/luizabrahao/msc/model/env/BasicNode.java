@@ -39,16 +39,33 @@ public class BasicNode implements Node {
 	@Override public List<Agent> getAgents() { return agents; }
 	@Override public String getId() { return id; }
 	
+	/**
+	 * This needs to be synchronised because the agents list is lazily
+	 * initialised. This time it was chosen to pay the price the
+	 * synchronisation adds in order to save memory allocation.
+	 */
 	@Override
 	public void addAgent(Agent agent) {
-		if (agents == null) {
-			agents = Collections.synchronizedList(new ArrayList<Agent>());
+		synchronized (agents) {
+			if (agents == null) {
+				agents = Collections.synchronizedList(new ArrayList<Agent>());
+			}
+			
+			this.agents.add(agent);
 		}
 		
-		this.agents.add(agent);
+		// I'm not sure if I should leave this inside or outside the
+		// synchronisation block above, i'm leaving outside now because I think
+		// if I leave inside the method will use the wrong lock and Agent is
+		// thread-safe.
 		agent.setCurrentNode(this);
 	}
 	
+	/**
+	 * Returns the neighbour node in the specified direction. This method is
+	 * not thread-safe, but it was decided to leave so as it will not cause any
+	 * issue when used in environment that don't change during the simulation.
+	 */
 	@Override
 	public Node getNeighbour(Direction direction) {
 		switch (direction) {
@@ -66,6 +83,10 @@ public class BasicNode implements Node {
 		}
 	}
 	
+	/**
+	 * Should not be called directly from user code. It is used to expose
+	 * neighbours indirectly and is not thread-safe.
+	 */
 	@Override
 	public void setNeighbour(Direction direction, Node node) {
 		switch (direction) {
@@ -84,6 +105,9 @@ public class BasicNode implements Node {
 		}
 	}
 	
+	/**
+	 * Should be used only at environment setup time as it is not thread-safe
+	 */
 	@Override
 	public void setNeighbours(Direction direction, Node node) {
 		switch (direction) {

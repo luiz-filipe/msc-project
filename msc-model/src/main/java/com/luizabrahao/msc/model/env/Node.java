@@ -9,7 +9,7 @@ import com.luizabrahao.msc.model.agent.Agent;
  * infinitesimal representation of the environment. A node as a representation
  * of space is able to accommodate agents.
  * 
- * @author Luiz Filipe P Abrahao <luiz@luizabrahao.com>
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
 public interface Node {

@@ -1,7 +1,24 @@
 package com.luizabrahao.msc.model.env;
 
+/**
+ * The EnvironmentFactory class is an utility class that holds the methods
+ * to generate environments to be used for the simulation.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 public class EnvironmentFactory {
 	
+	/**
+	 * Initialises an environment based on BasicNode objects. This environment
+	 * has rectangular shape and each node are assigned an identifier following
+	 * the pattern: "n+lineNumber+colunmNumber", e.g. "n32" corresponds to the
+	 * node at the third line and second column.
+	 * 
+	 * @param nLines number of lines the grid will contain
+	 * @param nColunms number of column the grid will contain.
+	 * @return Node[][] A two dimensional array of interconnected BasicNode objects.
+	 */
 	public static Node[][] createBasicNodeGrid(int nLines, int nColunms) {
 		Node[][] nodes = new Node[nLines][nColunms];
 		
@@ -21,5 +38,4 @@ public class EnvironmentFactory {
 		
 		return nodes;
 	}
-
 }
