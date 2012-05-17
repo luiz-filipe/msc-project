@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
@@ -25,6 +28,8 @@ import com.luizabrahao.msc.model.agent.Agent;
  */
 @ThreadSafe
 public class BasicNode implements Node {
+	private final Logger logger = LoggerFactory.getLogger(BasicNode.class);
+	
 	private final String id;
 	protected Node north = null;
 	protected Node east = null;
@@ -46,12 +51,15 @@ public class BasicNode implements Node {
 	 */
 	@Override
 	public void addAgent(Agent agent) {
-		synchronized (agents) {
+		synchronized(this) {
 			if (agents == null) {
 				agents = Collections.synchronizedList(new ArrayList<Agent>());
 			}
-			
+		}
+		
+		synchronized(agents) {
 			this.agents.add(agent);
+			logger.debug("{}: agent {} moved here.", this.getId(), agent.getId());
 		}
 		
 		// I'm not sure if I should leave this inside or outside the

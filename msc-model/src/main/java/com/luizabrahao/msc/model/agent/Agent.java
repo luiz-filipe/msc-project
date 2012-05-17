@@ -32,5 +32,5 @@ public interface Agent {
 	 * 
 	 * @return Node
 	 */
-	Node getCurrentCode();
+	Node getCurrentNode();
 }

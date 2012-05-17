@@ -6,7 +6,7 @@ import net.jcip.annotations.ThreadSafe;
 import com.luizabrahao.msc.model.env.Node;
 
 @ThreadSafe
-public class AbstractAgent implements Agent {
+public abstract class AbstractAgent implements Agent, Runnable {
 	protected final String id;
 	@GuardedBy("this") protected Node currentNode;
 	protected final Cast cast;
@@ -18,7 +18,7 @@ public class AbstractAgent implements Agent {
 	}
 	
 	@Override public synchronized void setCurrentNode(Node node) { this.currentNode = node; }
-	@Override public synchronized Node getCurrentCode() { return currentNode; }
+	@Override public synchronized Node getCurrentNode() { return currentNode; }
 	@Override public String getId() { return id; }
 	@Override public Cast getCast() { return cast; }
 	

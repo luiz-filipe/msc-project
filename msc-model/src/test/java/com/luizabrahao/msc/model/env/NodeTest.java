@@ -12,6 +12,9 @@ public class NodeTest {
 		public MockAgent(String id, Cast cast, Node currentNode) {
 			super(id, cast, currentNode);
 		}
+
+		
+		@Override public void run() {}
 	}
 	
 	
@@ -63,6 +66,6 @@ public class NodeTest {
 		
 		assertTrue(n.getAgents().size() == 1);
 		assertTrue(n.getAgents().get(0) == a);
-		assertTrue(a.getCurrentCode() == n);
+		assertTrue(a.getCurrentNode() == n);
 	}
 }
