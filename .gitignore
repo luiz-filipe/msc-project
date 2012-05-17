@@ -1,5 +1,5 @@
-/target
-/test-output
-.project
-.classpath
+/msc-model/target
+/msc-model/test-output
+/msc-model/.project
+/msc-model/.classpath
 /msc-model/.settings
