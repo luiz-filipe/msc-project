@@ -14,7 +14,9 @@ import com.luizabrahao.msc.model.agent.Agent;
 
 /**
  * This class is the basic implementation of Node. It hold references to
- * neighbour nodes and utility methods to navigate through them.
+ * neighbour nodes and utility methods to navigate through them. The node
+ * shape is a square, and its neighbours are represented by the north, east,
+ * south and west field variables.
  * 
  * Note that this class is thread-safe as far as the agents are concerned. The
  * methods getNeighbour, setNeighbour and setNeighbours do expose the neighbour
