@@ -18,6 +18,11 @@ import com.luizabrahao.msc.model.agent.Agent;
  * shape is a square, and its neighbours are represented by the north, east,
  * south and west field variables.
  * 
+ * It is essential to keep this class as lightweight as possible, for it is
+ * extensively used. To illustrate the point, a simulation with a reasonable
+ * resolution like 300 lines by 100 columns will have 30 000 objects of this
+ * class.
+ * 
  * Note that this class is thread-safe as far as the agents are concerned. The
  * methods getNeighbour, setNeighbour and setNeighbours do expose the neighbour
  * nodes, but they were deliberately left without synchronisation because they
@@ -64,13 +69,17 @@ public class BasicNode implements Node {
 			logger.debug("{}: agent {} moved here.", this.getId(), agent.getId());
 		}
 		
+		// Let's remove the agent from the node's agent list, and after we set
+		// the new current node to reflect the agent's new position.
+		agent.getCurrentNode().getAgents().remove(agent);
+		
 		// I'm not sure if I should leave this inside or outside the
 		// synchronisation block above, i'm leaving outside now because I think
 		// if I leave inside the method will use the wrong lock and Agent is
-		// thread-safe.
+		// thread-safe so should be fine.
 		agent.setCurrentNode(this);
 	}
-	
+		
 	/**
 	 * Returns the neighbour node in the specified direction. This method is
 	 * not thread-safe, but it was decided to leave so as it will not cause any
@@ -190,4 +199,6 @@ public class BasicNode implements Node {
 	public String toString() {
 		return "BasicNode [id=" + id + "]";
 	}
+
+
 }
