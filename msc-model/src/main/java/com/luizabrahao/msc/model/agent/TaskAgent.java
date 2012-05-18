@@ -27,8 +27,8 @@ public class TaskAgent extends AbstractAgent {
 	private final List<Task> taskList;
 	@GuardedBy("this") private Task currentTask;
 
-	public TaskAgent(String id, Cast cast, Node currentNode, List<Task> taskList) {
-		super(id, cast, currentNode);
+	public TaskAgent(String id, AgentType agentType, Node currentNode, List<Task> taskList) {
+		super(id, agentType, currentNode);
 		this.taskList = taskList;
 	}
 

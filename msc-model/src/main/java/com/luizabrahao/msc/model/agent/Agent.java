@@ -22,7 +22,7 @@ public interface Agent {
 	 * 
 	 * @return Cast agent's cast
 	 */
-	Cast getCast();
+	AgentType getAgentType();
 	
 	/**
 	 * The node that the agent is currently sat on.

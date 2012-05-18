@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.model.agent.Agent;
-import com.luizabrahao.msc.model.agent.Cast;
+import com.luizabrahao.msc.model.agent.AgentType;
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.env.BasicNode;
 import com.luizabrahao.msc.model.env.Direction;
@@ -22,7 +22,7 @@ public class WandererTaskTest {
 		Node east = new BasicNode("east");
 		center.setNeighbours(Direction.EAST, east);
 		
-		Agent agent = new TaskAgent("a", Cast.WORKER, center, null);
+		Agent agent = new TaskAgent("a", AgentType.WORKER, center, null);
 		Node nextNode = WandererTask.getRandomNeighbour(agent);
 		
 		logger.debug("Selected node: " + nextNode);

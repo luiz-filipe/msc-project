@@ -15,11 +15,11 @@ import com.luizabrahao.msc.model.env.Node;
 public abstract class AbstractAgent implements Agent, Runnable {
 	protected final String id;
 	@GuardedBy("this") protected Node currentNode;
-	protected final Cast cast;
+	protected final AgentType agentType;
 	
-	public AbstractAgent(String id, Cast cast, Node currentNode) {
+	public AbstractAgent(String id, AgentType agentType, Node currentNode) {
 		this.id = id;
-		this.cast = cast;
+		this.agentType = agentType;
 		this.currentNode = currentNode;
 		this.currentNode.addAgent(this);
 	}
@@ -32,12 +32,9 @@ public abstract class AbstractAgent implements Agent, Runnable {
 	 *   @see Node
 	 *   @param Node node is going to be set as current.
 	 */
-	@Override
-	public synchronized void setCurrentNode(Node node) { this.currentNode = node; }
+	@Override public synchronized void setCurrentNode(Node node) { this.currentNode = node; }
 	
 	@Override public synchronized Node getCurrentNode() { return currentNode; }
 	@Override public String getId() { return id; }
-	@Override public Cast getCast() { return cast; }
-	
-	
+	@Override public AgentType getAgentType() { return agentType; }
 }

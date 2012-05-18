@@ -8,6 +8,6 @@ package com.luizabrahao.msc.model.agent;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-public enum Cast {
+public enum AgentType {
 	WORKER, SOLDIER, QUEEN
 }

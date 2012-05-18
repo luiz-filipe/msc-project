@@ -5,11 +5,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.luizabrahao.msc.model.agent.AbstractAgent;
-import com.luizabrahao.msc.model.agent.Cast;
+import com.luizabrahao.msc.model.agent.AgentType;
 
 public class NodeTest {
 	private class MockAgent extends AbstractAgent {
-		public MockAgent(String id, Cast cast, Node currentNode) {
+		public MockAgent(String id, AgentType cast, Node currentNode) {
 			super(id, cast, currentNode);
 		}
 
@@ -60,7 +60,7 @@ public class NodeTest {
 	@Test
 	public void addAgent() {
 		BasicNode n = new BasicNode("n");
-		MockAgent a = new MockAgent("a1", Cast.WORKER, n);
+		MockAgent a = new MockAgent("a1", AgentType.WORKER, n);
 		
 		n.addAgent(a);
 		
