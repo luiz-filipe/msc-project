@@ -1,8 +1,8 @@
 package com.luizabrahao.msc.model.task;
 
-import net.jcip.annotations.ThreadSafe;
+import net.jcip.annotations.Immutable;
 
-@ThreadSafe
+@Immutable
 public abstract class AbstractTask implements Task {
 	protected final String name;
 	

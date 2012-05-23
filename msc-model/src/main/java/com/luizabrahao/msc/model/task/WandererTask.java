@@ -1,6 +1,8 @@
 package com.luizabrahao.msc.model.task;
 
 
+import net.jcip.annotations.Immutable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,7 @@ import com.luizabrahao.msc.model.env.Node;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
+@Immutable
 public class WandererTask extends AbstractTask {
 	private final Logger logger = LoggerFactory.getLogger(WandererTask.class);
 	public static final String NAME = "Wanderer"; 

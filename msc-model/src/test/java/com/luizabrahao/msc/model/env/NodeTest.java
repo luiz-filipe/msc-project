@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import com.luizabrahao.msc.model.agent.AbstractAgent;
 import com.luizabrahao.msc.model.agent.AgentType;
+import com.luizabrahao.msc.model.agent.BasicAgentType;
 
 public class NodeTest {
 	private class MockAgent extends AbstractAgent {
-		public MockAgent(String id, AgentType cast, Node currentNode) {
-			super(id, cast, currentNode);
+		public MockAgent(String id, AgentType agentType, Node currentNode) {
+			super(id, agentType, currentNode);
 		}
-
 		
 		@Override public void run() {}
 	}
@@ -60,7 +60,7 @@ public class NodeTest {
 	@Test
 	public void addAgent() {
 		BasicNode n = new BasicNode("n");
-		MockAgent a = new MockAgent("a1", AgentType.WORKER, n);
+		MockAgent a = new MockAgent("a1", new BasicAgentType("test-agent"), n);
 		
 		n.addAgent(a);
 		

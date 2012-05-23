@@ -2,12 +2,15 @@ package com.luizabrahao.msc.model.task;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.agent.AgentType;
+import com.luizabrahao.msc.model.agent.BasicAgentType;
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.env.BasicNode;
 import com.luizabrahao.msc.model.env.Direction;
@@ -16,13 +19,24 @@ import com.luizabrahao.msc.model.env.Node;
 public class WandererTaskTest {
 	private final Logger logger = LoggerFactory.getLogger(WandererTaskTest.class);
 	
+	private class MockTaskAgent extends TaskAgent {
+		public MockTaskAgent(String id, AgentType agentType, Node currentNode, List<Task> taskList) {
+			super(id, agentType, currentNode, taskList);
+		}
+
+		@Override
+		public void run() {
+			this.getTaskList().get(0).execute(this);
+		}
+	}
+	
 	@Test
 	public void getRandomNeighbourTest() {
 		Node center = new BasicNode("center");
 		Node east = new BasicNode("east");
 		center.setNeighbours(Direction.EAST, east);
 		
-		Agent agent = new TaskAgent("a", AgentType.WORKER, center, null);
+		Agent agent = new MockTaskAgent("a", new BasicAgentType("test-agent"), center, null);
 		Node nextNode = WandererTask.getRandomNeighbour(agent);
 		
 		logger.debug("Selected node: " + nextNode);

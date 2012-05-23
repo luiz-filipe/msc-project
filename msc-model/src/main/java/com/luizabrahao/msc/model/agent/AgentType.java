@@ -1,13 +1,17 @@
 package com.luizabrahao.msc.model.agent;
 
 /**
- * Casts can be thought as types of agent. Each cast has a defined set of tasks
- * or/and behaviour. It is used when the agents need to identify themselves or
- * other fellow agents.
+ * AgentType is a basic data type that holds info about the the type of the
+ * agent. Each agent must have a AgentType object associated to it. This  can
+ * be useful when comparing agents.
+ * 
+ * The reason to not use a string or enumeration is that more information about
+ * the agent type might become necessary at some point. For examples, an 
+ * AgentType could define a colour, that all agents of that class have.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-public enum AgentType {
-	WORKER, SOLDIER, QUEEN
+public interface AgentType {
+	String getName();
 }

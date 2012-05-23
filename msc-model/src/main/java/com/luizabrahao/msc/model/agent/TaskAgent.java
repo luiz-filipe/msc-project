@@ -23,8 +23,8 @@ import com.luizabrahao.msc.model.task.Task;
  *
  */
 @ThreadSafe
-public class TaskAgent extends AbstractAgent {
-	private final List<Task> taskList;
+public abstract class TaskAgent extends AbstractAgent {
+	protected final List<Task> taskList;
 	@GuardedBy("this") private Task currentTask;
 
 	public TaskAgent(String id, AgentType agentType, Node currentNode, List<Task> taskList) {
@@ -48,10 +48,5 @@ public class TaskAgent extends AbstractAgent {
 		}
 		
 		return null;
-	}
-	
-	@Override
-	public void run() {
-		this.currentTask.execute(this);
 	}
 }
