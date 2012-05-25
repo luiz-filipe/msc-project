@@ -59,6 +59,11 @@ public class BasicNode implements Node {
 	@Override
 	public void addAgent(Agent agent) {
 		synchronized(this) {
+			// if the agent is in the node already, just ignore the call.
+			if (agent.getCurrentNode() == this) {
+				return;
+			}
+			
 			if (agents == null) {
 				agents = Collections.synchronizedList(new ArrayList<Agent>());
 			}
@@ -70,7 +75,10 @@ public class BasicNode implements Node {
 		}
 		
 		// Let's remove the agent from the node's agent list, and after we set
-		// the new current node to reflect the agent's new position.
+		// the new current node to reflect the agent's new position. This was
+		// decided to be done here because a agent cannot be in two places at
+		// the same time, so adding a agent to a node, means removing from the
+		// other one (agent's current node).
 		agent.getCurrentNode().getAgents().remove(agent);
 		
 		// I'm not sure if I should leave this inside or outside the
@@ -79,7 +87,7 @@ public class BasicNode implements Node {
 		// thread-safe so should be fine.
 		agent.setCurrentNode(this);
 	}
-		
+	
 	/**
 	 * Returns the neighbour node in the specified direction. This method is
 	 * not thread-safe, but it was decided to leave so as it will not cause any
