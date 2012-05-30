@@ -59,13 +59,14 @@ public class BasicNode implements Node {
 	@Override
 	public void addAgent(Agent agent) {
 		synchronized(this) {
-			// if the agent is in the node already, just ignore the call.
-			if (agent.getCurrentNode() == this) {
-				return;
-			}
-			
 			if (agents == null) {
 				agents = Collections.synchronizedList(new ArrayList<Agent>());
+
+			} else  {
+				// if the agent is in the node already, just ignore the call.
+				if ((agent.getCurrentNode() == this)) { 
+					return;
+				}
 			}
 		}
 		

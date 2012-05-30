@@ -1,9 +1,5 @@
 package com.luizabrahao.msc.model.agent;
 
-import java.util.List;
-
-import com.luizabrahao.msc.model.task.Task;
-
 /**
  * AgentType is a basic data type that hold all the tasks agent of a certain
  * type can perform and extra information like the type's name.
@@ -18,5 +14,5 @@ import com.luizabrahao.msc.model.task.Task;
  *
  */
 public interface AgentType {
-	List<Task> getTasks();
+	String getName();
 }

@@ -24,15 +24,15 @@ import com.luizabrahao.msc.model.task.Task;
  */
 @ThreadSafe
 public abstract class TaskAgent extends AbstractAgent {
-	protected final List<Task> taskList;
 	@GuardedBy("this") private Task currentTask;
+	protected final TaskAgentType agentType;
 
-	public TaskAgent(String id, AgentType agentType, Node currentNode, List<Task> taskList) {
+	public TaskAgent(String id, TaskAgentType agentType, Node currentNode) {
 		super(id, agentType, currentNode);
-		this.taskList = taskList;
+		this.agentType = agentType;
 	}
 
-	public List<Task> getTaskList() { return taskList; }
+	public List<Task> getTaskList() { return agentType.getTasks(); }
 	public synchronized Task getCurrentTask() { return currentTask; }
 	public synchronized void setCurrentTask(Task currentTask) { this.currentTask = currentTask; }
 
@@ -41,7 +41,7 @@ public abstract class TaskAgent extends AbstractAgent {
 	}
 	
 	private Task getTaskByName(String name) {
-		for (Task task : this.taskList) {
+		for (Task task : agentType.getTasks()) {
 			if (task.getName().equals(name)) {
 				return task;
 			}

@@ -23,12 +23,12 @@ import net.jcip.annotations.ThreadSafe;
  *
  */
 @ThreadSafe
-public class BasicAgentType extends AbstractAgentType {
+public class BasicTaskAgentType extends AbstractTaskAgentType {
 	public static final String NAME = "basic-agent";
-	private static BasicAgentType instance = new BasicAgentType();
+	private static BasicTaskAgentType instance = new BasicTaskAgentType();
 	private final List<Task> tasks;
 	
-	public BasicAgentType() {
+	public BasicTaskAgentType() {
 		tasks = new ArrayList<Task>();
 		tasks.add(new WandererTask());
 	}
@@ -36,5 +36,8 @@ public class BasicAgentType extends AbstractAgentType {
 	@Override
 	public List<Task> getTasks() { return this.tasks; }
 	
-	public static BasicAgentType getIntance() { return instance; }
+	public static BasicTaskAgentType getIntance() { return instance; }
+
+	@Override
+	public String getName() { return BasicTaskAgentType.NAME; }
 }

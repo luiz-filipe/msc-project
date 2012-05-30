@@ -21,7 +21,7 @@ public abstract class AbstractAgent implements Agent, Runnable {
 		this.id = id;
 		this.agentType = agentType;
 		this.currentNode = currentNode;
-		this.currentNode.addAgent(this);
+		currentNode.addAgent(this);
 	}
 	
 	/**

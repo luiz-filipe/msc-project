@@ -5,19 +5,20 @@ import java.util.List;
 
 import net.jcip.annotations.ThreadSafe;
 
-import com.luizabrahao.msc.model.agent.AbstractAgentType;
+import com.luizabrahao.msc.model.agent.AbstractTaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
 import com.luizabrahao.msc.model.task.WandererTask;
 
 /**
- * Represents a ant from the Worker cast.
+ * Represents a ant from the Worker cast. As required it implements the
+ * singleton pattern.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
 
 @ThreadSafe
-public class WorkerType extends AbstractAgentType {
+public class WorkerType extends AbstractTaskAgentType {
 	public static final String NAME = "worker";
 	private static WorkerType instance = new WorkerType();
 	private final List<Task> tasks;
@@ -30,5 +31,8 @@ public class WorkerType extends AbstractAgentType {
 	@Override
 	public List<Task> getTasks() { return this.tasks; }
 
-	public static WorkerType getInstance() { return instance; }	
+	public static WorkerType getInstance() { return instance; }
+
+	@Override
+	public String getName() { return WorkerType.NAME; }	
 }

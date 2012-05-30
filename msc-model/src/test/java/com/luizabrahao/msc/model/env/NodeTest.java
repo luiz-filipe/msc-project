@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.luizabrahao.msc.model.agent.AbstractAgent;
 import com.luizabrahao.msc.model.agent.AgentType;
-import com.luizabrahao.msc.model.agent.BasicAgentType;
+import com.luizabrahao.msc.model.agent.BasicTaskAgentType;
 
 public class NodeTest {
 	private class MockAgent extends AbstractAgent {
@@ -60,7 +60,7 @@ public class NodeTest {
 	@Test(expected=NullPointerException.class)
 	public void addAgentSameNode() {
 		BasicNode n = new BasicNode("n");
-		MockAgent a = new MockAgent("a1", new BasicAgentType(), n);
+		MockAgent a = new MockAgent("a1", new BasicTaskAgentType(), n);
 		
 		n.addAgent(a);
 		
@@ -73,7 +73,7 @@ public class NodeTest {
 	public void addAgentDifferentNodes() {
 		BasicNode n0 = new BasicNode("n0");
 		BasicNode n1 = new BasicNode("n1");
-		MockAgent a = new MockAgent("a1", new BasicAgentType(), n1);
+		MockAgent a = new MockAgent("a1", new BasicTaskAgentType(), n1);
 		
 		n0.addAgent(a);
 		
