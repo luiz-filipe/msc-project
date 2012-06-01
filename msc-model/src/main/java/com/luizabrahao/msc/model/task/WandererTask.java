@@ -29,7 +29,9 @@ public class WandererTask extends AbstractTask {
 
 	@Override
 	public void execute(Agent agent) {
-		while (true) {	
+		logger.info("agent {} started task: {}", agent.getId(), WandererTask.NAME);
+		
+		while (true) {
 			WandererTask.getRandomNeighbour(agent).addAgent(agent);
 		}
 	}
