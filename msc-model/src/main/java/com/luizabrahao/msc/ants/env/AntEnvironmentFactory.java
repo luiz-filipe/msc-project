@@ -1,7 +1,6 @@
 package com.luizabrahao.msc.ants.env;
 
 import com.luizabrahao.msc.model.env.Direction;
-import com.luizabrahao.msc.model.env.Node;
 
 public class AntEnvironmentFactory {
 	
@@ -15,8 +14,8 @@ public class AntEnvironmentFactory {
 	 * @param nColunms number of column the grid will contain.
 	 * @return Node[][] A two dimensional array of interconnected BasicNode objects.
 	 */
-	public static Node[][] createPheromoneNodeGrid(int nLines, int nColunms) {
-		Node[][] nodes = new Node[nLines][nColunms];
+	public static PheromoneNode[][] createPheromoneNodeGrid(int nLines, int nColunms) {
+		PheromoneNode[][] nodes = new PheromoneNode[nLines][nColunms];
 		
 		for(int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColunms; c++) {

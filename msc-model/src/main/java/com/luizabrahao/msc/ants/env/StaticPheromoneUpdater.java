@@ -6,39 +6,53 @@ import org.slf4j.LoggerFactory;
 import com.luizabrahao.msc.model.agent.AbstractAgent;
 import com.luizabrahao.msc.model.agent.AgentType;
 import com.luizabrahao.msc.model.env.Direction;
-import com.luizabrahao.msc.model.env.Node;
 
 public class StaticPheromoneUpdater extends AbstractAgent {
 	private final Logger logger = LoggerFactory.getLogger(StaticPheromoneUpdater.class);
 	public static double DECAY_FACTOR = 0.1;
-	private final int nRows;
-	private final int nColunms;
+	private final int maximumNumberOfRows;
 	
-	public StaticPheromoneUpdater(String id, AgentType agentType, Node currentNode, int nRows, int nColunms) {
+	public StaticPheromoneUpdater(String id, AgentType agentType, PheromoneNode currentNode, int maximumNumberOfRows) {
 		super(id, agentType, currentNode);
-		
-		this.nRows = nRows;
-		this.nColunms = nColunms;
+		this.maximumNumberOfRows = maximumNumberOfRows;
 	}
 
 	@Override
 	public void run() {
 		logger.debug("[{}] Starting pherormone update run", this.getId());
-		PheromoneNode startNode = (PheromoneNode) currentNode;
-		PheromoneNode nodeToBeUpdated = (PheromoneNode) currentNode;
 		
-		for (int l = 0; l < nRows; l++) {
-			startNode = (PheromoneNode) startNode.getNeighbour(Direction.SOUTH);
-			
-			for (int c = 0; c < nColunms; c++) {
+		PheromoneNode startNode = (PheromoneNode) currentNode;
+		PheromoneNode nodeToBeUpdated = startNode;
+		int numberOfRowsProcessed = 0;
+		
+		for (;;) {
+			for (;;) {
 				nodeToBeUpdated.updatePheromoneIntensity();
-				logger.debug("column {} updated", c);
+				
+				if (nodeToBeUpdated.getNeighbour(Direction.EAST) != null) {
+					nodeToBeUpdated = (PheromoneNode) nodeToBeUpdated.getNeighbour(Direction.EAST);
+				
+				} else {
+					break;
+				}
 			}
 			
-			nodeToBeUpdated = startNode;
-			logger.debug("line {} updated", l);
+			if (startNode.getNeighbour(Direction.SOUTH) != null) {
+				startNode = (PheromoneNode) startNode.getNeighbour(Direction.SOUTH);
+				nodeToBeUpdated = startNode;
+			
+			} else {
+				break;
+			}
+			
+			numberOfRowsProcessed++;
+			
+			if (numberOfRowsProcessed == maximumNumberOfRows) {
+				break;
+			}
 		}
 		
+			
 		logger.debug("[{}] Finished pherormone update run", this.getId());
 	}
 }

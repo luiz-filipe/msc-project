@@ -25,7 +25,7 @@ public class PheromoneNode extends BasicNode {
 	public synchronized void setPheromoneIntensity(double pheromoneIntensity) { this.pheromoneIntensity = pheromoneIntensity; }
 
 	public synchronized void updatePheromoneIntensity() {
-		this.pheromoneIntensity = this.pheromoneIntensity - (1 - StaticPheromoneUpdater.DECAY_FACTOR);
+		this.pheromoneIntensity = this.pheromoneIntensity * (1 - StaticPheromoneUpdater.DECAY_FACTOR);
 		
 		if (this.pheromoneIntensity < 0) {
 			this.pheromoneIntensity = 0;
