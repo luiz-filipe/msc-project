@@ -23,7 +23,7 @@ import net.jcip.annotations.ThreadSafe;
  *
  */
 @ThreadSafe
-public class BasicTaskAgentType extends AbstractTaskAgentType {
+public class BasicTaskAgentType extends AbstractAgentType implements TaskAgentType {
 	public static final String NAME = "basic-agent";
 	private static BasicTaskAgentType instance = new BasicTaskAgentType();
 	private final List<Task> tasks;

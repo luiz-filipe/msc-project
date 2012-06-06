@@ -5,7 +5,8 @@ import java.util.List;
 
 import net.jcip.annotations.ThreadSafe;
 
-import com.luizabrahao.msc.model.agent.AbstractTaskAgentType;
+import com.luizabrahao.msc.model.agent.AbstractAgentType;
+import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
 import com.luizabrahao.msc.model.task.WandererTask;
 
@@ -18,7 +19,7 @@ import com.luizabrahao.msc.model.task.WandererTask;
  */
 
 @ThreadSafe
-public class WorkerType extends AbstractTaskAgentType {
+public class WorkerType extends AbstractAgentType implements TaskAgentType {
 	public static final String NAME = "worker";
 	private static WorkerType instance = new WorkerType();
 	private final List<Task> tasks;

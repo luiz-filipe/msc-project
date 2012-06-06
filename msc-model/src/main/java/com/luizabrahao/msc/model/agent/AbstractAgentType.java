@@ -7,7 +7,7 @@ package com.luizabrahao.msc.model.agent;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-public abstract class AbstractTaskAgentType implements TaskAgentType {
+public abstract class AbstractAgentType implements AgentType {
 	/**
 	 * All AgentType classes MUST be implemented as singleton. So we don't want
 	 * anyone cloning their object instances.
