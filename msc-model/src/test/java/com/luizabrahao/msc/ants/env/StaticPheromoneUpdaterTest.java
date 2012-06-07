@@ -25,6 +25,7 @@ public class StaticPheromoneUpdaterTest {
 				(grid[l][c]).setPheromoneIntensity(1);
 			}
 		}
+		
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		tasks.add(Executors.callable(u));
 
@@ -36,5 +37,26 @@ public class StaticPheromoneUpdaterTest {
 		
 		assertTrue(grid[2][2].getPheromoneIntensity() == 1);
 		assertTrue(grid[2][2].getPheromoneIntensity() == 1);
+	}
+	
+	@Test @SuppressWarnings("unused")
+	public void throughputTest() throws InterruptedException {
+		int nLines = 250;
+		int nColumns = 200;
+		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		StaticPheromoneUpdater u = new StaticPheromoneUpdater("updater-02", PheromoneUpdaterAgentType.getInstance(), grid[0][0], 250);
+		
+		for (int l = 0; l < nLines; l++) {
+			for (int c = 0; c < nColumns; c++) {
+				(grid[l][c]).setPheromoneIntensity(1);
+			}
+		}
+		
+		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
+		tasks.add(Executors.callable(u));
+
+		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		final List<Future<Object>> futures = executor.invokeAll(tasks);
+
 	}
 }
