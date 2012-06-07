@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.jcip.annotations.ThreadSafe;
 
+import com.luizabrahao.msc.ants.task.ForageTask;
 import com.luizabrahao.msc.model.agent.AbstractAgentType;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
@@ -26,7 +27,7 @@ public class WorkerType extends AbstractAgentType implements TaskAgentType {
 	
 	public WorkerType() {
 		this.tasks = new ArrayList<Task>();
-		tasks.add(new WandererTask());
+		tasks.add(new ForageTask());
 	}
 
 	@Override

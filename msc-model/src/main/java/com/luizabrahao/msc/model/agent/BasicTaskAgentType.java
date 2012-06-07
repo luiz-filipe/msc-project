@@ -36,7 +36,7 @@ public class BasicTaskAgentType extends AbstractAgentType implements TaskAgentTy
 	@Override
 	public List<Task> getTasks() { return this.tasks; }
 	
-	public static BasicTaskAgentType getIntance() { return instance; }
+	public static BasicTaskAgentType getInstance() { return instance; }
 
 	@Override
 	public String getName() { return BasicTaskAgentType.NAME; }

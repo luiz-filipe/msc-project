@@ -49,8 +49,8 @@ public class WandererTaskTest {
 	@Test 
 	public void executeTest() {
 		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(300, 100);
-		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getIntance(), grid[1][0]);
-		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getIntance(), grid[1][1]);
+		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[1][0]);
+		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[1][1]);
 		
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		executor.execute(a01);
