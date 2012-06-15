@@ -5,6 +5,13 @@ import net.jcip.annotations.ThreadSafe;
 
 import com.luizabrahao.msc.model.env.BasicNode;
 
+/**
+ * Introduces the pheromoneIntensity field that is used for ant related
+ * simulations. This class is thread-safe.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 @ThreadSafe
 public class PheromoneNode extends BasicNode {
 	@GuardedBy("this") private double pheromoneIntensity;

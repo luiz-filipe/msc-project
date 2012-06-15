@@ -2,8 +2,14 @@ package com.luizabrahao.msc.ants.env;
 
 import com.luizabrahao.msc.model.env.Direction;
 
-public class AntEnvironmentFactory {
-	
+/**
+ * Provides static methods that are useful for generating environments used in
+ * ant simulations.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+public class AntEnvironmentFactory {	
 	/**
 	 * Initialises an environment based on PheromoneNode objects. This
 	 * environment has rectangular shape and each node are assigned an

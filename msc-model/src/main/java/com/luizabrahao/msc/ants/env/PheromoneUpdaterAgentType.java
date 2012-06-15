@@ -2,6 +2,11 @@ package com.luizabrahao.msc.ants.env;
 
 import com.luizabrahao.msc.model.agent.AbstractAgentType;
 
+/**
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 public class PheromoneUpdaterAgentType extends AbstractAgentType {
 	public static final String NAME = "pheromone-updater-agent";
 	private static PheromoneUpdaterAgentType instance = new PheromoneUpdaterAgentType();

@@ -9,7 +9,6 @@ import com.luizabrahao.msc.ants.task.ForageTask;
 import com.luizabrahao.msc.model.agent.AbstractAgentType;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
-import com.luizabrahao.msc.model.task.WandererTask;
 
 /**
  * Represents a ant from the Worker cast. As required it implements the
