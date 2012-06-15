@@ -3,21 +3,17 @@ package com.luizabrahao.msc.ants.render;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
-import com.luizabrahao.msc.ants.agent.WorkerType;
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
-import com.luizabrahao.msc.ants.env.PheromoneUpdaterAgentType;
-import com.luizabrahao.msc.ants.env.StaticPheromoneUpdater;
 import com.luizabrahao.msc.model.agent.Agent;
+import com.luizabrahao.msc.model.agent.BasicTaskAgentType;
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.env.Node;
@@ -78,11 +74,12 @@ public class RenderAgentFactoryTest {
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 		
-		TaskAgent a01 = new MockTaskAgent("a-01", WorkerType.getInstance(), grid[0][0]);
-		TaskAgent a02 = new MockTaskAgent("a-02", WorkerType.getInstance(), grid[0][2]);
-		TaskAgent a03 = new MockTaskAgent("a-03", WorkerType.getInstance(), grid[0][4]);
-		TaskAgent a04 = new MockTaskAgent("a-04", WorkerType.getInstance(), grid[3][0]);
-		TaskAgent a05 = new MockTaskAgent("a-05", WorkerType.getInstance(), grid[0][3]);
+		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[0][0]);
+		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[0][2]);
+		TaskAgent a03 = new MockTaskAgent("a-03", BasicTaskAgentType.getInstance(), grid[0][4]);
+		TaskAgent a04 = new MockTaskAgent("a-04", BasicTaskAgentType.getInstance(), grid[4][0]);
+		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.getInstance(), grid[4][2]);
+		TaskAgent a06 = new MockTaskAgent("a-06", BasicTaskAgentType.getInstance(), grid[4][4]);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
@@ -92,10 +89,11 @@ public class RenderAgentFactoryTest {
 		agents.add(a03);
 		agents.add(a04);
 		agents.add(a05);
+		agents.add(a06);
 		
 		tasks.add(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/population-static.png", agents, nLines, nColumns)));
 		
-		final List<Future<Object>> futures = executor.invokeAll(tasks, 5, TimeUnit.SECONDS);
+		final List<Future<Object>> futures = executor.invokeAll(tasks);
 	}
 	
 	
@@ -106,11 +104,11 @@ public class RenderAgentFactoryTest {
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 		
-		TaskAgent a01 = new MockTaskAgent("a-01", WorkerType.getInstance(), grid[0][0]);
-		TaskAgent a02 = new MockTaskAgent("a-02", WorkerType.getInstance(), grid[0][10]);
-		TaskAgent a03 = new MockTaskAgent("a-03", WorkerType.getInstance(), grid[0][20]);
-		TaskAgent a04 = new MockTaskAgent("a-04", WorkerType.getInstance(), grid[0][30]);
-		TaskAgent a05 = new MockTaskAgent("a-05", WorkerType.getInstance(), grid[0][40]);
+		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[0][0]);
+		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[0][10]);
+		TaskAgent a03 = new MockTaskAgent("a-03", BasicTaskAgentType.getInstance(), grid[0][20]);
+		TaskAgent a04 = new MockTaskAgent("a-04", BasicTaskAgentType.getInstance(), grid[0][30]);
+		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.getInstance(), grid[0][40]);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();

@@ -61,35 +61,44 @@ public class RenderAgentFactory {
 					nodes.add(agent.getCurrentNode());
 				}
 				
-				BufferedImage bufferedImage = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
-				Graphics2D g2d = bufferedImage.createGraphics();
+				BufferedImage image = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g2d = image.createGraphics();
 				
 				g2d.setColor(Color.white);
 				g2d.fillRect(0, 0, nColumns, nLines);
+				g2d.setColor(Color.black);
 				
 				for (Node node : nodes) {
 					int line = 0;
 					int column = 0;
 					
-					while (node.getNeighbour(Direction.NORTH) != null) {
+					Node currentNode = node.getNeighbour(Direction.NORTH);
+					
+					while (currentNode != null) {
 						line++;
+						currentNode = currentNode.getNeighbour(Direction.NORTH);
 					}
 					
-					while (node.getNeighbour(Direction.WEST) != null) {
+					currentNode = node.getNeighbour(Direction.WEST);
+					
+					while (currentNode != null) {
 						column++;
+						currentNode = currentNode.getNeighbour(Direction.WEST);
 					}
 					
-					g2d.fillRect(column, line, column + 1, line + 1);
+					image.setRGB(column, line, 0);
+//					g2d.fillRect(column, line, column + 1, line+1);
 				}
 				
 				g2d.dispose();
 				
 				try {
 					File file = new File(imagePath);
-				    ImageIO.write(bufferedImage, "png", file);
+				    ImageIO.write(image, "png", file);
 				
 				} catch (IOException e) {
 					// TODO add logging
+					e.printStackTrace();
 				}
 			}
 		};
