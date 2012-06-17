@@ -1,24 +1,42 @@
 package com.luizabrahao.msc.ants.agent;
 
+import net.jcip.annotations.GuardedBy;
+
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 
+/**
+ * Defines an agent that represents a ant. The movingDirection field represents
+ * the direction the agent is moving in relation to the grid of nodes. 
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 public class AntAgent extends TaskAgent {
-	private Direction movingDirection;
+	@GuardedBy("this") private Direction movingDirection;
 
-	public Direction getMovingDirection() { return movingDirection; }
+	public synchronized Direction getMovingDirection() { return movingDirection; }
+	public synchronized void setMovingDirection(Direction movingDirection) {
+		this.movingDirection = movingDirection;
+	}
 
 	public AntAgent(String id, TaskAgentType agentType, Node currentNode) {
 		super(id, agentType, currentNode);
 	}
 
 	/**
+	 * Imagine that you are looking the grid from the top. So if the agent is
+	 * moving south towards south of the grid, the next node south to the node
+	 * the agent is currently at is going to be the north node in relation to
+	 * the agent.
 	 * 
+	 * It might be better to refactor that all movements were in relation to 
+	 * the grid.
 	 * 
-	 * @param direction
-	 * @return
+	 * @param direction Direction the neighbour is in relation to the agent
+	 * @return Node Neighbour node
 	 */
 	public Node getNeighbourInRelationToAgentOrientation(Direction direction) {
 		// if the agent is moving north, there is no transformation to be done.
