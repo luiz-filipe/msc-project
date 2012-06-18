@@ -11,6 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.junit.Test;
 
+import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
+
 public class StaticPheromoneUpdaterTest {
 	
 	@Test @SuppressWarnings("unused")
@@ -18,7 +20,7 @@ public class StaticPheromoneUpdaterTest {
 		int nLines = 4;
 		int nColumns = 3;
 		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
-		StaticPheromoneUpdater u = new StaticPheromoneUpdater("updater-01", PheromoneUpdaterAgentType.getInstance(), grid[0][0], 2);
+		StaticPheromoneUpdaterAgent u = new StaticPheromoneUpdaterAgent("updater-01", grid[0][0], 2);
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
@@ -44,7 +46,7 @@ public class StaticPheromoneUpdaterTest {
 		int nLines = 250;
 		int nColumns = 200;
 		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
-		StaticPheromoneUpdater u = new StaticPheromoneUpdater("updater-02", PheromoneUpdaterAgentType.getInstance(), grid[0][0], 250);
+		StaticPheromoneUpdaterAgent u = new StaticPheromoneUpdaterAgent("updater-02", grid[0][0], 250);
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
@@ -57,6 +59,5 @@ public class StaticPheromoneUpdaterTest {
 
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		final List<Future<Object>> futures = executor.invokeAll(tasks);
-
 	}
 }

@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.model.agent;
 
+import java.util.List;
+
 import com.luizabrahao.msc.model.env.Node;
 
 /**
@@ -48,4 +50,21 @@ public interface Agent {
 	 * @param node Node to add to the list of nodes that have been visited.
 	 */
 	void addToVisitedHistory(Node node);
+	
+	/**
+	 * Returns the list of nodes that the agent has visited. Node that this
+	 * list must be unmodifiable to ensure thread safety.
+	 * 
+	 * @return List of nodes
+	 */
+	List<Node> getNodesVisited();
+	
+	/**
+	 * Agents should define a flag that is used to know if the history of nodes
+	 * visited by the agent should be recorded or not. This method returns the
+	 * status of that flag.
+	 * 
+	 * @return boolean the status of the flag.
+	 */
+	boolean shouldRecordNodeHistory();
 }

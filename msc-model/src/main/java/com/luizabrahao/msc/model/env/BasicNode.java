@@ -74,7 +74,7 @@ public class BasicNode implements Node {
 			this.agents.add(agent);
 			logger.debug("{}: agent {} moved here.", this.getId(), agent.getId());
 		}
-		
+				
 		// Let's remove the agent from the node's agent list, and after we set
 		// the new current node to reflect the agent's new position. This was
 		// decided to be done here because a agent cannot be in two places at
@@ -83,10 +83,16 @@ public class BasicNode implements Node {
 		agent.getCurrentNode().getAgents().remove(agent);
 		
 		// I'm not sure if I should leave this inside or outside the
-		// synchronisation block above, i'm leaving outside now because I think
+		// synchronisation block above, I'm leaving outside now because I think
 		// if I leave inside the method will use the wrong lock and Agent is
 		// thread-safe so should be fine.
 		agent.setCurrentNode(this);
+		
+		// it doesn't need to be in a synchronized block because the recording
+		// flag is 'final'
+		if (agent.shouldRecordNodeHistory()) {
+			agent.addToVisitedHistory(this);
+		}
 	}
 	
 	/**

@@ -14,6 +14,9 @@ import com.luizabrahao.msc.model.task.Task;
  * Represents a ant from the Worker cast. As required it implements the
  * singleton pattern.
  * 
+ * Workers have the following tasks:
+ * - Forage
+ * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */

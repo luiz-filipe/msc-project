@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
@@ -87,10 +88,10 @@ public class RenderAgentFactory {
 					}
 					
 					image.setRGB(column, line, 0);
-//					g2d.fillRect(column, line, column + 1, line+1);
 				}
 				
 				g2d.dispose();
+				nodes = null;
 				
 				try {
 					File file = new File(imagePath);
@@ -192,6 +193,56 @@ public class RenderAgentFactory {
 				
 				} catch (IOException e) {
 					// TODO add logging
+				}
+			}
+		};
+	}
+
+	public static Runnable createNodesHistoryRenderer(final String imagePath, final AntAgent agent, final int nLines, final int nColumns) {
+		return new Runnable() {
+			
+			@Override
+			public void run() {
+				List<Node> nodes = agent.getNodesVisited();
+
+				BufferedImage image = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g2d = image.createGraphics();
+				
+				g2d.setColor(Color.white);
+				g2d.fillRect(0, 0, nColumns, nLines);
+				g2d.setColor(Color.black);
+				
+				for (Node node : nodes) {
+					int line = 0;
+					int column = 0;
+					
+					Node currentNode = node.getNeighbour(Direction.NORTH);
+					
+					while (currentNode != null) {
+						line++;
+						currentNode = currentNode.getNeighbour(Direction.NORTH);
+					}
+					
+					currentNode = node.getNeighbour(Direction.WEST);
+					
+					while (currentNode != null) {
+						column++;
+						currentNode = currentNode.getNeighbour(Direction.WEST);
+					}
+					
+					image.setRGB(column, line, 0);
+				}
+				
+				g2d.dispose();
+				nodes = null;
+				
+				try {
+					File file = new File(imagePath);
+				    ImageIO.write(image, "png", file);
+				
+				} catch (IOException e) {
+					// TODO add logging
+					e.printStackTrace();
 				}
 			}
 		};

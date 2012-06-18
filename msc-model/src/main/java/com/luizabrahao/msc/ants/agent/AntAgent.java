@@ -9,7 +9,9 @@ import com.luizabrahao.msc.model.env.Node;
 
 /**
  * Defines an agent that represents a ant. The movingDirection field represents
- * the direction the agent is moving in relation to the grid of nodes. 
+ * the direction the agent is moving in relation to the grid of nodes. This
+ * direction is used when the algorithm is calculating the probabilities of the
+ * agent selecting what node it will move next.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
@@ -94,6 +96,7 @@ public class AntAgent extends TaskAgent {
 
 	@Override
 	public void run() {
+		// Running with FORAGE only for now.
 		this.getTaskList().get(0).execute(this);
 	}
 	

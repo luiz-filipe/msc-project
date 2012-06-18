@@ -45,7 +45,6 @@ public abstract class AbstractAgent implements Agent, Runnable {
 	@Override public String getId() { return id; }
 	@Override public AgentType getAgentType() { return agentType; }
 
-
 	@Override
 	public void addToVisitedHistory(Node node) {
 		synchronized (this) {
@@ -56,6 +55,14 @@ public abstract class AbstractAgent implements Agent, Runnable {
 		
 		nodesVisited.add(node);
 	}
-	
-	
+
+	@Override
+	public synchronized List<Node> getNodesVisited() {
+		return Collections.unmodifiableList(nodesVisited);
+	}
+
+	@Override
+	public boolean shouldRecordNodeHistory() {
+		return recordNodeHistory;
+	}
 }

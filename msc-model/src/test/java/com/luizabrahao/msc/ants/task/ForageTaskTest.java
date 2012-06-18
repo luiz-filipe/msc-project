@@ -75,7 +75,7 @@ public class ForageTaskTest {
 		this.setIntensity(130, 180, 80, 115, 0.8, grid);
 		this.setIntensity(180, 270, 90, 105, 1, grid);
 		
-		final AntAgent a01 = new AntAgent("a01", WorkerType.getInstance(), grid[0][10], false);
+		final AntAgent a01 = new AntAgent("a01", WorkerType.getInstance(), grid[0][10], true);
 		final AntAgent a02 = new AntAgent("a02", WorkerType.getInstance(), grid[0][20], false);
 		final AntAgent a03 = new AntAgent("a03", WorkerType.getInstance(), grid[0][30], false);
 		final AntAgent a04 = new AntAgent("a04", WorkerType.getInstance(), grid[0][40], false);
@@ -84,7 +84,7 @@ public class ForageTaskTest {
 		final AntAgent a07 = new AntAgent("a07", WorkerType.getInstance(), grid[0][70], false);
 		final AntAgent a08 = new AntAgent("a08", WorkerType.getInstance(), grid[0][80], false);
 		final AntAgent a09 = new AntAgent("a09", WorkerType.getInstance(), grid[0][90], false);
-		final AntAgent a10 = new AntAgent("a10", WorkerType.getInstance(), grid[0][100], false);
+		final AntAgent a10 = new AntAgent("a10", WorkerType.getInstance(), grid[0][100], true);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		agents.add(a01);
@@ -120,6 +120,14 @@ public class ForageTaskTest {
 		          		  8, TimeUnit.SECONDS);
 		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-10.png", agents, nLines, nColumns)),
 		          		  10, TimeUnit.SECONDS);
+		
+		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-10.png", agents, nLines, nColumns)),
+        		  		  10, TimeUnit.SECONDS);
+		
+		executor.schedule(Executors.callable(RenderAgentFactory.createNodesHistoryRenderer("target/forage-history-ag01.png", a01, nLines, nColumns)),
+        		  		  10, TimeUnit.SECONDS);
+		executor.schedule(Executors.callable(RenderAgentFactory.createNodesHistoryRenderer("target/forage-history-ag02.png", a10, nLines, nColumns)),
+		  		  		  10, TimeUnit.SECONDS);
 		
 		final List<Future<Object>> futures = executor.invokeAll(tasks, 11, TimeUnit.SECONDS);
 	}
