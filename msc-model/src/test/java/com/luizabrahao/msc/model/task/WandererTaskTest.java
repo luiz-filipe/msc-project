@@ -23,7 +23,7 @@ public class WandererTaskTest {
 	
 	private class MockTaskAgent extends TaskAgent {
 		public MockTaskAgent(String id, TaskAgentType agentType, Node currentNode) {
-			super(id, agentType, currentNode);
+			super(id, agentType, currentNode, false);
 		}
 
 		@Override

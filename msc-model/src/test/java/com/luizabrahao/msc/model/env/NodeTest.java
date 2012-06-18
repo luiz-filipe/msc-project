@@ -11,7 +11,7 @@ import com.luizabrahao.msc.model.agent.BasicTaskAgentType;
 public class NodeTest {
 	private class MockAgent extends AbstractAgent {
 		public MockAgent(String id, AgentType agentType, Node currentNode) {
-			super(id, agentType, currentNode);
+			super(id, agentType, currentNode, false);
 		}
 		
 		@Override public void run() {}

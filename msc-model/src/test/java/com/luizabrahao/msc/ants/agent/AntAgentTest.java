@@ -13,7 +13,7 @@ public class AntAgentTest {
 	@Test
 	public void getNeighbourInRelationToAgentOrientation() {
 		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
-		AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[0][0]);
+		AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[0][0], false);
 
 		a.setMovingDirection(Direction.NORTH);
 		
@@ -76,7 +76,7 @@ public class AntAgentTest {
 		
 		
 		grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
-		a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1]);
+		a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1], false);
 		
 		a.setMovingDirection(Direction.SOUTH);
 		

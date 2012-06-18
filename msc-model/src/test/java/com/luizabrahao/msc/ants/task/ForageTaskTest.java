@@ -34,7 +34,7 @@ public class ForageTaskTest {
 	public void montecarloRouletteTest() {		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
 		
-		AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1]);
+		AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1], false);
 		
 		a.setMovingDirection(Direction.SOUTH);
 		grid[2][1].setPheromoneIntensity(1);
@@ -75,16 +75,16 @@ public class ForageTaskTest {
 		this.setIntensity(130, 180, 80, 115, 0.8, grid);
 		this.setIntensity(180, 270, 90, 105, 1, grid);
 		
-		final AntAgent a01 = new AntAgent("a01", WorkerType.getInstance(), grid[0][10]);
-		final AntAgent a02 = new AntAgent("a02", WorkerType.getInstance(), grid[0][20]);
-		final AntAgent a03 = new AntAgent("a03", WorkerType.getInstance(), grid[0][30]);
-		final AntAgent a04 = new AntAgent("a04", WorkerType.getInstance(), grid[0][40]);
-		final AntAgent a05 = new AntAgent("a05", WorkerType.getInstance(), grid[0][50]);
-		final AntAgent a06 = new AntAgent("a06", WorkerType.getInstance(), grid[0][60]);
-		final AntAgent a07 = new AntAgent("a07", WorkerType.getInstance(), grid[0][70]);
-		final AntAgent a08 = new AntAgent("a08", WorkerType.getInstance(), grid[0][80]);
-		final AntAgent a09 = new AntAgent("a09", WorkerType.getInstance(), grid[0][90]);
-		final AntAgent a10 = new AntAgent("a10", WorkerType.getInstance(), grid[0][100]);
+		final AntAgent a01 = new AntAgent("a01", WorkerType.getInstance(), grid[0][10], false);
+		final AntAgent a02 = new AntAgent("a02", WorkerType.getInstance(), grid[0][20], false);
+		final AntAgent a03 = new AntAgent("a03", WorkerType.getInstance(), grid[0][30], false);
+		final AntAgent a04 = new AntAgent("a04", WorkerType.getInstance(), grid[0][40], false);
+		final AntAgent a05 = new AntAgent("a05", WorkerType.getInstance(), grid[0][50], false);
+		final AntAgent a06 = new AntAgent("a06", WorkerType.getInstance(), grid[0][60], false);
+		final AntAgent a07 = new AntAgent("a07", WorkerType.getInstance(), grid[0][70], false);
+		final AntAgent a08 = new AntAgent("a08", WorkerType.getInstance(), grid[0][80], false);
+		final AntAgent a09 = new AntAgent("a09", WorkerType.getInstance(), grid[0][90], false);
+		final AntAgent a10 = new AntAgent("a10", WorkerType.getInstance(), grid[0][100], false);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		agents.add(a01);

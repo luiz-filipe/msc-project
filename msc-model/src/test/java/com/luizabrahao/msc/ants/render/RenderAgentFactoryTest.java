@@ -21,7 +21,7 @@ import com.luizabrahao.msc.model.env.Node;
 public class RenderAgentFactoryTest {
 	private class MockTaskAgent extends TaskAgent {
 		public MockTaskAgent(String id, TaskAgentType agentType, Node currentNode) {
-			super(id, agentType, currentNode);
+			super(id, agentType, currentNode, false);
 		}
 
 		@Override

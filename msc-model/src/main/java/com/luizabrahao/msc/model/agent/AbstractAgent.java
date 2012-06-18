@@ -1,5 +1,9 @@
 package com.luizabrahao.msc.model.agent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
@@ -14,13 +18,16 @@ import com.luizabrahao.msc.model.env.Node;
 @ThreadSafe
 public abstract class AbstractAgent implements Agent, Runnable {
 	protected final String id;
-	@GuardedBy("this") protected Node currentNode;
 	protected final AgentType agentType;
+	protected final boolean recordNodeHistory;
+	@GuardedBy("this") protected Node currentNode;
+	@GuardedBy("this") protected List<Node> nodesVisited = null;
 	
-	public AbstractAgent(String id, AgentType agentType, Node currentNode) {
+	public AbstractAgent(String id, AgentType agentType, Node currentNode, boolean recordNodeHistory) {
 		this.id = id;
 		this.agentType = agentType;
 		this.currentNode = currentNode;
+		this.recordNodeHistory = recordNodeHistory;
 		currentNode.addAgent(this);
 	}
 	
@@ -37,4 +44,18 @@ public abstract class AbstractAgent implements Agent, Runnable {
 	@Override public synchronized Node getCurrentNode() { return currentNode; }
 	@Override public String getId() { return id; }
 	@Override public AgentType getAgentType() { return agentType; }
+
+
+	@Override
+	public void addToVisitedHistory(Node node) {
+		synchronized (this) {
+			if (nodesVisited == null) {
+				nodesVisited = Collections.synchronizedList(new ArrayList<Node>());
+			}
+		}
+		
+		nodesVisited.add(node);
+	}
+	
+	
 }

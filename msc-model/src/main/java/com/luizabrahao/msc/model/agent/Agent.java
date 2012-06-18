@@ -39,4 +39,13 @@ public interface Agent {
 	 * @return Node
 	 */
 	Node getCurrentNode();
+	
+	/**
+	 * An agent might hold a list of nodes that it has visited, this method
+	 * allows to a node to be added to this list. Agents that do implement the
+	 * list should initialise it lazily.
+	 * 
+	 * @param node Node to add to the list of nodes that have been visited.
+	 */
+	void addToVisitedHistory(Node node);
 }

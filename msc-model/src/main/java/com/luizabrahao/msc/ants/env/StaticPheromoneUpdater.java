@@ -13,7 +13,7 @@ public class StaticPheromoneUpdater extends AbstractAgent {
 	private final int maximumNumberOfRows;
 	
 	public StaticPheromoneUpdater(String id, AgentType agentType, PheromoneNode currentNode, int maximumNumberOfRows) {
-		super(id, agentType, currentNode);
+		super(id, agentType, currentNode, false);
 		this.maximumNumberOfRows = maximumNumberOfRows;
 	}
 

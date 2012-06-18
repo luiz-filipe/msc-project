@@ -22,8 +22,8 @@ public class AntAgent extends TaskAgent {
 		this.movingDirection = movingDirection;
 	}
 
-	public AntAgent(String id, TaskAgentType agentType, Node currentNode) {
-		super(id, agentType, currentNode);
+	public AntAgent(String id, TaskAgentType agentType, Node currentNode, boolean recordNodeHistory) {
+		super(id, agentType, currentNode, recordNodeHistory);
 	}
 
 	/**
@@ -96,5 +96,7 @@ public class AntAgent extends TaskAgent {
 	public void run() {
 		this.getTaskList().get(0).execute(this);
 	}
+	
+	
 
 }
