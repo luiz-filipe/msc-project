@@ -72,7 +72,7 @@ public class BasicNode implements Node {
 		
 		synchronized(agents) {
 			this.agents.add(agent);
-			logger.debug("{}: agent {} moved here.", this.getId(), agent.getId());
+			logger.trace("{}: agent {} moved here.", this.getId(), agent.getId());
 		}
 				
 		// Let's remove the agent from the node's agent list, and after we set
@@ -88,8 +88,8 @@ public class BasicNode implements Node {
 		// thread-safe so should be fine.
 		agent.setCurrentNode(this);
 		
-		// it doesn't need to be in a synchronized block because the recording
-		// flag is 'final'
+		// it doesn't need to be in a synchronised block because the recording
+		// flag is final and the history list is synchronised 
 		if (agent.shouldRecordNodeHistory()) {
 			agent.addToVisitedHistory(this);
 		}

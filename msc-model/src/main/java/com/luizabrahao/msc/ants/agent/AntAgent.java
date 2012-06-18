@@ -56,8 +56,6 @@ public class AntAgent extends TaskAgent {
 					return this.getCurrentNode().getNeighbour(Direction.WEST);
 				case WEST:
 					return this.getCurrentNode().getNeighbour(Direction.NORTH);
-				default:
-					return null;
 			}
 		}
 	
@@ -71,8 +69,6 @@ public class AntAgent extends TaskAgent {
 					return this.getCurrentNode().getNeighbour(Direction.NORTH);
 				case WEST:
 					return this.getCurrentNode().getNeighbour(Direction.EAST);
-				default:
-					return null;
 			}
 		}
 		
@@ -86,8 +82,6 @@ public class AntAgent extends TaskAgent {
 					return this.getCurrentNode().getNeighbour(Direction.EAST);
 				case WEST:
 					return this.getCurrentNode().getNeighbour(Direction.SOUTH);
-				default:
-					return null;
 			}
 		}
 		

@@ -32,7 +32,7 @@ public class ForageTask extends AbstractTask {
 			if (nodeToMoveTo != null) {
 				nodeToMoveTo.addAgent(agent);
 			} else {
-				logger.debug("null node");
+				logger.debug("ForageTask.getNodeToMoveTo returned null");
 			}
 		}
 	}

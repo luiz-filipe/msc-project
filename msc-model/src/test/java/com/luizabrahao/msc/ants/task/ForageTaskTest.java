@@ -60,7 +60,7 @@ public class ForageTaskTest {
 		assertTrue(n.getId().equals("n1,2"));
 	}
 		
-	@Test
+	@Test @SuppressWarnings("unused")
 	public void followPheromoneTest() throws InterruptedException {
 		final int nLines = 300;
 		final int nColumns = 200;
@@ -107,27 +107,26 @@ public class ForageTaskTest {
 		tasks.add(Executors.callable(a07));
 		tasks.add(Executors.callable(a08));
 		tasks.add(Executors.callable(a09));
-		tasks.add(Executors.callable(a10));		
+		tasks.add(Executors.callable(a10));
 		tasks.add(Executors.callable(RenderAgentFactory.getPheromoneRenderer("target/forage-pheromone-test.png", grid, nLines, nColumns)));
 		
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-02.png", agents, nLines, nColumns)),
-				          2, TimeUnit.SECONDS);
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-04.png", agents, nLines, nColumns)),
-		          		  4, TimeUnit.SECONDS);
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-06.png", agents, nLines, nColumns)),
-		          		  6, TimeUnit.SECONDS);
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-08.png", agents, nLines, nColumns)),
-		          		  8, TimeUnit.SECONDS);
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-10.png", agents, nLines, nColumns)),
-		          		  10, TimeUnit.SECONDS);
+//		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-02.png", agents, nLines, nColumns)), 2, TimeUnit.SECONDS);
+//		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-04.png", agents, nLines, nColumns)), 4, TimeUnit.SECONDS);
+//		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-06.png", agents, nLines, nColumns)), 6, TimeUnit.SECONDS);
+//		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-08.png", agents, nLines, nColumns)), 8, TimeUnit.SECONDS);
+//		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-10.png", agents, nLines, nColumns)), 10, TimeUnit.SECONDS);
 		
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-10.png", agents, nLines, nColumns)),
-        		  		  10, TimeUnit.SECONDS);
+		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/forage-pop-10.png", agents, nLines, nColumns)), 10, TimeUnit.SECONDS);
 		
-		executor.schedule(Executors.callable(RenderAgentFactory.createNodesHistoryRenderer("target/forage-history-ag01.png", a01, nLines, nColumns)),
-        		  		  10, TimeUnit.SECONDS);
-		executor.schedule(Executors.callable(RenderAgentFactory.createNodesHistoryRenderer("target/forage-history-ag02.png", a10, nLines, nColumns)),
-		  		  		  10, TimeUnit.SECONDS);
+		executor.schedule(Executors.callable(RenderAgentFactory.createNodesHistoryRenderer("target/forage-history-ag01.png", a01, nLines, nColumns)), 10, TimeUnit.SECONDS);
+		executor.schedule(Executors.callable(RenderAgentFactory.createNodesHistoryRenderer("target/forage-history-ag02.png", a10, nLines, nColumns)), 10, TimeUnit.SECONDS);
+		executor.schedule(Executors.callable(RenderAgentFactory.getExploredSpaceRenderer("target/forage-space-explored.png", grid, nLines, nColumns)), 10, TimeUnit.SECONDS);
+		
+//		executor.schedule(new Runnable(){
+//		     public void run(){
+//		        System.out.println(a01.getNodesVisited().toString());
+//		     }      
+//		 }, 10000, TimeUnit.MILLISECONDS);
 		
 		final List<Future<Object>> futures = executor.invokeAll(tasks, 11, TimeUnit.SECONDS);
 	}
