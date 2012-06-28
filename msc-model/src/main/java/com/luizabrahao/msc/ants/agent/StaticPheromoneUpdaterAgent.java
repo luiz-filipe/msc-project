@@ -31,7 +31,9 @@ public class StaticPheromoneUpdaterAgent extends TaskAgent {
 	public int getNumberOfLinesToProcess() { return numberOfLinesToProcess; }
 
 	@Override
-	public void run() {
+	public Void call() throws Exception {
 		this.getTaskList().get(0).execute(this);
+		
+		return null;
 	}
 }

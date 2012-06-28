@@ -27,8 +27,9 @@ public class WandererTaskTest {
 		}
 
 		@Override
-		public void run() {
+		public Void call() throws Exception {
 			this.getTaskList().get(0).execute(this);
+			return null;
 		}
 	}
 	
@@ -53,7 +54,7 @@ public class WandererTaskTest {
 		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[1][1]);
 		
 		ExecutorService executor = Executors.newFixedThreadPool(5);
-		executor.execute(a01);
-		executor.execute(a02);
+		executor.submit(a01);
+		executor.submit(a02);
 	}
 }

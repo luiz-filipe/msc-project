@@ -14,7 +14,10 @@ public class NodeTest {
 			super(id, agentType, currentNode, false);
 		}
 		
-		@Override public void run() {}
+		@Override 
+		public Void call() {
+			return null;
+		}
 	}
 	
 	

@@ -28,11 +28,11 @@ public class StaticPheromoneUpdaterTest {
 			}
 		}
 		
-		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
-		tasks.add(Executors.callable(u));
+		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
+		tasks.add(u);
 
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		final List<Future<Object>> futures = executor.invokeAll(tasks);
+		final List<Future<Void>> futures = executor.invokeAll(tasks);
 		
 		assertTrue(grid[0][0].getPheromoneIntensity() == 0.9);
 		assertTrue(grid[0][2].getPheromoneIntensity() == 0.9);
@@ -54,10 +54,10 @@ public class StaticPheromoneUpdaterTest {
 			}
 		}
 		
-		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
-		tasks.add(Executors.callable(u));
+		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
+		tasks.add(u);
 
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		final List<Future<Object>> futures = executor.invokeAll(tasks);
+		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}
 }

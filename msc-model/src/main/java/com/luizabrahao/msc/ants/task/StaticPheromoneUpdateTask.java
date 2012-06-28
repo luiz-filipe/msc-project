@@ -39,7 +39,7 @@ public class StaticPheromoneUpdateTask extends AbstractTask {
 		
 		for (;;) {
 			for (;;) {
-				nodeToBeUpdated.updatePheromoneIntensity();
+				nodeToBeUpdated.decayPheromoneIntensity();
 				
 				if (nodeToBeUpdated.getNeighbour(Direction.EAST) != null) {
 					nodeToBeUpdated = (PheromoneNode) nodeToBeUpdated.getNeighbour(Direction.EAST);

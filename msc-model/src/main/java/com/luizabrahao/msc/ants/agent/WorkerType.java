@@ -11,7 +11,7 @@ import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
 
 /**
- * Represents a ant from the Worker cast. As required it implements the
+ * Represents an ant from the Worker cast. As required it implements the
  * singleton pattern.
  * 
  * Workers have the following tasks:

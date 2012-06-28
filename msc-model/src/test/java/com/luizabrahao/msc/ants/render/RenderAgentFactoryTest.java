@@ -25,8 +25,9 @@ public class RenderAgentFactoryTest {
 		}
 
 		@Override
-		public void run() {
+		public Void call() throws Exception {
 			this.getTaskList().get(0).execute(this);
+			return null;
 		}
 	}
 	
@@ -61,10 +62,10 @@ public class RenderAgentFactoryTest {
 		this.setIntensity(130, 10, nColumns, 0.87, grid);
 		this.setIntensity(140, 10, nColumns, 0.96, grid);
 		
-		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
-		tasks.add(Executors.callable(RenderAgentFactory.getPheromoneRenderer("target/space-pheromone.png", grid, nLines, nColumns)));
-		
-		final List<Future<Object>> futures = executor.invokeAll(tasks);
+		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
+		tasks.add(new PheromoneRenderer(grid, "target/space-pheromone.png", nColumns, nLines));
+
+		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}
 
 	@Test @SuppressWarnings("unused")
@@ -82,7 +83,7 @@ public class RenderAgentFactoryTest {
 		TaskAgent a06 = new MockTaskAgent("a-06", BasicTaskAgentType.getInstance(), grid[4][4]);
 		
 		List<Agent> agents = new ArrayList<Agent>();
-		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
+		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
 		
 		agents.add(a01);
 		agents.add(a02);
@@ -91,9 +92,9 @@ public class RenderAgentFactoryTest {
 		agents.add(a05);
 		agents.add(a06);
 		
-		tasks.add(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/population-static.png", agents, nLines, nColumns)));
+		tasks.add(new PheromoneRenderer(grid, "target/population-static.png", nColumns, nLines));
 		
-		final List<Future<Object>> futures = executor.invokeAll(tasks);
+		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}
 		
 	
@@ -111,7 +112,7 @@ public class RenderAgentFactoryTest {
 		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.getInstance(), grid[0][40]);
 		
 		List<Agent> agents = new ArrayList<Agent>();
-		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
+		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
 		
 		agents.add(a01);
 		agents.add(a02);
@@ -119,16 +120,15 @@ public class RenderAgentFactoryTest {
 		agents.add(a04);
 		agents.add(a05);
 		
-		tasks.add(Executors.callable(a01));
-		tasks.add(Executors.callable(a02));
-		tasks.add(Executors.callable(a03));
-		tasks.add(Executors.callable(a04));
-		tasks.add(Executors.callable(a05));
+		tasks.add(a01);
+		tasks.add(a02);
+		tasks.add(a03);
+		tasks.add(a04);
+		tasks.add(a05);
 		
-		executor.schedule(Executors.callable(RenderAgentFactory.getPopulationRenderer("target/population-dynamic.png", agents, nLines, nColumns)),
-						  4, TimeUnit.SECONDS);
+		executor.schedule(new PheromoneRenderer(grid, "target/population-dynamic.png", nColumns, nLines), 4, TimeUnit.SECONDS);
 		
-		final List<Future<Object>> futures = executor.invokeAll(tasks, 6, TimeUnit.SECONDS);
+		final List<Future<Void>> futures = executor.invokeAll(tasks, 6, TimeUnit.SECONDS);
 	}
 	
 /*

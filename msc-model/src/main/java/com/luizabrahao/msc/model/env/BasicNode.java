@@ -111,10 +111,9 @@ public class BasicNode implements Node {
 				return this.south;
 			case WEST:
 				return this.west;
-			
-			default:
-				return null;
 		}
+		
+		throw new RuntimeException("Direction '" + direction + "' is not valid.");
 	}
 	
 	/**

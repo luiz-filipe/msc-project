@@ -3,6 +3,7 @@ package com.luizabrahao.msc.model.agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
@@ -16,7 +17,7 @@ import com.luizabrahao.msc.model.env.Node;
  *
  */
 @ThreadSafe
-public abstract class AbstractAgent implements Agent, Runnable {
+public abstract class AbstractAgent implements Agent, Callable<Void> {
 	protected final String id;
 	protected final AgentType agentType;
 	protected final boolean recordNodeHistory;

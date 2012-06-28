@@ -27,12 +27,14 @@ public class ForageTask extends AbstractTask {
 	@Override
 	public void execute(Agent agent) {
 		while (true) {
-			Node nodeToMoveTo = ForageTask.getNodeToMoveTo((AntAgent) agent); 
+			Node nodeToMoveTo = ForageTask.getNodeToMoveTo((AntAgent) agent);
 			
-			if (nodeToMoveTo != null) {
-				nodeToMoveTo.addAgent(agent);
-			} else {
-				logger.debug("ForageTask.getNodeToMoveTo returned null");
+			nodeToMoveTo.addAgent(agent);
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -48,38 +50,48 @@ public class ForageTask extends AbstractTask {
 		}
 		
 		synchronized (agent.getCurrentNode()) {
-		    Node node = agent.getNeighbourInRelationToAgentOrientation(Direction.NORTH);
-			
-		    if (node != null) {
-		    	pheromoneNorth = ((PheromoneNode) node).getPheromoneIntensity();
-		    } else {
-		    	pheromoneNorth = 0;
+		    Direction northOfTheAgent = Direction.NORTH;
+		    Direction eastOfTheAgent = Direction.EAST;
+		    Direction southOfTheAgent = Direction.SOUTH;
+		    Direction westOfTheAgent = Direction.WEST;
+		    
+		    // Transformation of direction from being related to the
+		    // grid to being related to the agent's moving direction.
+		    // If the agent is moving north, nothing is needed to be done.
+		    if (agent.getMovingDirection() == Direction.EAST) {
+		    	northOfTheAgent = Direction.EAST;
+			    eastOfTheAgent = Direction.SOUTH;
+			    southOfTheAgent = Direction.WEST;
+			    westOfTheAgent = Direction.NORTH;
+		    
+		    } else if (agent.getMovingDirection() == Direction.SOUTH) {
+		    	northOfTheAgent = Direction.SOUTH;
+			    eastOfTheAgent = Direction.WEST;
+			    southOfTheAgent = Direction.NORTH;
+			    westOfTheAgent = Direction.EAST;
+		    
+		    } else if (agent.getMovingDirection() == Direction.WEST) {
+		    	northOfTheAgent = Direction.WEST;
+			    eastOfTheAgent = Direction.NORTH;
+			    southOfTheAgent = Direction.EAST;
+			    westOfTheAgent = Direction.SOUTH;
 		    }
 		    
-		    node = agent.getNeighbourInRelationToAgentOrientation(Direction.EAST);
+		    // Get the intensity of the pheromone of the neighbour nodes. The
+		    // directions are all in relation to the agent movement direction
+		    // and not to the grid.
+		    PheromoneNode n = (PheromoneNode) agent.getCurrentNode().getNeighbour(northOfTheAgent);
+		    pheromoneNorth = (n == null) ? 0 : n.getPheromoneIntensity();
 		    
-		    if (node != null) {
-		    	pheromoneEast = ((PheromoneNode) node).getPheromoneIntensity();
-		    } else {
-		    	pheromoneEast = 0;
-		    }
+		    n = (PheromoneNode) agent.getCurrentNode().getNeighbour(eastOfTheAgent);
+		    pheromoneEast = (n == null) ? 0 : n.getPheromoneIntensity();
 		    
-		    node = agent.getNeighbourInRelationToAgentOrientation(Direction.SOUTH);
+		    n = (PheromoneNode) agent.getCurrentNode().getNeighbour(southOfTheAgent);
+		    pheromoneSouth = (n == null) ? 0 : n.getPheromoneIntensity();
 		    
-		    if (node != null) {
-		    	pheromoneSouth = ((PheromoneNode) node).getPheromoneIntensity();
-		    } else {
-		    	pheromoneSouth = 0;
-		    }
-		    
-		    node = agent.getNeighbourInRelationToAgentOrientation(Direction.WEST);
-		    
-		    if (node != null) {
-		    	pheromoneWest = ((PheromoneNode) node).getPheromoneIntensity();
-		    } else {
-		    	pheromoneWest = 0;
-		    }
-			
+		    n = (PheromoneNode) agent.getCurrentNode().getNeighbour(westOfTheAgent);
+		    pheromoneWest = (n == null) ? 0 : n.getPheromoneIntensity();
+		    			
 			double rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH;
 			double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
 			double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
@@ -93,19 +105,19 @@ public class ForageTask extends AbstractTask {
 			double randomPoint = Math.random();
 			
 			if (endNorth >= randomPoint) {
-				return agent.getNeighbourInRelationToAgentOrientation(Direction.NORTH);
+				return agent.getCurrentNode().getNeighbour(northOfTheAgent);
 			}
 			
 			if ((endNorth < randomPoint) && (endEast >= randomPoint)) {
-				return agent.getNeighbourInRelationToAgentOrientation(Direction.EAST);
+				return agent.getCurrentNode().getNeighbour(eastOfTheAgent);
 			}
 			
 			if ((endEast < randomPoint) && (endSouth >= randomPoint)) {
-				return agent.getNeighbourInRelationToAgentOrientation(Direction.SOUTH);
+				return agent.getCurrentNode().getNeighbour(southOfTheAgent);
 			}
 			
 			if ((endSouth < randomPoint) && (1 >= randomPoint)) {
-				return agent.getNeighbourInRelationToAgentOrientation(Direction.WEST);
+				return agent.getCurrentNode().getNeighbour(westOfTheAgent);
 			}
 			
 			return WandererTask.getRandomNeighbour(agent);

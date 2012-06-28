@@ -26,17 +26,29 @@ public class PheromoneNode extends BasicNode {
 	
 	/**
 	 * This should not be called directly from client code. The method is to be
-	 * used during testing only!
+	 * used during testing only! You should use update agents like
+	 * StaticPheromoneUpdaterAgent to decay pheromone intensities. Updates must
+	 * be done by the method updatePheromone.
 	 * 
 	 * @param pheromoneIntensity Double pheromone intensity in the node.
 	 */
 	public synchronized void setPheromoneIntensity(double pheromoneIntensity) { this.pheromoneIntensity = pheromoneIntensity; }
 
-	public synchronized void updatePheromoneIntensity() {
+	/**
+	 * Updates the pheromone intensity for this node following the rule:
+	 * new intensity = current intensity * (1 - decay factor)
+	 * 
+	 */
+	public synchronized void decayPheromoneIntensity() {
 		this.pheromoneIntensity = this.pheromoneIntensity * (1 - PheromoneNode.DECAY_FACTOR);
 		
+		// TODO I'm pretty sure it can't go below zero and this is useless. CHECK
 		if (this.pheromoneIntensity < 0) {
 			this.pheromoneIntensity = 0;
 		}
+	}
+	
+	public void updatePheromone() {
+		
 	}
 }
