@@ -59,29 +59,4 @@ public class NodeTest {
 		assertTrue(n.getNeighbour(Direction.EAST) == east);
 		assertTrue(east.getNeighbour(Direction.WEST) == n);
 	}
-	
-	@Test(expected=NullPointerException.class)
-	public void addAgentSameNode() {
-		BasicNode n = new BasicNode("n");
-		MockAgent a = new MockAgent("a1", new BasicTaskAgentType(), n);
-		
-		n.addAgent(a);
-		
-		assertTrue(n.getAgents().size() == 1);
-		assertTrue(n.getAgents().get(0) == a);
-		assertTrue(a.getCurrentNode() == n);
-	}
-	
-	@Test(expected=NullPointerException.class)
-	public void addAgentDifferentNodes() {
-		BasicNode n0 = new BasicNode("n0");
-		BasicNode n1 = new BasicNode("n1");
-		MockAgent a = new MockAgent("a1", new BasicTaskAgentType(), n1);
-		
-		n0.addAgent(a);
-		
-		assertTrue(n0.getAgents().size() == 1);
-		assertTrue(n0.getAgents().get(0) == a);
-		assertTrue(a.getCurrentNode() == n0);
-	}
 }
