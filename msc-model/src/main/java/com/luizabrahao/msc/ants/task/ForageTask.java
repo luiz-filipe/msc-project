@@ -43,39 +43,39 @@ public class ForageTask extends AbstractTask {
 		double pheromoneSouth = 0;
 		double pheromoneWest = 0;
 		
-		if (((AntAgent) agent).getMovingDirection() == null) {
-			((AntAgent) agent).setMovingDirection(Direction.SOUTH);
+		if (agent.getMovingDirection() == null) {
+			agent.setMovingDirection(Direction.SOUTH);
 		}
 		
 		synchronized (agent.getCurrentNode()) {
-		    PheromoneNode node = (PheromoneNode) agent.getNeighbourInRelationToAgentOrientation(Direction.NORTH);
+		    Node node = agent.getNeighbourInRelationToAgentOrientation(Direction.NORTH);
 			
 		    if (node != null) {
-		    	pheromoneNorth = node.getPheromoneIntensity();
+		    	pheromoneNorth = ((PheromoneNode) node).getPheromoneIntensity();
 		    } else {
 		    	pheromoneNorth = 0;
 		    }
 		    
-		    node = (PheromoneNode) agent.getNeighbourInRelationToAgentOrientation(Direction.EAST);
+		    node = agent.getNeighbourInRelationToAgentOrientation(Direction.EAST);
 		    
 		    if (node != null) {
-		    	pheromoneEast = node.getPheromoneIntensity();
+		    	pheromoneEast = ((PheromoneNode) node).getPheromoneIntensity();
 		    } else {
 		    	pheromoneEast = 0;
 		    }
 		    
-		    node = (PheromoneNode) agent.getNeighbourInRelationToAgentOrientation(Direction.SOUTH);
+		    node = agent.getNeighbourInRelationToAgentOrientation(Direction.SOUTH);
 		    
 		    if (node != null) {
-		    	pheromoneSouth = node.getPheromoneIntensity();
+		    	pheromoneSouth = ((PheromoneNode) node).getPheromoneIntensity();
 		    } else {
 		    	pheromoneSouth = 0;
 		    }
 		    
-		    node = (PheromoneNode) agent.getNeighbourInRelationToAgentOrientation(Direction.WEST);
+		    node = agent.getNeighbourInRelationToAgentOrientation(Direction.WEST);
 		    
 		    if (node != null) {
-		    	pheromoneWest = node.getPheromoneIntensity();
+		    	pheromoneWest = ((PheromoneNode) node).getPheromoneIntensity();
 		    } else {
 		    	pheromoneWest = 0;
 		    }
@@ -84,14 +84,6 @@ public class ForageTask extends AbstractTask {
 			double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
 			double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
 			double rateWest = pheromoneWest * ForageTask.WEIGHT_WEST;
-
-			// if all neighbour nodes are going to have the same probability
-			// let's return one at random.
-			if ((rateNorth == rateEast) && (rateSouth == rateWest)) {
-				if (rateNorth == rateSouth) {
-					return WandererTask.getRandomNeighbour(agent);
-				}
-			}
 
 			double sumRates = rateNorth + rateEast + rateSouth + rateWest;
 			double endNorth = rateNorth / sumRates;

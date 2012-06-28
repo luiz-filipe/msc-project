@@ -3,7 +3,7 @@
 <log4j:configuration>
 	<appender name="file" class="org.apache.log4j.RollingFileAppender">
 		<param name="maxFileSize" value="200KB" />
-		<param name="maxBackupIndex" value="5" />
+		<param name="maxBackupIndex" value="10" />
 		<param name="File" value="testing-msc-model.log" />
 
 		<layout class="org.apache.log4j.PatternLayout">
@@ -18,7 +18,8 @@
   </appender> 
 
 	<logger name="com.luizabrahao">
-        <level value="debug" />
+        <level value="trace" />
+        <appender-ref ref="file"/>
 	</logger>
 	
     <root>
