@@ -13,6 +13,7 @@ import com.luizabrahao.msc.model.task.WandererTask;
 
 public class ForageTask extends AbstractTask {
 	private static final Logger logger = LoggerFactory.getLogger(ForageTask.class);
+	private static final long milisecondsToWait = 5;
 	
 	public static final String NAME = "Forage"; 
 	public static final double WEIGHT_NORTH = 0.35;
@@ -28,17 +29,26 @@ public class ForageTask extends AbstractTask {
 	public void execute(Agent agent) {
 		while (true) {
 			Node nodeToMoveTo = ForageTask.getNodeToMoveTo((AntAgent) agent);
-			
 			nodeToMoveTo.addAgent(agent);
+			
 			try {
-				Thread.sleep(5);
+				Thread.sleep(milisecondsToWait);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.trace("Agent '{}' interrupted while waiting.", agent.getId());
 			}
 		}
 	}
 	
+	/**
+	 * Uses pheromone trail to decide which node to move next. Each neighbour
+	 * node has a weight, which is multiplied by the node's pheromone
+	 * intensity. That gives the agent a stochastic behaviour, simulating
+	 * external forces like wind that can sometimes take agents away from the
+	 * optimal path. 
+	 * 
+	 * @param agent Agent that is going to move.
+	 * @return Node to move to.
+	 */
 	public static Node getNodeToMoveTo(AntAgent agent) {
 		double pheromoneNorth = 0;
 		double pheromoneEast = 0;
@@ -50,7 +60,9 @@ public class ForageTask extends AbstractTask {
 		}
 		
 		synchronized (agent.getCurrentNode()) {
-		    Direction northOfTheAgent = Direction.NORTH;
+		    // First we need to work out what are the neighbours nodes in
+			// relation to the agent's current movement.
+			Direction northOfTheAgent = Direction.NORTH;
 		    Direction eastOfTheAgent = Direction.EAST;
 		    Direction southOfTheAgent = Direction.SOUTH;
 		    Direction westOfTheAgent = Direction.WEST;
@@ -92,17 +104,17 @@ public class ForageTask extends AbstractTask {
 		    n = (PheromoneNode) agent.getCurrentNode().getNeighbour(westOfTheAgent);
 		    pheromoneWest = (n == null) ? 0 : n.getPheromoneIntensity();
 		    			
-			double rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH;
-			double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
-			double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
-			double rateWest = pheromoneWest * ForageTask.WEIGHT_WEST;
+			final double rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH;
+			final double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
+			final double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
+			final double rateWest = pheromoneWest * ForageTask.WEIGHT_WEST;
 
-			double sumRates = rateNorth + rateEast + rateSouth + rateWest;
-			double endNorth = rateNorth / sumRates;
-			double endEast = endNorth + rateEast / sumRates;
-			double endSouth = endEast + rateSouth / sumRates;
+			final double sumRates = rateNorth + rateEast + rateSouth + rateWest;
+			final double endNorth = rateNorth / sumRates;
+			final double endEast = endNorth + rateEast / sumRates;
+			final double endSouth = endEast + rateSouth / sumRates;
 
-			double randomPoint = Math.random();
+			final double randomPoint = Math.random();
 			
 			if (endNorth >= randomPoint) {
 				return agent.getCurrentNode().getNeighbour(northOfTheAgent);

@@ -42,13 +42,5 @@ public class PheromoneNode extends BasicNode {
 	public synchronized void decayPheromoneIntensity() {
 		this.pheromoneIntensity = this.pheromoneIntensity * (1 - PheromoneNode.DECAY_FACTOR);
 		
-		// TODO I'm pretty sure it can't go below zero and this is useless. CHECK
-		if (this.pheromoneIntensity < 0) {
-			this.pheromoneIntensity = 0;
-		}
-	}
-	
-	public void updatePheromone() {
-		
 	}
 }
