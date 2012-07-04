@@ -16,7 +16,7 @@ public class ForageTask extends AbstractTask {
 	private static final long milisecondsToWait = 5;
 	
 	public static final String NAME = "Forage"; 
-	public static final double WEIGHT_NORTH = 0.35;
+	public static final double WEIGHT_NORTH = 0.40;
 	public static final double WEIGHT_EAST = 0.25;
 	public static final double WEIGHT_SOUTH = 0.15;
 	public static final double WEIGHT_WEST = 0.25;
@@ -27,15 +27,14 @@ public class ForageTask extends AbstractTask {
 
 	@Override
 	public void execute(Agent agent) {
-		while (true) {
-			Node nodeToMoveTo = ForageTask.getNodeToMoveTo((AntAgent) agent);
-			nodeToMoveTo.addAgent(agent);
-			
-			try {
-				Thread.sleep(milisecondsToWait);
-			} catch (InterruptedException e) {
-				logger.trace("Agent '{}' interrupted while waiting.", agent.getId());
-			}
+		Node nodeToMoveTo = ForageTask.getNodeToMoveTo((AntAgent) agent);
+		((AntAgent) agent).depositPheromone((PheromoneNode) agent.getCurrentNode());
+		nodeToMoveTo.addAgent(agent);
+
+		try {
+			Thread.sleep(milisecondsToWait);
+		} catch (InterruptedException e) {
+			logger.trace("Agent '{}' interrupted while waiting.", agent.getId());
 		}
 	}
 	
@@ -104,17 +103,17 @@ public class ForageTask extends AbstractTask {
 		    n = (PheromoneNode) agent.getCurrentNode().getNeighbour(westOfTheAgent);
 		    pheromoneWest = (n == null) ? 0 : n.getPheromoneIntensity();
 		    			
-			final double rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH;
-			final double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
-			final double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
-			final double rateWest = pheromoneWest * ForageTask.WEIGHT_WEST;
+			double rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH;
+			double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
+			double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
+			double rateWest = pheromoneWest * ForageTask.WEIGHT_WEST;
 
-			final double sumRates = rateNorth + rateEast + rateSouth + rateWest;
-			final double endNorth = rateNorth / sumRates;
-			final double endEast = endNorth + rateEast / sumRates;
-			final double endSouth = endEast + rateSouth / sumRates;
+			double sumRates = rateNorth + rateEast + rateSouth + rateWest;
+			double endNorth = rateNorth / sumRates;
+			double endEast = endNorth + rateEast / sumRates;
+			double endSouth = endEast + rateSouth / sumRates;
 
-			final double randomPoint = Math.random();
+			double randomPoint = Math.random();
 			
 			if (endNorth >= randomPoint) {
 				return agent.getCurrentNode().getNeighbour(northOfTheAgent);

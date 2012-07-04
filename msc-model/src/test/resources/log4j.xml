@@ -19,7 +19,7 @@
 
 	<logger name="com.luizabrahao">
         <level value="trace" />
-        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
 	</logger>
 	
     <root>

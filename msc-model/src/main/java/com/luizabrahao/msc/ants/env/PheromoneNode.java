@@ -43,4 +43,8 @@ public class PheromoneNode extends BasicNode {
 		this.pheromoneIntensity = this.pheromoneIntensity * (1 - PheromoneNode.DECAY_FACTOR);
 		
 	}
+
+	public synchronized void incrementPheromoneIntensity(double increment) {
+		pheromoneIntensity += increment;
+	}
 }

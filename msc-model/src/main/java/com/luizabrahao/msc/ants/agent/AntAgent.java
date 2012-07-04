@@ -2,8 +2,8 @@ package com.luizabrahao.msc.ants.agent;
 
 import net.jcip.annotations.GuardedBy;
 
+import com.luizabrahao.msc.ants.env.PheromoneNode;
 import com.luizabrahao.msc.model.agent.TaskAgent;
-import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 
@@ -17,20 +17,26 @@ import com.luizabrahao.msc.model.env.Node;
  * @see ForageTask
  *
  */
-public class AntAgent extends TaskAgent {
+public class AntAgent extends TaskAgent implements Ant {
 	@GuardedBy("this") private Direction movingDirection;
 
-	public synchronized Direction getMovingDirection() { return movingDirection; }
-	public synchronized void setMovingDirection(Direction movingDirection) { this.movingDirection = movingDirection; }
+	@Override public synchronized Direction getMovingDirection() { return movingDirection; }
+	@Override public synchronized void setMovingDirection(Direction movingDirection) { this.movingDirection = movingDirection; }
 
-	public AntAgent(String id, TaskAgentType agentType, Node currentNode, boolean recordNodeHistory) {
+	public AntAgent(String id, AntType agentType, Node currentNode, boolean recordNodeHistory) {
 		super(id, agentType, currentNode, recordNodeHistory);
 	}
 
 	@Override
 	public Void call() throws Exception {
-		// Running with FORAGE only for now.
-		this.getTaskList().get(0).execute(this);
-		return null;
+		while (true) {
+			// Running with FORAGE only for now.
+			this.getTaskList().get(0).execute(this);
+		}
+	}
+	
+	@Override
+	public void depositPheromone(Node node) {
+		((AntType) this.getAgentType()).depositPheromone((PheromoneNode) node);
 	}
 }

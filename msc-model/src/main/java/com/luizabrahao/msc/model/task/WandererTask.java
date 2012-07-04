@@ -1,6 +1,8 @@
 package com.luizabrahao.msc.model.task;
 
 
+import java.util.Random;
+
 import net.jcip.annotations.Immutable;
 
 import org.slf4j.Logger;
@@ -20,8 +22,9 @@ import com.luizabrahao.msc.model.env.Node;
  */
 @Immutable
 public class WandererTask extends AbstractTask {
-	private final Logger logger = LoggerFactory.getLogger(WandererTask.class);
-	public static final String NAME = "Wanderer"; 
+	private static final Logger logger = LoggerFactory.getLogger(WandererTask.class);
+	public static final String NAME = "Wanderer";
+	private static final Random rand = new Random();
 
 	public WandererTask() {
 		super(WandererTask.NAME);
@@ -50,7 +53,8 @@ public class WandererTask extends AbstractTask {
 	public static Node getRandomNeighbour(Agent agent) {
 		Logger logger = LoggerFactory.getLogger(WandererTask.class);
 		
-		int direction = (int) (Math.random() * 4);
+		// 4 directions
+		int direction = WandererTask.rand.nextInt(4);
 		Node nextNode = null;
 		
 		switch (direction) {
