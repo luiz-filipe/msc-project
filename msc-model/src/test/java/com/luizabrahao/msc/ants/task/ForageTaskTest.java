@@ -92,11 +92,11 @@ public class ForageTaskTest {
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		
 		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT, grid);
-		this.setIntensity(10, 30, 25, 175, 0.2, grid);
-		this.setIntensity(30, 80, 50, 150, 0.4, grid);
-		this.setIntensity(80, 130, 75, 125, 0.6, grid);
-		this.setIntensity(130, 180, 80, 115, 0.8, grid);
-		this.setIntensity(180, 270, 90, 105, 1, grid);
+//		this.setIntensity(10, 30, 25, 175, 0.2, grid);
+//		this.setIntensity(30, 80, 50, 150, 0.4, grid);
+//		this.setIntensity(80, 130, 75, 125, 0.6, grid);
+//		this.setIntensity(130, 180, 80, 115, 0.8, grid);
+//		this.setIntensity(180, 270, 90, 105, 1, grid);
 		
 		final AntAgent a01 = new AntAgent("a01", WorkerType.getInstance(), grid[0][10], true);
 		final AntAgent a02 = new AntAgent("a02", WorkerType.getInstance(), grid[0][20], true);
@@ -149,8 +149,6 @@ public class ForageTaskTest {
 		executor.schedule(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines), 18, TimeUnit.SECONDS);
 		
 		final List<Future<Void>> futures = executor.invokeAll(tasks, 20, TimeUnit.SECONDS);
-		
-		
 		
 		try {
 			for (Future<Void> f : futures) {
