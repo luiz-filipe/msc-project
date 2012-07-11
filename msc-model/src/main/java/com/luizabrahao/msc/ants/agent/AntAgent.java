@@ -39,8 +39,8 @@ public class AntAgent extends TaskAgent implements Ant {
 	}
 	
 	@Override
-	public void depositPheromone(Node node) {
-		((AntType) this.getAgentType()).depositPheromone((PheromoneNode) node);
+	public void depositPheromone(PheromoneNode node) {
+		((AntType) this.getAgentType()).depositPheromone(node);
 	}
 	
 	@Override

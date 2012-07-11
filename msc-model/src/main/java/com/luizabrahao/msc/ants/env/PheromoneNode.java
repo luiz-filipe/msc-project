@@ -45,6 +45,6 @@ public class PheromoneNode extends BasicNode {
 	}
 
 	public synchronized void incrementPheromoneIntensity(double increment) {
-		pheromoneIntensity += increment;
+		pheromoneIntensity = this.pheromoneIntensity + increment;
 	}
 }
