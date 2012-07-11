@@ -2,9 +2,9 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
 <log4j:configuration>
 	<appender name="file" class="org.apache.log4j.RollingFileAppender">
-		<param name="maxFileSize" value="200KB" />
+		<param name="maxFileSize" value="2048KB" />
 		<param name="maxBackupIndex" value="10" />
-		<param name="File" value="testing-msc-model.log" />
+		<param name="File" value="target/testing-msc-model.log" />
 
 		<layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ABSOLUTE}; %-5p; %C{1}; %m%n"/>
@@ -19,7 +19,6 @@
 
 	<logger name="com.luizabrahao">
         <level value="trace" />
-        <appender-ref ref="file"/>
 	</logger>
 	
     <root>

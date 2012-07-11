@@ -18,6 +18,7 @@ import com.luizabrahao.msc.model.env.Node;
  */
 @ThreadSafe
 public abstract class AbstractAgent implements Agent, Callable<Void> {
+	
 	protected final String id;
 	protected final AgentType agentType;
 	protected final boolean recordNodeHistory;
@@ -27,9 +28,8 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 	public AbstractAgent(String id, AgentType agentType, Node currentNode, boolean recordNodeHistory) {
 		this.id = id;
 		this.agentType = agentType;
-		this.currentNode = currentNode;
 		this.recordNodeHistory = recordNodeHistory;
-		currentNode.addAgent(this);
+		currentNode.addAgentStartingHere(this);
 	}
 	
 	/**
@@ -57,13 +57,7 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 		nodesVisited.add(node);
 	}
 
-	@Override
-	public synchronized List<Node> getNodesVisited() {
-		return Collections.unmodifiableList(nodesVisited);
-	}
-
-	@Override
-	public boolean shouldRecordNodeHistory() {
-		return recordNodeHistory;
-	}
+	// TODO not sure if needs to be synchronised...
+	@Override public synchronized List<Node> getNodesVisited() { return Collections.unmodifiableList(nodesVisited); }
+	@Override public boolean shouldRecordNodeHistory() { return recordNodeHistory; }
 }

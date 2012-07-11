@@ -87,11 +87,11 @@ public class ForageTaskTest {
 		final int nLines = 300;
 		final int nColumns = 200;
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(50);
-		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
+		List<Callable<Void>> agentsTasks = new ArrayList<Callable<Void>>();
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		
-		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT, grid);
+		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT * 2, grid);
 //		this.setIntensity(10, 30, 25, 175, 0.2, grid);
 //		this.setIntensity(30, 80, 50, 150, 0.4, grid);
 //		this.setIntensity(80, 130, 75, 125, 0.6, grid);
@@ -121,34 +121,32 @@ public class ForageTaskTest {
 		agents.add(a09);
 		agents.add(a10);
 		
-		tasks.add(a01);
-		tasks.add(a02);
-		tasks.add(a03);
-		tasks.add(a04);
-		tasks.add(a05);
-		tasks.add(a06);
-		tasks.add(a07);
-		tasks.add(a08);
-		tasks.add(a09);
-		tasks.add(a10);
-		
-		tasks.add(new PheromoneRenderer(grid, "target/forage-pheromone-start.png", nColumns, nLines));
-		
-		executor.schedule(new NodeHistoryRenderer(a01, "target/forage-history-ag01.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a02, "target/forage-history-ag02.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a03, "target/forage-history-ag03.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a04, "target/forage-history-ag04.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a05, "target/forage-history-ag05.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a06, "target/forage-history-ag06.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a07, "target/forage-history-ag07.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a08, "target/forage-history-ag08.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a09, "target/forage-history-ag09.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new NodeHistoryRenderer(a10, "target/forage-history-ag10.png", nColumns, nLines), 19, TimeUnit.SECONDS);
+		agentsTasks.add(a01);
+		agentsTasks.add(a02);
+		agentsTasks.add(a03);
+		agentsTasks.add(a04);
+		agentsTasks.add(a05);
+		agentsTasks.add(a06);
+		agentsTasks.add(a07);
+		agentsTasks.add(a08);
+		agentsTasks.add(a09);
+		agentsTasks.add(a10);
 
-		executor.schedule(new ExploredSpaceRenderer(grid, "target/forage-space-explored.png", nColumns, nLines), 19, TimeUnit.SECONDS);
-		executor.schedule(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines), 18, TimeUnit.SECONDS);
+		executor.submit(new PheromoneRenderer(grid, "target/forage-pheromone-start.png", nColumns, nLines));
+		final List<Future<Void>> futures = executor.invokeAll(agentsTasks, 21, TimeUnit.SECONDS);
 		
-		final List<Future<Void>> futures = executor.invokeAll(tasks, 20, TimeUnit.SECONDS);
+		executor.submit(new NodeHistoryRenderer(a01, "target/forage-history-ag01.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a02, "target/forage-history-ag02.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a03, "target/forage-history-ag03.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a04, "target/forage-history-ag04.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a05, "target/forage-history-ag05.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a06, "target/forage-history-ag06.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a07, "target/forage-history-ag07.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a08, "target/forage-history-ag08.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a09, "target/forage-history-ag09.png", nColumns, nLines));
+		executor.submit(new NodeHistoryRenderer(a10, "target/forage-history-ag10.png", nColumns, nLines));
+		executor.submit(new ExploredSpaceRenderer(grid, "target/forage-space-explored.png", nColumns, nLines));
+		executor.submit(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines));
 		
 		try {
 			for (Future<Void> f : futures) {
@@ -158,5 +156,6 @@ public class ForageTaskTest {
 		} catch (ExecutionException ex) {
 		    ex.getCause().printStackTrace();
 		}
+		
 	}
 }

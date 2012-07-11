@@ -35,7 +35,7 @@ import com.luizabrahao.msc.model.agent.Agent;
  */
 @ThreadSafe
 public class BasicNode implements Node {
-	private final Logger logger = LoggerFactory.getLogger(BasicNode.class);
+	private static final Logger logger = LoggerFactory.getLogger(BasicNode.class);
 	
 	private final String id;
 	protected Node north = null;
@@ -64,7 +64,8 @@ public class BasicNode implements Node {
 
 			} else  {
 				// if the agent is in the node already, just ignore the call.
-				if ((agent.getCurrentNode() == this)) { 
+				if ((agent.getCurrentNode() == this)) {
+					logger.trace("Agent {} already in the node {}!", agent.getId(), this.getId());
 					return;
 				}
 			}
@@ -214,5 +215,21 @@ public class BasicNode implements Node {
 		return "BasicNode [id=" + id + "]";
 	}
 
-
+	@Override
+	public void addAgentStartingHere(Agent agent) {
+		synchronized (this) {
+			if (agents == null) {
+				agents = Collections.synchronizedList(new ArrayList<Agent>());
+			}
+			
+			synchronized(agents) {
+				this.agents.add(agent);
+				logger.trace("{}: agent {} initialised here.", this.getId(), agent.getId());
+			}
+			
+			// not synchronised for the same reason described in addAgent
+			// method.
+			agent.setCurrentNode(this);
+		}
+	}
 }

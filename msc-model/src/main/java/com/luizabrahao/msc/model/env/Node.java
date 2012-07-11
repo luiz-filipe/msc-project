@@ -86,4 +86,6 @@ public interface Node {
 	void setNeighbours(Direction direction, Node node);
 	
 	List<Agent> getAgents();
+	
+	void addAgentStartingHere(Agent agent);
 }

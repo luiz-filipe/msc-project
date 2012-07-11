@@ -4,23 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.luizabrahao.msc.model.agent.AbstractAgent;
-import com.luizabrahao.msc.model.agent.AgentType;
-import com.luizabrahao.msc.model.agent.BasicTaskAgentType;
-
 public class NodeTest {
-	private class MockAgent extends AbstractAgent {
-		public MockAgent(String id, AgentType agentType, Node currentNode) {
-			super(id, agentType, currentNode, false);
-		}
-		
-		@Override 
-		public Void call() {
-			return null;
-		}
-	}
-	
-	
 	@Test
 	public void getNeighbourTest() {
 		BasicNode n = new BasicNode("n");
