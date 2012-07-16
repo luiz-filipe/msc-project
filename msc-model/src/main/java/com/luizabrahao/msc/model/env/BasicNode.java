@@ -8,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 
 import com.luizabrahao.msc.model.agent.Agent;
+import com.luizabrahao.msc.model.annotation.FrameworkExclusive;
+import com.luizabrahao.msc.model.annotation.PseudoThreadSafe;
+import com.luizabrahao.msc.model.annotation.ThreadSafetyBreaker;
 
 /**
  * This class is the basic implementation of Node. It hold references to
@@ -33,7 +35,7 @@ import com.luizabrahao.msc.model.agent.Agent;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-@ThreadSafe
+@PseudoThreadSafe
 public class BasicNode implements Node {
 	private static final Logger logger = LoggerFactory.getLogger(BasicNode.class);
 	
@@ -101,7 +103,7 @@ public class BasicNode implements Node {
 	 * not thread-safe, but it was decided to leave so as it will not cause any
 	 * issue when used in environment that don't change during the simulation.
 	 */
-	@Override
+	@Override @ThreadSafetyBreaker
 	public Node getNeighbour(Direction direction) {
 		switch (direction) {
 			case NORTH:
@@ -121,7 +123,7 @@ public class BasicNode implements Node {
 	 * Should not be called directly from user code. It is used to expose
 	 * neighbours indirectly and is not thread-safe.
 	 */
-	@Override
+	@Override @ThreadSafetyBreaker @FrameworkExclusive
 	public void setNeighbour(Direction direction, Node node) {
 		switch (direction) {
 			case NORTH:
@@ -142,7 +144,7 @@ public class BasicNode implements Node {
 	/**
 	 * Should be used only at environment setup time as it is not thread-safe
 	 */
-	@Override
+	@Override @ThreadSafetyBreaker @FrameworkExclusive
 	public void setNeighbours(Direction direction, Node node) {
 		switch (direction) {
 			case NORTH:

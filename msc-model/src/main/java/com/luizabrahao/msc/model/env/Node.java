@@ -3,6 +3,8 @@ package com.luizabrahao.msc.model.env;
 import java.util.List;
 
 import com.luizabrahao.msc.model.agent.Agent;
+import com.luizabrahao.msc.model.annotation.FrameworkExclusive;
+import com.luizabrahao.msc.model.annotation.ThreadSafetyBreaker;
 
 /**
  * This class represents a piece of the environment, one could say it is a
@@ -45,6 +47,7 @@ public interface Node {
 	 *        object.
 	 * @return Node neighbour node.
 	 */
+	@ThreadSafetyBreaker
 	Node getNeighbour(Direction direction);
 	
 	/**
@@ -64,11 +67,12 @@ public interface Node {
 	 *        object.
 	 * @param node Node neighbour node.
 	 */
+	@FrameworkExclusive @ThreadSafetyBreaker
 	void setNeighbour(Direction direction, Node node);
 	
 	/**
 	 * Firstly this set the node passed as argument as the neighbour of the
-	 * instance node, after that, it does the same fo the neighbour node but
+	 * instance node, after that, it does the same for the neighbour node but
 	 * in the opposite direction.
 	 * 
 	 * IMPORTANT: This method is not thread-safe! This means that you must not
@@ -83,6 +87,7 @@ public interface Node {
 	 *        object.
 	 * @param node Node neighbour node.
 	 */
+	@FrameworkExclusive @ThreadSafetyBreaker
 	void setNeighbours(Direction direction, Node node);
 	
 	List<Agent> getAgents();
