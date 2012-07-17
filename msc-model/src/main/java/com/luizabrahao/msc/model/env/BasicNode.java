@@ -40,11 +40,13 @@ public class BasicNode implements Node {
 	private static final Logger logger = LoggerFactory.getLogger(BasicNode.class);
 	
 	private final String id;
-	protected Node north = null;
-	protected Node east = null;
-	protected Node south = null;
-	protected Node west = null;
-	@GuardedBy("this") protected List<Agent> agents = null;
+	
+	private Node north = null;
+	private Node east = null;
+	private Node south = null;
+	private Node west = null;
+	@GuardedBy("this") private List<Agent> agents = null;
+	@GuardedBy("this") private List<CommunicationStimulus> communicationStimuli = null;
 	
 	public BasicNode(String id) {
 		this.id = id;
@@ -52,6 +54,18 @@ public class BasicNode implements Node {
 		
 	@Override public List<Agent> getAgents() { return agents; }
 	@Override public String getId() { return id; }
+	@Override public List<CommunicationStimulus> getCommunicationStimuli() { return communicationStimuli; }
+	
+	@Override
+	public void addCommunicationStimulus(CommunicationStimulus communicationStimulus) {
+		synchronized (this) {
+			if (communicationStimuli == null) {
+				communicationStimuli = Collections.synchronizedList(new ArrayList<CommunicationStimulus>());
+			}
+		}
+		
+		this.communicationStimuli.add(communicationStimulus);
+	}
 	
 	/**
 	 * This needs to be synchronised because the agents list is lazily
@@ -234,4 +248,5 @@ public class BasicNode implements Node {
 			agent.setCurrentNode(this);
 		}
 	}
+
 }
