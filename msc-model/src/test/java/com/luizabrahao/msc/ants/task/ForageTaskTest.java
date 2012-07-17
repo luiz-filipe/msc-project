@@ -43,27 +43,27 @@ public class ForageTaskTest {
 		AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1], false);
 		
 		a.setMovingDirection(Direction.SOUTH);
-		grid[2][1].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		grid[2][1].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.getInstance()));
 		((ChemicalCommStimulus) grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		Node n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n2,1"));
 		
 		a.setMovingDirection(Direction.WEST);
-		grid[1][0].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		grid[1][0].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.getInstance()));
 		((ChemicalCommStimulus) grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
 		((ChemicalCommStimulus) grid[1][0].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n1,0"));
 		
 		a.setMovingDirection(Direction.NORTH);
-		grid[0][1].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		grid[0][1].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.getInstance()));
 		((ChemicalCommStimulus) grid[1][0].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
 		((ChemicalCommStimulus) grid[0][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n0,1"));
 		
 		a.setMovingDirection(Direction.EAST);
-		grid[1][2].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		grid[1][2].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.getInstance()));
 		((ChemicalCommStimulus) grid[0][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
 		((ChemicalCommStimulus) grid[1][2].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		n = ForageTask.getNodeToMoveTo(a);

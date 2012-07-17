@@ -55,7 +55,7 @@ public class AntAgent extends TaskAgent implements Ant {
 			ChemicalCommStimulus c = (ChemicalCommStimulus) node.getCommunicationStimulus(ForageStimulusType.getInstance());
 			
 			if (c == null) {
-				c = new ChemicalCommStimulus(chemicalCommStimulusType.getName(), chemicalCommStimulusType);
+				c = new ChemicalCommStimulus(chemicalCommStimulusType);
 				node.addCommunicationStimulus(c);
 			}
 			

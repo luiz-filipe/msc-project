@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.model.agent.Agent;
-import com.luizabrahao.msc.model.env.CommunicationStimulus;
+import com.luizabrahao.msc.model.env.AbstractCommunicationStimulus;
 import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
@@ -42,7 +42,7 @@ public class StaticPheromoneUpdateTask extends AbstractTask {
 		for (;;) {
 			for (;;) {
 				
-				for (CommunicationStimulus stimulus : nodeToBeUpdated.getCommunicationStimuli()) {
+				for (AbstractCommunicationStimulus stimulus : nodeToBeUpdated.getCommunicationStimuli()) {
 					if (stimulus instanceof ChemicalCommStimulus) {
 						((ChemicalCommStimulus) stimulus).decayIntensity();
 					}
