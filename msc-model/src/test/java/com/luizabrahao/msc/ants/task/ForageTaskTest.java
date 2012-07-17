@@ -16,70 +16,77 @@ import org.junit.Test;
 
 import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.agent.WorkerType;
-import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
+import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.render.ExploredSpaceRenderer;
 import com.luizabrahao.msc.ants.render.NodeHistoryRenderer;
 import com.luizabrahao.msc.ants.render.PheromoneRenderer;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
+import com.luizabrahao.msc.model.env.EnvironmentFactory;
 import com.luizabrahao.msc.model.env.Node;
 
 public class ForageTaskTest {
-	private void setIntensity(int startLine, int finishLine, int startColum, int finishColumn, double intensity, PheromoneNode[][] grid) {
+	private void setIntensity(int startLine, int finishLine, int startColum, int finishColumn, double intensity, Node[][] grid) {
 		for (int l = startLine; l < finishLine; l++) {
 			for (int c = startColum; c < finishColumn; c++) {
-				(grid[l][c]).setPheromoneIntensity(intensity);
+				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				s.setIntensity(intensity);
 			}
 		}
 	}
 	
 	@Test
 	public void montecarloRouletteTest() {		
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
+		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(3, 3);
 		
 		AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1], false);
 		
 		a.setMovingDirection(Direction.SOUTH);
-		grid[2][1].setPheromoneIntensity(1);
+		grid[2][1].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		((ChemicalCommStimulus) grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		Node n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n2,1"));
 		
 		a.setMovingDirection(Direction.WEST);
-		grid[2][1].setPheromoneIntensity(0);
-		grid[1][0].setPheromoneIntensity(1);
+		grid[1][0].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		((ChemicalCommStimulus) grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
+		((ChemicalCommStimulus) grid[1][0].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n1,0"));
 		
 		a.setMovingDirection(Direction.NORTH);
-		grid[1][0].setPheromoneIntensity(0);
-		grid[0][1].setPheromoneIntensity(1);
+		grid[0][1].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		((ChemicalCommStimulus) grid[1][0].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
+		((ChemicalCommStimulus) grid[0][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n0,1"));
 		
 		a.setMovingDirection(Direction.EAST);
-		grid[0][1].setPheromoneIntensity(0);
-		grid[1][2].setPheromoneIntensity(1);
+		grid[1][2].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.NAME, ForageStimulusType.getInstance()));
+		((ChemicalCommStimulus) grid[0][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
+		((ChemicalCommStimulus) grid[1][2].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
 		n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n1,2"));
 	}
 	
 	@Test
 	public void pheromoneDepositTest() {
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
+		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(3, 3);
 		
 		final AntAgent a = new AntAgent("a01", WorkerType.getInstance(), grid[1][1], false);
 		a.setMovingDirection(Direction.SOUTH);
 		
-		grid[2][1].setPheromoneIntensity(0.1);
-		
+		((ChemicalCommStimulus) grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0.1);
 		Node n = ForageTask.getNodeToMoveTo(a);
 		assertTrue(n.getId().equals("n2,1"));
 		
-		a.depositPheromone((PheromoneNode) a.getCurrentNode());
+		a.incrementStimulusIntensity(a.getCurrentNode(), ForageStimulusType.getInstance());
 		n.addAgent(a);
 		
-		assertTrue(grid[1][1].getPheromoneIntensity() == WorkerType.PHEROMONE_INCREMENT);
+		
+		ChemicalCommStimulus s = (ChemicalCommStimulus) grid[1][1].getCommunicationStimulus(ForageStimulusType.getInstance());
+		assertTrue(s.getIntensity() == WorkerType.PHEROMONE_INCREMENT);
 	}
 	
 	@Test(expected=CancellationException.class)
@@ -89,7 +96,7 @@ public class ForageTaskTest {
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(50);
 		List<Callable<Void>> agentsTasks = new ArrayList<Callable<Void>>();
 		
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		
 		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT * 2, grid);
 //		this.setIntensity(10, 30, 25, 175, 0.2, grid);
@@ -132,7 +139,7 @@ public class ForageTaskTest {
 		agentsTasks.add(a09);
 		agentsTasks.add(a10);
 
-		executor.submit(new PheromoneRenderer(grid, "target/forage-pheromone-start.png", nColumns, nLines));
+		executor.submit(new PheromoneRenderer(grid, "target/forage-pheromone-start.png", nColumns, nLines, ForageStimulusType.getInstance()));
 		final List<Future<Void>> futures = executor.invokeAll(agentsTasks, 21, TimeUnit.SECONDS);
 		
 		executor.submit(new NodeHistoryRenderer(a01, "target/forage-history-ag01.png", nColumns, nLines));
@@ -146,7 +153,7 @@ public class ForageTaskTest {
 		executor.submit(new NodeHistoryRenderer(a09, "target/forage-history-ag09.png", nColumns, nLines));
 		executor.submit(new NodeHistoryRenderer(a10, "target/forage-history-ag10.png", nColumns, nLines));
 		executor.submit(new ExploredSpaceRenderer(grid, "target/forage-space-explored.png", nColumns, nLines));
-		executor.submit(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines));
+		executor.submit(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines, ForageStimulusType.getInstance()));
 		
 		try {
 			for (Future<Void> f : futures) {

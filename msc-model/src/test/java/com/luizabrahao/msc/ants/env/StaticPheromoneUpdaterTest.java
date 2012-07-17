@@ -12,19 +12,26 @@ import java.util.concurrent.ScheduledExecutorService;
 import org.junit.Test;
 
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
+import com.luizabrahao.msc.model.env.EnvironmentFactory;
+import com.luizabrahao.msc.model.env.Node;
 
 public class StaticPheromoneUpdaterTest {
+	private double getForagePheromoneIntensity(Node node) {
+		return ((ChemicalCommStimulus) node.getCommunicationStimulus(ForageStimulusType.getInstance())).getIntensity();
+	}
+	
 	
 	@Test @SuppressWarnings("unused")
 	public void updateTest() throws InterruptedException {
 		int nLines = 4;
 		int nColumns = 3;
-		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		StaticPheromoneUpdaterAgent u = new StaticPheromoneUpdaterAgent("updater-01", grid[0][0], 2);
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				(grid[l][c]).setPheromoneIntensity(1);
+				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				s.setIntensity(1);
 			}
 		}
 		
@@ -34,23 +41,24 @@ public class StaticPheromoneUpdaterTest {
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		final List<Future<Void>> futures = executor.invokeAll(tasks);
 		
-		assertTrue(grid[0][0].getPheromoneIntensity() == 0.9);
-		assertTrue(grid[0][2].getPheromoneIntensity() == 0.9);
+		assertTrue(this.getForagePheromoneIntensity(grid[0][0]) == 0.9);
+		assertTrue(this.getForagePheromoneIntensity(grid[0][2]) == 0.9);
 		
-		assertTrue(grid[2][2].getPheromoneIntensity() == 1);
-		assertTrue(grid[2][2].getPheromoneIntensity() == 1);
+		assertTrue(this.getForagePheromoneIntensity(grid[2][2]) == 1);
 	}
 	
 	@Test @SuppressWarnings("unused")
 	public void throughputTest() throws InterruptedException {
 		int nLines = 250;
 		int nColumns = 200;
-		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		
+		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		StaticPheromoneUpdaterAgent u = new StaticPheromoneUpdaterAgent("updater-02", grid[0][0], 250);
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				(grid[l][c]).setPheromoneIntensity(1);
+				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				s.setIntensity(1);
 			}
 		}
 		

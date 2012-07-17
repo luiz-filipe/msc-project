@@ -10,12 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
-import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.agent.BasicTaskAgentType;
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
+import com.luizabrahao.msc.model.env.EnvironmentFactory;
 import com.luizabrahao.msc.model.env.Node;
 
 public class PopulationRendererTest {
@@ -35,7 +35,7 @@ public class PopulationRendererTest {
 	public void renderStaticPopulation() throws InterruptedException {
 		final int nLines = 5;
 		final int nColumns = 5;
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 		
 		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[0][0]);
@@ -55,7 +55,7 @@ public class PopulationRendererTest {
 		agents.add(a05);
 		agents.add(a06);
 		
-		tasks.add(new PheromoneRenderer(grid, "target/population-static.png", nColumns, nLines));
+		tasks.add(new PheromoneRenderer(grid, "target/population-static.png", nColumns, nLines, ForageStimulusType.getInstance()));
 		
 		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}
@@ -64,7 +64,7 @@ public class PopulationRendererTest {
 	public void renderPopulation() throws InterruptedException {
 		final int nLines = 250;
 		final int nColumns = 200;
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 		
 		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[0][0]);
@@ -88,7 +88,7 @@ public class PopulationRendererTest {
 		tasks.add(a04);
 		tasks.add(a05);
 		
-		executor.schedule(new PheromoneRenderer(grid, "target/population-dynamic.png", nColumns, nLines), 4, TimeUnit.SECONDS);
+		executor.schedule(new PheromoneRenderer(grid, "target/population-dynamic.png", nColumns, nLines, ForageStimulusType.getInstance()), 4, TimeUnit.SECONDS);
 		
 		final List<Future<Void>> futures = executor.invokeAll(tasks, 6, TimeUnit.SECONDS);
 	}

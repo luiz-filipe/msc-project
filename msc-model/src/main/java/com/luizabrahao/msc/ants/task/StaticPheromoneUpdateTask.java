@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.model.agent.Agent;
+import com.luizabrahao.msc.model.env.CommunicationStimulus;
 import com.luizabrahao.msc.model.env.Direction;
+import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
 
 /**
@@ -33,16 +35,21 @@ public class StaticPheromoneUpdateTask extends AbstractTask {
 		logger.debug("[{}] Starting pherormone update run", agent.getId());
 		final int maximumNumberOfLines = ((StaticPheromoneUpdaterAgent) agent).getNumberOfLinesToProcess();
 		
-		PheromoneNode startNode = (PheromoneNode) agent.getCurrentNode();
-		PheromoneNode nodeToBeUpdated = startNode;
+		Node startNode = agent.getCurrentNode();
+		Node nodeToBeUpdated = startNode;
 		int numberOfRowsProcessed = 0;
 		
 		for (;;) {
 			for (;;) {
-				nodeToBeUpdated.decayPheromoneIntensity();
+				
+				for (CommunicationStimulus stimulus : nodeToBeUpdated.getCommunicationStimuli()) {
+					if (stimulus instanceof ChemicalCommStimulus) {
+						((ChemicalCommStimulus) stimulus).decayIntensity();
+					}
+				}
 				
 				if (nodeToBeUpdated.getNeighbour(Direction.EAST) != null) {
-					nodeToBeUpdated = (PheromoneNode) nodeToBeUpdated.getNeighbour(Direction.EAST);
+					nodeToBeUpdated = nodeToBeUpdated.getNeighbour(Direction.EAST);
 				
 				} else {
 					break;
@@ -50,7 +57,7 @@ public class StaticPheromoneUpdateTask extends AbstractTask {
 			}
 			
 			if (startNode.getNeighbour(Direction.SOUTH) != null) {
-				startNode = (PheromoneNode) startNode.getNeighbour(Direction.SOUTH);
+				startNode = startNode.getNeighbour(Direction.SOUTH);
 				nodeToBeUpdated = startNode;
 			
 			} else {

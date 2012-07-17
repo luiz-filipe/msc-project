@@ -9,14 +9,17 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.junit.Test;
 
-import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
+import com.luizabrahao.msc.ants.env.ForageStimulusType;
+import com.luizabrahao.msc.model.env.EnvironmentFactory;
+import com.luizabrahao.msc.model.env.Node;
 
 public class PheromoneRendererTest {
-	private void setIntensity(int startLine, int numberOfLines, int nColumns, double intensity, PheromoneNode[][] grid) {
+	private void setIntensity(int startLine, int numberOfLines, int nColumns, double intensity, Node[][] grid) {
 		for (int l = startLine; l < startLine + numberOfLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				(grid[l][c]).setPheromoneIntensity(intensity);
+				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				s.setIntensity(intensity);
 			}
 		}
 	}
@@ -25,7 +28,7 @@ public class PheromoneRendererTest {
 	public void renderPheromoneMap() throws InterruptedException {
 		final int nLines = 150;
 		final int nColumns = 100;
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
+		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 		
 		this.setIntensity(00, 10, nColumns, 0.06, grid);
@@ -45,56 +48,8 @@ public class PheromoneRendererTest {
 		this.setIntensity(140, 10, nColumns, 0.96, grid);
 		
 		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
-		tasks.add(new PheromoneRenderer(grid, "target/space-pheromone.png", nColumns, nLines));
+		tasks.add(new PheromoneRenderer(grid, "target/space-pheromone.png", nColumns, nLines, ForageStimulusType.getInstance()));
 
 		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}
-	
-	
-	/*
-	@Test
-	public void pheromoneDecayTest() {
-		int nLines = 250;
-		int nColumns = 200;
-		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
-		
-		for (int l = 0; l < nLines; l++) {
-			for (int c = 0; c < nColumns; c++) {
-				(grid[l][c]).setPheromoneIntensity(0.1);
-			}
-		}
-		
-		for (int l = 15; l < 30; l++) {
-			for (int c = 25; c < 175; c++) {
-				(grid[l][c]).setPheromoneIntensity(0.2);
-			}
-		}
-		
-		for (int l = 30; l < 45; l++) {
-			for (int c = 50; c < 150; c++) {
-				(grid[l][c]).setPheromoneIntensity(0.4);
-			}
-		}
-		
-		for (int l = 45; l < 60; l++) {
-			for (int c = 75; c < 125; c++) {
-				(grid[l][c]).setPheromoneIntensity(0.6);
-			}
-		}		
-		
-		StaticPheromoneUpdater u = new StaticPheromoneUpdater("updater-02", PheromoneUpdaterAgentType.getInstance(), grid[0][0], 250);
-		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(15);
-		
-		final ScheduledFuture<?> futureDecayAgent = executor.schedule(u, 1000, TimeUnit.MILLISECONDS);
-		final ScheduledFuture<?> futureRender = executor.schedule(RenderAgentFactory.getPheromoneRenderer("target/pheromone-update.png", grid, nLines, nColumns), 1200, TimeUnit.MILLISECONDS);
-		
-		executor.schedule(new Runnable(){
-		     public void run(){
-		        futureDecayAgent.cancel(true);
-		        futureRender.cancel(true);
-		     }      
-		 }, 6000, TimeUnit.MILLISECONDS);
-		
-	}
-	*/
 }

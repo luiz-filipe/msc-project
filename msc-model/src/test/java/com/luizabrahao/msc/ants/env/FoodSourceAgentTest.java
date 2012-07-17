@@ -4,13 +4,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.luizabrahao.msc.model.env.EnvironmentFactory;
 import com.luizabrahao.msc.model.env.Node;
 
 public class FoodSourceAgentTest {
 
 	@Test
 	public void collectFoodTest() {
-		Node[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
+		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(3, 3);
 		FoodSourceAgent foodSource = new FoodSourceAgent("food-source-1", grid[1][1], 10.0);
 		
 		double collection01 = foodSource.collectFood(3.0);

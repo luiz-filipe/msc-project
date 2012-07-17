@@ -12,17 +12,17 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.model.env.Node;
 
 public class ExploredSpaceRenderer implements Callable<Void> {
 	private static final Logger logger = LoggerFactory.getLogger(ExploredSpaceRenderer.class);
 	
-	private final PheromoneNode[][] grid;
+	private final Node[][] grid;
 	private final String imagePath;
 	private final int nColumns;
 	private final int nLines;
 	
-	public ExploredSpaceRenderer(PheromoneNode[][] grid, String imagePath, int nColumns, int nLines) {
+	public ExploredSpaceRenderer(Node[][] grid, String imagePath, int nColumns, int nLines) {
 		this.grid = grid;
 		this.imagePath = imagePath;
 		this.nColumns = nColumns;

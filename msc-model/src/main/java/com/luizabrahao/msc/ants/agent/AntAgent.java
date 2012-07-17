@@ -2,8 +2,10 @@ package com.luizabrahao.msc.ants.agent;
 
 import net.jcip.annotations.GuardedBy;
 
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.env.Direction;
@@ -39,11 +41,6 @@ public class AntAgent extends TaskAgent implements Ant {
 	}
 	
 	@Override
-	public void depositPheromone(PheromoneNode node) {
-		((AntType) this.getAgentType()).depositPheromone(node);
-	}
-	
-	@Override
 	public double collectFood(Agent foodSource, double amountToCollect) {
 		this.amountOfFoodCarring = ((FoodSourceAgent) foodSource).collectFood(amountToCollect);
 		
@@ -51,4 +48,18 @@ public class AntAgent extends TaskAgent implements Ant {
 	}
 	
 	@Override public boolean isCarringFood() { return (amountOfFoodCarring == 0) ? true : false; }
+	
+	@Override
+	public void incrementStimulusIntensity(Node node, ChemicalCommStimulusType chemicalCommStimulusType) {
+		synchronized (node.getCommunicationStimuli()) {
+			ChemicalCommStimulus c = (ChemicalCommStimulus) node.getCommunicationStimulus(ForageStimulusType.getInstance());
+			
+			if (c == null) {
+				c = new ChemicalCommStimulus(chemicalCommStimulusType.getName(), chemicalCommStimulusType);
+				node.addCommunicationStimulus(c);
+			}
+			
+			c.increaseIntensity(((AntType) this.getAgentType()).getStimulusIncrement(chemicalCommStimulusType));
+		}
+	}
 }

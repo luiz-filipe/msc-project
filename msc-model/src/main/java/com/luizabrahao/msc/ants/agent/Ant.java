@@ -1,8 +1,9 @@
 package com.luizabrahao.msc.ants.agent;
 
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
+import com.luizabrahao.msc.model.env.Node;
 
 /**
  * Defines the basic API that must be implemented by any agent that represent
@@ -14,7 +15,7 @@ import com.luizabrahao.msc.model.env.Direction;
 public interface Ant {
 	Direction getMovingDirection();
 	void setMovingDirection(Direction movingDirection);
-	void depositPheromone(PheromoneNode node);
+	void incrementStimulusIntensity(Node node, ChemicalCommStimulusType chemicalCommStimulusType);
 	double collectFood(Agent foodSource, double amountToCollect);
 	boolean isCarringFood();
 }

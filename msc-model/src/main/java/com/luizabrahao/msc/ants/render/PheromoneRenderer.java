@@ -12,7 +12,10 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
+import com.luizabrahao.msc.model.env.Node;
+
 
 public class PheromoneRenderer implements Callable<Void> {
 	private static final Logger logger = LoggerFactory.getLogger(PheromoneRenderer.class);
@@ -33,16 +36,18 @@ public class PheromoneRenderer implements Callable<Void> {
 	private static final Color c13 = new Color(209,63,36);
 	private static final Color c14 = new Color(201,32,18);
 	
-	private final PheromoneNode[][] grid;
+	private final Node[][] grid;
 	private final String imagePath;
 	private final int nColumns;
 	private final int nLines;
+	private final ChemicalCommStimulusType chemicalCommStimulusType;
 	
-	public PheromoneRenderer(PheromoneNode[][] grid, String imagePath, int nColumns, int nLines) {
+	public PheromoneRenderer(Node[][] grid, String imagePath, int nColumns, int nLines, ChemicalCommStimulusType chemicalCommStimulusType) {
 		this.grid = grid;
 		this.imagePath = imagePath;
 		this.nColumns = nColumns;
 		this.nLines = nLines;
+		this.chemicalCommStimulusType = chemicalCommStimulusType;
 	}
 	
 	@Override
@@ -54,7 +59,7 @@ public class PheromoneRenderer implements Callable<Void> {
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				pheromoneIntensity = grid[l][c].getPheromoneIntensity();
+				pheromoneIntensity = ((ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(chemicalCommStimulusType)).getIntensity();
 				
 				if (pheromoneIntensity <= 0.0666) {
 					g2d.setColor(c00);

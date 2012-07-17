@@ -12,7 +12,7 @@ public class EnvironmentFactory {
 	/**
 	 * Initialises an environment based on BasicNode objects. This environment
 	 * has rectangular shape and each node are assigned an identifier following
-	 * the pattern: "n+lineNumber+colunmNumber", e.g. "n32" corresponds to the
+	 * the pattern: "n+lineNumber,colunmNumber", e.g. "n3,2" corresponds to the
 	 * node at the third line and second column.
 	 * 
 	 * @param nLines number of lines the grid will contain
@@ -24,7 +24,7 @@ public class EnvironmentFactory {
 		
 		for(int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColunms; c++) {
-				nodes[l][c] = new BasicNode("n" + l + c);
+				nodes[l][c] = new BasicNode("n" + l + "," + c);
 				
 				if (c != 0) {
 					nodes[l][c].setNeighbours(Direction.WEST, nodes[l][c - 1]);

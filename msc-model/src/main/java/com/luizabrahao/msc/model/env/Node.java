@@ -97,4 +97,6 @@ public interface Node {
 	List<CommunicationStimulus> getCommunicationStimuli();
 	
 	void addCommunicationStimulus(CommunicationStimulus communicationStimulus);
+	
+	CommunicationStimulus getCommunicationStimulus(CommunicationStimulusType communicationStimulusType);
 }

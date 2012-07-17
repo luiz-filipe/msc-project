@@ -249,4 +249,17 @@ public class BasicNode implements Node {
 		}
 	}
 
+	public CommunicationStimulus getCommunicationStimulus(CommunicationStimulusType communicationStimulusType) {
+		if (communicationStimuli == null) {
+			return null;
+		}
+		
+		for (CommunicationStimulus stimulus : communicationStimuli) {
+			if (stimulus.getType() == communicationStimulusType) {
+				return stimulus;
+			}
+		}
+		
+		return null;
+	}
 }
