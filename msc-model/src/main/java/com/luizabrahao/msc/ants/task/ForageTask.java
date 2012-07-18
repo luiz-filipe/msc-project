@@ -114,33 +114,35 @@ public class ForageTask extends AbstractTask {
 			pheromoneNorth = getNeighbourForagePheromone(agent, northOfTheAgent);
 			pheromoneEast = getNeighbourForagePheromone(agent, eastOfTheAgent);
 			pheromoneSouth = getNeighbourForagePheromone(agent, southOfTheAgent);
-			pheromoneWest = getNeighbourForagePheromone(agent, southOfTheAgent);
+			pheromoneWest = getNeighbourForagePheromone(agent, westOfTheAgent);
 					    			
 			double rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH;
 			double rateEast = pheromoneEast * ForageTask.WEIGHT_EAST;
 			double rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH;
 			double rateWest = pheromoneWest * ForageTask.WEIGHT_WEST;
-
-			double sumRates = rateNorth + rateEast + rateSouth + rateWest;
-			double endNorth = rateNorth / sumRates;
-			double endEast = endNorth + rateEast / sumRates;
-			double endSouth = endEast + rateSouth / sumRates;
-
-			double randomPoint = Math.random();
 			
-			if (endNorth >= randomPoint) {
+			double sumRates = rateNorth + rateEast + rateSouth + rateWest;
+			
+			rateNorth = pheromoneNorth * ForageTask.WEIGHT_NORTH / sumRates;
+			rateEast = pheromoneEast * ForageTask.WEIGHT_EAST / sumRates;
+			rateSouth = pheromoneSouth * ForageTask.WEIGHT_SOUTH / sumRates;
+			rateWest = pheromoneWest * ForageTask.WEIGHT_WEST / sumRates;
+			
+			double randomPoint = Math.random();
+
+			if (rateNorth >= randomPoint) {
 				return agent.getCurrentNode().getNeighbour(northOfTheAgent);
 			}
 			
-			if ((endNorth < randomPoint) && (endEast >= randomPoint)) {
+			if ((rateNorth < randomPoint) && (rateEast >= randomPoint)) {
 				return agent.getCurrentNode().getNeighbour(eastOfTheAgent);
 			}
 			
-			if ((endEast < randomPoint) && (endSouth >= randomPoint)) {
+			if ((rateEast < randomPoint) && (rateSouth >= randomPoint)) {
 				return agent.getCurrentNode().getNeighbour(southOfTheAgent);
 			}
 			
-			if ((endSouth < randomPoint) && (1 >= randomPoint)) {
+			if ((rateSouth < randomPoint) && (rateWest >= randomPoint)) {
 				return agent.getCurrentNode().getNeighbour(westOfTheAgent);
 			}
 			

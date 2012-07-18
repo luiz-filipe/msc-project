@@ -50,6 +50,10 @@ public class ChemicalCommStimulus extends BasicCommunicationStimulus {
 	 * @param amount Double Amount to incremenet the intensity by.
 	 */
 	public synchronized void increaseIntensity(double amount) {
+		if ((this.intensity + amount) > 1) {
+			return;
+		}
+		
 		this.intensity = this.intensity + amount;
 	}
 	

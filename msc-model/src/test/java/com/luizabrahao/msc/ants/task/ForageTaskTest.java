@@ -95,7 +95,7 @@ public class ForageTaskTest {
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		
-		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT * 2, grid);
+		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT * 100, grid);
 //		this.setIntensity(10, 30, 25, 175, 0.2, grid);
 //		this.setIntensity(30, 80, 50, 150, 0.4, grid);
 //		this.setIntensity(80, 130, 75, 125, 0.6, grid);
