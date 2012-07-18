@@ -9,16 +9,17 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.junit.Test;
 
+import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
-import com.luizabrahao.msc.model.env.EnvironmentFactory;
-import com.luizabrahao.msc.model.env.Node;
+import com.luizabrahao.msc.ants.env.PheromoneNode;
 
 public class PheromoneRendererTest {
-	private void setIntensity(int startLine, int numberOfLines, int nColumns, double intensity, Node[][] grid) {
+	private void setIntensity(int startLine, int numberOfLines, int nColumns, double intensity, PheromoneNode[][] grid) {
 		for (int l = startLine; l < startLine + numberOfLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
 				s.setIntensity(intensity);
 			}
 		}
@@ -28,7 +29,7 @@ public class PheromoneRendererTest {
 	public void renderPheromoneMap() throws InterruptedException {
 		final int nLines = 150;
 		final int nColumns = 100;
-		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
+		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 		
 		this.setIntensity(00, 10, nColumns, 0.06, grid);

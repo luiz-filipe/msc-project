@@ -12,12 +12,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import org.junit.Test;
 
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
-import com.luizabrahao.msc.model.env.EnvironmentFactory;
-import com.luizabrahao.msc.model.env.Node;
 
 public class StaticPheromoneUpdaterTest {
-	private double getForagePheromoneIntensity(Node node) {
-		return ((ChemicalCommStimulus) node.getCommunicationStimulus(ForageStimulusType.getInstance())).getIntensity();
+	private double getForagePheromoneIntensity(PheromoneNode node) {
+		ChemicalCommStimulus s = node.getCommunicationStimulus(ForageStimulusType.getInstance());
+		return s.getIntensity();
 	}
 	
 	
@@ -25,12 +24,12 @@ public class StaticPheromoneUpdaterTest {
 	public void updateTest() throws InterruptedException {
 		int nLines = 4;
 		int nColumns = 3;
-		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
+		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		StaticPheromoneUpdaterAgent u = new StaticPheromoneUpdaterAgent("updater-01", grid[0][0], 2);
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
 				s.setIntensity(1);
 			}
 		}
@@ -52,12 +51,12 @@ public class StaticPheromoneUpdaterTest {
 		int nLines = 250;
 		int nColumns = 200;
 		
-		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
+		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		StaticPheromoneUpdaterAgent u = new StaticPheromoneUpdaterAgent("updater-02", grid[0][0], 250);
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				ChemicalCommStimulus s = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
 				s.setIntensity(1);
 			}
 		}

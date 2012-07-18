@@ -4,7 +4,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import com.luizabrahao.msc.model.annotation.FrameworkExclusive;
-import com.luizabrahao.msc.model.env.AbstractCommunicationStimulus;
+import com.luizabrahao.msc.model.env.BasicCommunicationStimulus;
 
 /**
  * Represent chemical interactions between agents and the environment.
@@ -16,7 +16,7 @@ import com.luizabrahao.msc.model.env.AbstractCommunicationStimulus;
  *
  */
 @ThreadSafe
-public class ChemicalCommStimulus extends AbstractCommunicationStimulus {
+public class ChemicalCommStimulus extends BasicCommunicationStimulus {
 	@GuardedBy("this") private double intensity = 0;
 	
 	public ChemicalCommStimulus(ChemicalCommStimulusType chemicalCommStimulusType) {

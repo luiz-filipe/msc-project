@@ -94,9 +94,9 @@ public interface Node {
 	
 	void addAgentStartingHere(Agent agent);
 	
-	List<AbstractCommunicationStimulus> getCommunicationStimuli();
+	List<CommunicationStimulus> getCommunicationStimuli();
 	
-	void addCommunicationStimulus(AbstractCommunicationStimulus communicationStimulus);
+	void addCommunicationStimulus(CommunicationStimulus communicationStimulus);
 	
-	AbstractCommunicationStimulus getCommunicationStimulus(CommunicationStimulusType communicationStimulusType);
+	CommunicationStimulus getCommunicationStimulus(CommunicationStimulusType communicationStimulusType);
 }

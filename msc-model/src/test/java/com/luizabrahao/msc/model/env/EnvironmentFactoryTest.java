@@ -10,8 +10,8 @@ public class EnvironmentFactoryTest {
 	public void basicNodeGrid() {
 		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(5, 5);
 		
-		assertTrue(grid[0][0].getId().equals("n00"));
-		assertTrue(grid[3][3].getId().equals("n33"));
+		assertTrue(grid[0][0].getId().equals("n0,0"));
+		assertTrue(grid[3][3].getId().equals("n3,3"));
 		
 		assertTrue(grid[0][0].getNeighbour(Direction.NORTH) == null);	
 		assertTrue(grid[0][0].getNeighbour(Direction.SOUTH) == grid[1][0]);

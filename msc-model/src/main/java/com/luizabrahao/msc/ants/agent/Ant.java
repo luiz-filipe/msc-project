@@ -3,7 +3,6 @@ package com.luizabrahao.msc.ants.agent;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
-import com.luizabrahao.msc.model.env.Node;
 
 /**
  * Defines the basic API that must be implemented by any agent that represent
@@ -15,7 +14,7 @@ import com.luizabrahao.msc.model.env.Node;
 public interface Ant {
 	Direction getMovingDirection();
 	void setMovingDirection(Direction movingDirection);
-	void incrementStimulusIntensity(Node node, ChemicalCommStimulusType chemicalCommStimulusType);
+	void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType, double amount);
 	double collectFood(Agent foodSource, double amountToCollect);
 	boolean isCarringFood();
 }

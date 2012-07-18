@@ -46,7 +46,7 @@ public class BasicNode implements Node {
 	private Node south = null;
 	private Node west = null;
 	@GuardedBy("this") private List<Agent> agents = null;
-	@GuardedBy("this") private List<AbstractCommunicationStimulus> communicationStimuli = null;
+	@GuardedBy("this") private List<CommunicationStimulus> communicationStimuli = null;
 	
 	public BasicNode(String id) {
 		this.id = id;
@@ -54,13 +54,13 @@ public class BasicNode implements Node {
 		
 	@Override public List<Agent> getAgents() { return agents; }
 	@Override public String getId() { return id; }
-	@Override public List<AbstractCommunicationStimulus> getCommunicationStimuli() { return communicationStimuli; }
+	@Override public List<CommunicationStimulus> getCommunicationStimuli() { return communicationStimuli; }
 	
 	@Override
-	public void addCommunicationStimulus(AbstractCommunicationStimulus communicationStimulus) {
+	public void addCommunicationStimulus(CommunicationStimulus communicationStimulus) {
 		synchronized (this) {
 			if (communicationStimuli == null) {
-				communicationStimuli = Collections.synchronizedList(new ArrayList<AbstractCommunicationStimulus>());
+				communicationStimuli = Collections.synchronizedList(new ArrayList<CommunicationStimulus>());
 			}
 		}
 		
@@ -249,17 +249,17 @@ public class BasicNode implements Node {
 		}
 	}
 
-	public AbstractCommunicationStimulus getCommunicationStimulus(CommunicationStimulusType communicationStimulusType) {
+	public CommunicationStimulus getCommunicationStimulus(CommunicationStimulusType communicationStimulusType) {
 		if (communicationStimuli == null) {
 			return null;
 		}
 		
-		for (AbstractCommunicationStimulus stimulus : communicationStimuli) {
+		for (CommunicationStimulus stimulus : communicationStimuli) {
 			if (stimulus.getType() == communicationStimulusType) {
 				return stimulus;
 			}
 		}
-		
+				
 		return null;
 	}
 }

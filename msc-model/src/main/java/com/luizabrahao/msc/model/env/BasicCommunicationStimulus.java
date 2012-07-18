@@ -14,10 +14,10 @@ import net.jcip.annotations.Immutable;
  *
  */
 @Immutable
-public abstract class AbstractCommunicationStimulus implements CommunicationStimulus {
+public class BasicCommunicationStimulus implements CommunicationStimulus {
 	private final CommunicationStimulusType communicationStimulusType;
 
-	public AbstractCommunicationStimulus(CommunicationStimulusType communicationStimulusType) {
+	public BasicCommunicationStimulus(CommunicationStimulusType communicationStimulusType) {
 		this.communicationStimulusType = communicationStimulusType;
 	}
 
@@ -42,7 +42,7 @@ public abstract class AbstractCommunicationStimulus implements CommunicationStim
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractCommunicationStimulus other = (AbstractCommunicationStimulus) obj;
+		BasicCommunicationStimulus other = (BasicCommunicationStimulus) obj;
 		if (communicationStimulusType == null) {
 			if (other.communicationStimulusType != null)
 				return false;
