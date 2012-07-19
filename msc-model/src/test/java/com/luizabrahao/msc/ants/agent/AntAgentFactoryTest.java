@@ -26,7 +26,7 @@ public class AntAgentFactoryTest {
 	private void setIntensity(int startLine, int finishLine, int startColum, int finishColumn, double intensity, PheromoneNode[][] grid) {
 		for (int l = startLine; l < finishLine; l++) {
 			for (int c = startColum; c < finishColumn; c++) {
-				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.TYPE);
 				s.setIntensity(intensity);
 			}
 		}
@@ -72,11 +72,11 @@ public class AntAgentFactoryTest {
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		final List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "a", grid, 0, 0, 48, 10);
 		
-		this.setIntensity(0, nLines, 0, nColumns, WorkerType.PHEROMONE_INCREMENT, grid);
+		this.setIntensity(0, nLines, 0, nColumns, WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE) * 2, grid);
 		
 		final List<Future<Void>> futures = executor.invokeAll(agents, 20, TimeUnit.SECONDS);
 		
-		renderers.add(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines, ForageStimulusType.getInstance()));
+		renderers.add(new PheromoneRenderer(grid, "target/forage-pheromone-end.png", nColumns, nLines, ForageStimulusType.TYPE));
 		renderers.add(new ExploredSpaceRenderer(grid, "target/forage-space-explored.png", nColumns, nLines));
 		
 		final List<Future<Void>> renderersFuture = executor.invokeAll(renderers,  5, TimeUnit.SECONDS);

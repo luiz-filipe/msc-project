@@ -19,7 +19,7 @@ public class PheromoneRendererTest {
 		for (int l = startLine; l < startLine + numberOfLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
 				
-				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.TYPE);
 				s.setIntensity(intensity);
 			}
 		}
@@ -49,7 +49,7 @@ public class PheromoneRendererTest {
 		this.setIntensity(140, 10, nColumns, 0.96, grid);
 		
 		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
-		tasks.add(new PheromoneRenderer(grid, "target/space-pheromone.png", nColumns, nLines, ForageStimulusType.getInstance()));
+		tasks.add(new PheromoneRenderer(grid, "target/space-pheromone.png", nColumns, nLines, ForageStimulusType.TYPE));
 
 		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}

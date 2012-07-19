@@ -16,7 +16,7 @@ public class FoodSourceAgent extends AbstractAgent {
 	@GuardedBy("this") private double foodAmount;
 
 	public FoodSourceAgent(String id, Node currentNode, double amountOfFood) {
-		super(id, FoodSourceAgentType.getInstance(), currentNode, false);
+		super(id, FoodSourceAgentType.TYPE, currentNode, false);
 		this.foodAmount = amountOfFood;
 		
 		logger.info("Food source '{}' initialised with amount of '{}'", id, amountOfFood);

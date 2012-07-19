@@ -3,8 +3,9 @@ package com.luizabrahao.msc.ants.agent;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jcip.annotations.ThreadSafe;
+
 import com.luizabrahao.msc.ants.task.StaticPheromoneUpdateTask;
-import com.luizabrahao.msc.model.agent.AbstractAgentType;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
 
@@ -18,18 +19,18 @@ import com.luizabrahao.msc.model.task.Task;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-public class StaticPheromoneUpdaterAgentType extends AbstractAgentType implements TaskAgentType {
-	public static final String NAME = "pheromone-updater-agent";
-	private static StaticPheromoneUpdaterAgentType instance = new StaticPheromoneUpdaterAgentType();
+@ThreadSafe
+public enum StaticPheromoneUpdaterAgentType implements TaskAgentType {
+	TYPE;
+	
+	private static final String name = "type:helper:pheromone-updater";
 	private final List<Task> tasks;
 
-	public StaticPheromoneUpdaterAgentType() {
-		this.tasks = new ArrayList<Task>();
+	StaticPheromoneUpdaterAgentType() {
+		tasks = new ArrayList<Task>();
 		tasks.add(new StaticPheromoneUpdateTask());
 	}
 	
-	@Override public String getName() { return StaticPheromoneUpdaterAgentType.NAME; }
-	@Override public List<Task> getTasks() { return this.tasks; }
-	
-	public static StaticPheromoneUpdaterAgentType getInstance() { return instance; }
+	@Override public String getName() { return name; }
+	@Override public List<Task> getTasks() { return tasks; }
 }

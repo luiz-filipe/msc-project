@@ -23,7 +23,7 @@ public class ForageTask extends AbstractTask implements AntTask {
 	public void execute(Agent agent) {
 		AntAgent a = (AntAgent) agent;
 		Node nodeToMoveTo = this.getNodeToMoveTo((AntAgent) agent);
-		a.incrementStimulusIntensity(ForageStimulusType.getInstance(), a.getAgentType().getStimulusIncrement(ForageStimulusType.getInstance()));
+		a.incrementStimulusIntensity(ForageStimulusType.TYPE, a.getAgentType().getStimulusIncrement(ForageStimulusType.TYPE));
 
 		nodeToMoveTo.addAgent(agent);
 
@@ -36,6 +36,6 @@ public class ForageTask extends AbstractTask implements AntTask {
 	
 	@Override
 	public Node getNodeToMoveTo(AntAgent agent) {
-		return AntTaskUtil.getNodeToMoveTo(agent, ForageStimulusType.getInstance());
+		return AntTaskUtil.getNodeToMoveTo(agent, ForageStimulusType.TYPE);
 	}
 }

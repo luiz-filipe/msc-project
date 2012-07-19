@@ -38,12 +38,12 @@ public class PopulationRendererTest {
 		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 		
-		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[0][0]);
-		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[0][2]);
-		TaskAgent a03 = new MockTaskAgent("a-03", BasicTaskAgentType.getInstance(), grid[0][4]);
-		TaskAgent a04 = new MockTaskAgent("a-04", BasicTaskAgentType.getInstance(), grid[4][0]);
-		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.getInstance(), grid[4][2]);
-		TaskAgent a06 = new MockTaskAgent("a-06", BasicTaskAgentType.getInstance(), grid[4][4]);
+		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.TYPE, grid[0][0]);
+		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.TYPE, grid[0][2]);
+		TaskAgent a03 = new MockTaskAgent("a-03", BasicTaskAgentType.TYPE, grid[0][4]);
+		TaskAgent a04 = new MockTaskAgent("a-04", BasicTaskAgentType.TYPE, grid[4][0]);
+		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.TYPE, grid[4][2]);
+		TaskAgent a06 = new MockTaskAgent("a-06", BasicTaskAgentType.TYPE, grid[4][4]);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
@@ -55,7 +55,7 @@ public class PopulationRendererTest {
 		agents.add(a05);
 		agents.add(a06);
 		
-		tasks.add(new PheromoneRenderer(grid, "target/population-static.png", nColumns, nLines, ForageStimulusType.getInstance()));
+		tasks.add(new PheromoneRenderer(grid, "target/population-static.png", nColumns, nLines, ForageStimulusType.TYPE));
 		
 		final List<Future<Void>> futures = executor.invokeAll(tasks);
 	}
@@ -67,11 +67,11 @@ public class PopulationRendererTest {
 		final Node[][] grid = EnvironmentFactory.createBasicNodeGrid(nLines, nColumns);
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 		
-		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[0][0]);
-		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[0][10]);
-		TaskAgent a03 = new MockTaskAgent("a-03", BasicTaskAgentType.getInstance(), grid[0][20]);
-		TaskAgent a04 = new MockTaskAgent("a-04", BasicTaskAgentType.getInstance(), grid[0][30]);
-		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.getInstance(), grid[0][40]);
+		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.TYPE, grid[0][0]);
+		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.TYPE, grid[0][10]);
+		TaskAgent a03 = new MockTaskAgent("a-03", BasicTaskAgentType.TYPE, grid[0][20]);
+		TaskAgent a04 = new MockTaskAgent("a-04", BasicTaskAgentType.TYPE, grid[0][30]);
+		TaskAgent a05 = new MockTaskAgent("a-05", BasicTaskAgentType.TYPE, grid[0][40]);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>();
@@ -88,7 +88,7 @@ public class PopulationRendererTest {
 		tasks.add(a04);
 		tasks.add(a05);
 		
-		executor.schedule(new PheromoneRenderer(grid, "target/population-dynamic.png", nColumns, nLines, ForageStimulusType.getInstance()), 4, TimeUnit.SECONDS);
+		executor.schedule(new PheromoneRenderer(grid, "target/population-dynamic.png", nColumns, nLines, ForageStimulusType.TYPE), 4, TimeUnit.SECONDS);
 		
 		final List<Future<Void>> futures = executor.invokeAll(tasks, 6, TimeUnit.SECONDS);
 	}

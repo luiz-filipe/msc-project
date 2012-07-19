@@ -39,7 +39,7 @@ public class WandererTaskTest {
 		Node east = new BasicNode("east");
 		center.setNeighbours(Direction.EAST, east);
 		
-		Agent agent = new MockTaskAgent("a", new BasicTaskAgentType(), center);
+		Agent agent = new MockTaskAgent("a", BasicTaskAgentType.TYPE, center);
 		Node nextNode = WandererTask.getRandomNeighbour(agent);
 		
 		logger.debug("Selected node: " + nextNode);
@@ -50,8 +50,8 @@ public class WandererTaskTest {
 	@Test 
 	public void executeTest() {
 		Node[][] grid = EnvironmentFactory.createBasicNodeGrid(300, 100);
-		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.getInstance(), grid[1][0]);
-		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.getInstance(), grid[1][1]);
+		TaskAgent a01 = new MockTaskAgent("a-01", BasicTaskAgentType.TYPE, grid[1][0]);
+		TaskAgent a02 = new MockTaskAgent("a-02", BasicTaskAgentType.TYPE, grid[1][1]);
 		
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		executor.submit(a01);

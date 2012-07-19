@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.agent;
 
+import net.jcip.annotations.ThreadSafe;
+
 import com.luizabrahao.msc.model.agent.TaskAgent;
 import com.luizabrahao.msc.model.env.Node;
 
@@ -19,11 +21,12 @@ import com.luizabrahao.msc.model.env.Node;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
+@ThreadSafe
 public class StaticPheromoneUpdaterAgent extends TaskAgent {
 	private final int numberOfLinesToProcess;
 	
 	public StaticPheromoneUpdaterAgent(String id, Node currentNode, int numberOfLinesToProcess) {
-		super(id, StaticPheromoneUpdaterAgentType.getInstance(), currentNode, false);
+		super(id, StaticPheromoneUpdaterAgentType.TYPE, currentNode, false);
 		
 		this.numberOfLinesToProcess = numberOfLinesToProcess;
 	}

@@ -15,7 +15,7 @@ import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
 
 public class StaticPheromoneUpdaterTest {
 	private double getForagePheromoneIntensity(PheromoneNode node) {
-		ChemicalCommStimulus s = node.getCommunicationStimulus(ForageStimulusType.getInstance());
+		ChemicalCommStimulus s = node.getCommunicationStimulus(ForageStimulusType.TYPE);
 		return s.getIntensity();
 	}
 	
@@ -29,7 +29,7 @@ public class StaticPheromoneUpdaterTest {
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.TYPE);
 				s.setIntensity(1);
 			}
 		}
@@ -56,7 +56,7 @@ public class StaticPheromoneUpdaterTest {
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.getInstance());
+				ChemicalCommStimulus s = grid[l][c].getCommunicationStimulus(ForageStimulusType.TYPE);
 				s.setIntensity(1);
 			}
 		}

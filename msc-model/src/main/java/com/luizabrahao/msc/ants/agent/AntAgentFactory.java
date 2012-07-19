@@ -15,6 +15,8 @@ import com.luizabrahao.msc.model.env.Node;
  *
  */
 public class AntAgentFactory {
+	private AntAgentFactory() {}
+	
 	private static final Logger logger = LoggerFactory.getLogger(AntAgentFactory.class);
 			
 	/**
@@ -33,7 +35,7 @@ public class AntAgentFactory {
 		List<AntAgent> agents = new ArrayList<AntAgent>();
 		
 		for (int i = 0; i < numberOfAgents; i++) {
-			agents.add(new AntAgent(namePrefix + "-" + i, WorkerType.getInstance(), initialNode, false));
+			agents.add(new AntAgent(namePrefix + "-" + i, WorkerType.TYPE, initialNode, false));
 		}
 		
 		logger.info("{} agents created with prefix '{}'", agents.size(), namePrefix);
@@ -88,7 +90,7 @@ public class AntAgentFactory {
 		
 		for (int i = 0; i < interations; i++) {
 			for (int j = 0; j < numberOfAgentsPerNode; j++) {
-				agents.add(new AntAgent(namePrefix + "-" + nAgentsCreated, WorkerType.getInstance(), grid[line][colunm], false));
+				agents.add(new AntAgent(namePrefix + "-" + nAgentsCreated, WorkerType.TYPE, grid[line][colunm], false));
 				nAgentsCreated++;
 			}
 			colunm += horizontalSpacing + 1;

@@ -1,14 +1,20 @@
 package com.luizabrahao.msc.ants.env;
 
-import com.luizabrahao.msc.model.agent.AbstractAgentType;
+import java.util.List;
 
-public class FoodSourceAgentType extends AbstractAgentType {
-	public static final String NAME = "food-source";
-	private static FoodSourceAgentType instance = new FoodSourceAgentType();
+import net.jcip.annotations.ThreadSafe;
+
+import com.luizabrahao.msc.model.agent.TaskAgentType;
+import com.luizabrahao.msc.model.task.Task;
+
+@ThreadSafe
+public enum FoodSourceAgentType implements TaskAgentType {
+	TYPE;
 	
+	private final String name = "type:ant:food-source";
+
 	@Override
-	public String getName() { return FoodSourceAgentType.NAME; }
-	
-	public static FoodSourceAgentType getInstance() { return instance; }
+	public String getName() { return name; }
 
+	@Override public List<Task> getTasks() { return null; }
 }
