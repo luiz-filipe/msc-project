@@ -4,21 +4,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.ants.agent.AntAgent;
+import com.luizabrahao.msc.ants.env.AttackStimulusType;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
 
-public class ForageTask extends AbstractTask implements AntTask {
-	private static final Logger logger = LoggerFactory.getLogger(ForageTask.class);
+public class AttackTask extends AbstractTask implements AntTask {
+	private static final Logger logger = LoggerFactory.getLogger(AttackTask.class);
 	private static final long milisecondsToWait = 5;
+	public static final String NAME = "Attack";
+	public static final double WEIGHT_NORTH = 0.30;
+	public static final double WEIGHT_EAST = 0.30;
+	public static final double WEIGHT_SOUTH = 0.10;
+	public static final double WEIGHT_WEST = 0.30;
 	
-	public static final String NAME = "Forage"; 
-
-	public ForageTask() {
-		super(ForageTask.NAME);
+	public AttackTask() {
+		super(AttackTask.NAME);
 	}
-
+	
 	@Override
 	public void execute(Agent agent) {
 		AntAgent a = (AntAgent) agent;
@@ -36,6 +40,6 @@ public class ForageTask extends AbstractTask implements AntTask {
 	
 	@Override
 	public Node getNodeToMoveTo(AntAgent agent) {
-		return AntTaskUtil.getNodeToMoveTo(agent, ForageStimulusType.getInstance());
+		return AntTaskUtil.getNodeToMoveTo(agent, AttackStimulusType.getInstance());
 	}
 }

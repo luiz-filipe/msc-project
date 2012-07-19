@@ -4,4 +4,5 @@ import com.luizabrahao.msc.model.env.CommunicationStimulusType;
 
 public interface ChemicalCommStimulusType extends CommunicationStimulusType {
 	double getDecayFactor();
+	int getRadius();
 }

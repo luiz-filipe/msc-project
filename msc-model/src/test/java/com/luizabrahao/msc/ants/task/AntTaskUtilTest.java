@@ -27,7 +27,7 @@ import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 
-public class ForageTaskTest {
+public class AntTaskUtilTest {
 	private void setIntensity(int startLine, int finishLine, int startColum, int finishColumn, double intensity, PheromoneNode[][] grid) {
 		for (int l = startLine; l < finishLine; l++) {
 			for (int c = startColum; c < finishColumn; c++) {
@@ -45,26 +45,26 @@ public class ForageTaskTest {
 		
 		a.setMovingDirection(Direction.SOUTH);
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
-		Node n = ForageTask.getNodeToMoveTo(a);
+		Node n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.getInstance());
 		assertTrue(n.getId().equals("n2,1"));
 		
 		a.setMovingDirection(Direction.WEST);
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
 		(grid[1][0].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
-		n = ForageTask.getNodeToMoveTo(a);
+		n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.getInstance());
 		assertTrue(n.getId().equals("n1,0"));
 		
 		a.setMovingDirection(Direction.NORTH);
 		(grid[1][0].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
 		(grid[0][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
-		n = ForageTask.getNodeToMoveTo(a);
+		n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.getInstance());
 		assertTrue(n.getId().equals("n0,1"));
 		
 		a.setMovingDirection(Direction.EAST);
 		grid[1][2].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.getInstance()));
 		(grid[0][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0);
 		(grid[1][2].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(1);
-		n = ForageTask.getNodeToMoveTo(a);
+		n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.getInstance());
 		assertTrue(n.getId().equals("n1,2"));
 	}
 	
@@ -76,7 +76,7 @@ public class ForageTaskTest {
 		a.setMovingDirection(Direction.SOUTH);
 		
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.getInstance())).setIntensity(0.1);
-		Node n = ForageTask.getNodeToMoveTo(a);
+		Node n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.getInstance());
 		assertTrue(n.getId().equals("n2,1"));
 		
 		a.incrementStimulusIntensity(ForageStimulusType.getInstance(), a.getAgentType().getStimulusIncrement(ForageStimulusType.getInstance()));
