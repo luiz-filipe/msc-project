@@ -31,6 +31,8 @@ public class AntAgent extends TaskAgent implements Ant {
 		super(id, agentType, currentNode, recordNodeHistory);
 	}
 
+	@Override public AntType getAgentType() { return (AntType) super.getAgentType(); }
+	
 	@Override
 	public Void call() throws Exception {
 		while (true) {
@@ -49,13 +51,79 @@ public class AntAgent extends TaskAgent implements Ant {
 	@Override public boolean isCarringFood() { return (amountOfFoodCarring == 0) ? true : false; }
 	
 	@Override
-	public void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType, double amount) {
+	public void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType) {
+		// update current node
 		PheromoneNode n = (PheromoneNode) this.getCurrentNode();
-		n.incrementStimulusIntensity(chemicalCommStimulusType, amount);
+		n.incrementStimulusIntensity(chemicalCommStimulusType, this.getAgentType().getStimulusIncrement(chemicalCommStimulusType));
+
+		// if the chemical stimulus is pontual, that is, it does not spread
+		// to the nodes neighbours
+		if (chemicalCommStimulusType.getRadius() == 0) {
+			return;
+		}
+		
+		int distanceToUpdate = chemicalCommStimulusType.getRadius();
+		PheromoneNode nodeToUpdate = (PheromoneNode) this.getCurrentNode();
+		
+		// this loop updates the current line and all above the current node
+		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
+			if (nodeToUpdate == null) {
+				return;
+			}
+			
+			distanceToUpdate = distanceToUpdate - i;
+			
+			// EAST
+			for (int j = 0; j < distanceToUpdate; j++) {
+				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
+				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.EAST);
+			}
+			
+			// WEST
+			for (int j = 0; j < distanceToUpdate; j++) {
+				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
+				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.WEST);
+			}
+			
+			nodeToUpdate = (PheromoneNode) this.getCurrentNode().getNeighbour(Direction.NORTH);
+		}
+		
+		distanceToUpdate = chemicalCommStimulusType.getRadius();
+		nodeToUpdate = (PheromoneNode) this.getCurrentNode().getNeighbour(Direction.SOUTH);
+		
+		// this loop updates the nodes bellow the current node's line
+		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
+			if (nodeToUpdate == null) {
+				return;
+			}
+					
+			distanceToUpdate = distanceToUpdate - i;
+					
+			// EAST
+			for (int j = 0; j < distanceToUpdate; j++) {
+				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
+				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.EAST);
+			}
+					
+			// WEST
+			for (int j = 0; j < distanceToUpdate; j++) {
+				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
+				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.WEST);
+			}
+					
+			nodeToUpdate = (PheromoneNode) this.getCurrentNode().getNeighbour(Direction.SOUTH);
+		}
+
 	}
 	
-	@Override
-	public AntType getAgentType() {
-		return (AntType) super.getAgentType();
+	private void updateNeighbour(final PheromoneNode node, final ChemicalCommStimulusType chemicalCommStimulusType, final int distanceFromCurrentNode) {
+		if (node == null) {
+			return;
+		}
+		
+		// TODO it is incrementing by 1 for testing.
+		node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(1);
 	}
+	
+	
 }

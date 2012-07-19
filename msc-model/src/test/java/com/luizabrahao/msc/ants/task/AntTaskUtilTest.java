@@ -79,7 +79,7 @@ public class AntTaskUtilTest {
 		Node n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.TYPE);
 		assertTrue(n.getId().equals("n2,1"));
 		
-		a.incrementStimulusIntensity(ForageStimulusType.TYPE, a.getAgentType().getStimulusIncrement(ForageStimulusType.TYPE));
+		a.incrementStimulusIntensity(ForageStimulusType.TYPE);
 		n.addAgent(a);
 		
 		ChemicalCommStimulus s = (ChemicalCommStimulus) grid[1][1].getCommunicationStimulus(ForageStimulusType.TYPE);

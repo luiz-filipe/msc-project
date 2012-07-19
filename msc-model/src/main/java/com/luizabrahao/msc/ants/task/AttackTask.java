@@ -26,7 +26,7 @@ public class AttackTask extends AbstractTask implements AntTask {
 	public void execute(Agent agent) {
 		AntAgent a = (AntAgent) agent;
 		Node nodeToMoveTo = this.getNodeToMoveTo((AntAgent) agent);
-		a.incrementStimulusIntensity(AttackStimulusType.TYPE, a.getAgentType().getStimulusIncrement(AttackStimulusType.TYPE));
+		a.incrementStimulusIntensity(AttackStimulusType.TYPE);
 
 		nodeToMoveTo.addAgent(agent);
 

@@ -14,7 +14,7 @@ import com.luizabrahao.msc.model.env.Direction;
 public interface Ant {
 	Direction getMovingDirection();
 	void setMovingDirection(Direction movingDirection);
-	void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType, double amount);
+	void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType);
 	double collectFood(Agent foodSource, double amountToCollect);
 	boolean isCarringFood();
 }

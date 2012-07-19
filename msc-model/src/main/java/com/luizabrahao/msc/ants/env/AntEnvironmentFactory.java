@@ -14,11 +14,11 @@ public class AntEnvironmentFactory {
 	 * @return Pheromone[][] A two dimensional array of interconnected 
 	 * 		   PheromoneNode objects.
 	 */
-	public static PheromoneNode[][] createPheromoneNodeGrid(int nLines, int nColunms) {
-		PheromoneNode[][] nodes = new PheromoneNode[nLines][nColunms];
+	public static PheromoneNode[][] createPheromoneNodeGrid(int nLines, int nColumns) {
+		PheromoneNode[][] nodes = new PheromoneNode[nLines][nColumns];
 		
 		for(int l = 0; l < nLines; l++) {
-			for (int c = 0; c < nColunms; c++) {
+			for (int c = 0; c < nColumns; c++) {
 				nodes[l][c] = new PheromoneNode("n" + l + "," + c);
 				
 				if (c != 0) {
