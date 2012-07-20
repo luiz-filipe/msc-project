@@ -1,5 +1,8 @@
 package com.luizabrahao.msc.ants.agent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.jcip.annotations.GuardedBy;
 
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
@@ -21,6 +24,8 @@ import com.luizabrahao.msc.model.env.Node;
  *
  */
 public class AntAgent extends TaskAgent implements Ant {
+	private static final Logger logger = LoggerFactory.getLogger(AntAgent.class);
+	
 	@GuardedBy("this") private Direction movingDirection;
 	private double amountOfFoodCarring = 0;
 
@@ -52,68 +57,70 @@ public class AntAgent extends TaskAgent implements Ant {
 	
 	@Override
 	public void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType) {
-		// update current node
 		PheromoneNode n = (PheromoneNode) this.getCurrentNode();
-		n.incrementStimulusIntensity(chemicalCommStimulusType, this.getAgentType().getStimulusIncrement(chemicalCommStimulusType));
-
-		// if the chemical stimulus is pontual, that is, it does not spread
-		// to the nodes neighbours
+		n.incrementStimulusIntensity(chemicalCommStimulusType, this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
+		
+		// if the chemical stimulus is punctual, that is, it does not spread
+		// across to its nodes neighbours we don't need to to anything else.
 		if (chemicalCommStimulusType.getRadius() == 0) {
 			return;
 		}
 		
-		int distanceToUpdate = chemicalCommStimulusType.getRadius();
+		// update the main row
+		this.updateRow((PheromoneNode) this.getCurrentNode(), chemicalCommStimulusType, chemicalCommStimulusType.getRadius());
+		
 		PheromoneNode nodeToUpdate = (PheromoneNode) this.getCurrentNode();
+		int numberOfNeighbours = chemicalCommStimulusType.getRadius() - 1;
 		
-		// this loop updates the current line and all above the current node
+		// update the north part of distribution
 		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
-			if (nodeToUpdate == null) {
-				return;
-			}
+			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.NORTH);
+			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
 			
-			distanceToUpdate = distanceToUpdate - i;
+			this.updateRow(nodeToUpdate, chemicalCommStimulusType, numberOfNeighbours);
 			
-			// EAST
-			for (int j = 0; j < distanceToUpdate; j++) {
-				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
-				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.EAST);
-			}
-			
-			// WEST
-			for (int j = 0; j < distanceToUpdate; j++) {
-				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
-				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.WEST);
-			}
-			
-			nodeToUpdate = (PheromoneNode) this.getCurrentNode().getNeighbour(Direction.NORTH);
+			numberOfNeighbours = numberOfNeighbours - 1;
 		}
 		
-		distanceToUpdate = chemicalCommStimulusType.getRadius();
-		nodeToUpdate = (PheromoneNode) this.getCurrentNode().getNeighbour(Direction.SOUTH);
+		nodeToUpdate = (PheromoneNode) this.getCurrentNode();
+		numberOfNeighbours = chemicalCommStimulusType.getRadius() - 1;
 		
-		// this loop updates the nodes bellow the current node's line
+		// update the north part of distribution
 		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
-			if (nodeToUpdate == null) {
-				return;
-			}
-					
-			distanceToUpdate = distanceToUpdate - i;
-					
-			// EAST
-			for (int j = 0; j < distanceToUpdate; j++) {
-				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
-				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.EAST);
-			}
-					
-			// WEST
-			for (int j = 0; j < distanceToUpdate; j++) {
-				this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, j);
-				nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.WEST);
-			}
-					
-			nodeToUpdate = (PheromoneNode) this.getCurrentNode().getNeighbour(Direction.SOUTH);
+			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.SOUTH);
+			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
+			
+			this.updateRow(nodeToUpdate, chemicalCommStimulusType, numberOfNeighbours);
+			
+			numberOfNeighbours = numberOfNeighbours - 1;
 		}
-
+	}
+	
+	private void updateRow(final PheromoneNode nodeToStartFrom, final ChemicalCommStimulusType chemicalCommStimulusType, final int numberOfNeighboursEachside) {
+		// updates the main line direction: east
+		PheromoneNode nodeToUpdate = (PheromoneNode) nodeToStartFrom;
+		for (int i = 0; i < numberOfNeighboursEachside; i++) {
+			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.EAST);
+			
+			if (nodeToUpdate == null) {
+				break;
+			}
+			
+			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
+		}
+		
+		// update the main line direction: west
+		nodeToUpdate = (PheromoneNode) nodeToStartFrom;
+		for (int i = 0; i < numberOfNeighboursEachside; i++) {
+			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.WEST);
+			
+			if (nodeToUpdate == null) {
+				break;
+			}
+			
+			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
+		}
+		
 	}
 	
 	private void updateNeighbour(final PheromoneNode node, final ChemicalCommStimulusType chemicalCommStimulusType, final int distanceFromCurrentNode) {
@@ -121,8 +128,15 @@ public class AntAgent extends TaskAgent implements Ant {
 			return;
 		}
 		
-		// TODO it is incrementing by 1 for testing.
-		node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(1);
+		if (distanceFromCurrentNode == 0) {
+			node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
+			logger.debug("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
+			
+			return;
+		}
+		
+		node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
+		logger.debug("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
 	}
 	
 	

@@ -83,7 +83,7 @@ public class AntTaskUtilTest {
 		n.addAgent(a);
 		
 		ChemicalCommStimulus s = (ChemicalCommStimulus) grid[1][1].getCommunicationStimulus(ForageStimulusType.TYPE);
-		assertTrue(s.getIntensity() == WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE));
+		assertTrue(s.getIntensity() == WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()));
 	}
 	
 	@Test(expected=CancellationException.class)
@@ -95,7 +95,7 @@ public class AntTaskUtilTest {
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		
-		this.setIntensity(0, nLines, 0, nColumns, WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE) * 100, grid);
+		this.setIntensity(0, nLines, 0, nColumns, WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()) * 100, grid);
 //		this.setIntensity(10, 30, 25, 175, 0.2, grid);
 //		this.setIntensity(30, 80, 50, 150, 0.4, grid);
 //		this.setIntensity(80, 130, 75, 125, 0.6, grid);

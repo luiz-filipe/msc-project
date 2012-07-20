@@ -72,7 +72,7 @@ public class AntAgentFactoryTest {
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		final List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "a", grid, 0, 0, 48, 10);
 		
-		this.setIntensity(0, nLines, 0, nColumns, WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE) * 2, grid);
+		this.setIntensity(0, nLines, 0, nColumns, WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()) * 2, grid);
 		
 		final List<Future<Void>> futures = executor.invokeAll(agents, 20, TimeUnit.SECONDS);
 		
