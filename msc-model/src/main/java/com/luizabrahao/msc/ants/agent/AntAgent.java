@@ -56,9 +56,9 @@ public class AntAgent extends TaskAgent implements Ant {
 	@Override public boolean isCarringFood() { return (amountOfFoodCarring == 0) ? true : false; }
 	
 	@Override
-	public void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType) {
-		PheromoneNode n = (PheromoneNode) this.getCurrentNode();
-		n.incrementStimulusIntensity(chemicalCommStimulusType, this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
+	public void incrementStimulusIntensity(final ChemicalCommStimulusType chemicalCommStimulusType) {
+		PheromoneNode currentNode = (PheromoneNode) this.getCurrentNode();
+		this.updateNeighbour(currentNode, chemicalCommStimulusType, 0);
 		
 		// if the chemical stimulus is punctual, that is, it does not spread
 		// across to its nodes neighbours we don't need to to anything else.
@@ -66,61 +66,60 @@ public class AntAgent extends TaskAgent implements Ant {
 			return;
 		}
 		
-		// update the main row
-		this.updateRow((PheromoneNode) this.getCurrentNode(), chemicalCommStimulusType, chemicalCommStimulusType.getRadius());
+		// if radius == 1, only main rows and columns will be updated, so let's
+		// call to only them to be updated and return after that, to save
+		// computational resources as much as we can
+		if (chemicalCommStimulusType.getRadius() == 1) {
+			this.updateNeighbours(chemicalCommStimulusType, Direction.NORTH);
+			this.updateNeighbours(chemicalCommStimulusType, Direction.EAST);
+			this.updateNeighbours(chemicalCommStimulusType, Direction.SOUTH);
+			this.updateNeighbours(chemicalCommStimulusType, Direction.WEST);
+
+			return;
+		} 
 		
-		PheromoneNode nodeToUpdate = (PheromoneNode) this.getCurrentNode();
-		int numberOfNeighbours = chemicalCommStimulusType.getRadius() - 1;
+		// updates the main rows and columns
+		this.updateNeighbours(chemicalCommStimulusType, Direction.NORTH);
+		this.updateNeighbours(chemicalCommStimulusType, Direction.EAST);
+		this.updateNeighbours(chemicalCommStimulusType, Direction.SOUTH);
+		this.updateNeighbours(chemicalCommStimulusType, Direction.WEST);
+
+		this.updateNeighbours(chemicalCommStimulusType, Direction.NORTH, Direction.EAST);
+		this.updateNeighbours(chemicalCommStimulusType, Direction.NORTH, Direction.WEST);
+		this.updateNeighbours(chemicalCommStimulusType, Direction.SOUTH, Direction.EAST);
+		this.updateNeighbours(chemicalCommStimulusType, Direction.SOUTH, Direction.WEST);
+	}
+	
+	private void updateNeighbours(final ChemicalCommStimulusType chemicalCommStimulusType, final Direction direction) {
+		PheromoneNode currentNode = (PheromoneNode) this.getCurrentNode();
 		
-		// update the north part of distribution
 		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
-			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.NORTH);
-			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
+			currentNode = (PheromoneNode) currentNode.getNeighbour(direction);
 			
-			this.updateRow(nodeToUpdate, chemicalCommStimulusType, numberOfNeighbours);
-			
-			numberOfNeighbours = numberOfNeighbours - 1;
-		}
-		
-		nodeToUpdate = (PheromoneNode) this.getCurrentNode();
-		numberOfNeighbours = chemicalCommStimulusType.getRadius() - 1;
-		
-		// update the north part of distribution
-		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
-			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.SOUTH);
-			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
-			
-			this.updateRow(nodeToUpdate, chemicalCommStimulusType, numberOfNeighbours);
-			
-			numberOfNeighbours = numberOfNeighbours - 1;
+			if (currentNode != null) {
+				this.updateNeighbour(currentNode, chemicalCommStimulusType, i + 1);
+			}
 		}
 	}
 	
-	private void updateRow(final PheromoneNode nodeToStartFrom, final ChemicalCommStimulusType chemicalCommStimulusType, final int numberOfNeighboursEachside) {
-		// updates the main line direction: east
-		PheromoneNode nodeToUpdate = (PheromoneNode) nodeToStartFrom;
-		for (int i = 0; i < numberOfNeighboursEachside; i++) {
-			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.EAST);
-			
-			if (nodeToUpdate == null) {
-				break;
+	private void updateNeighbours(final ChemicalCommStimulusType chemicalCommStimulusType, final Direction verticalDirection, final Direction horizontalDirection) {
+		PheromoneNode currentLineNode = (PheromoneNode) this.getCurrentNode().getNeighbour(verticalDirection);
+		PheromoneNode currentNode = currentLineNode;
+		
+		for (int i = 0; i < chemicalCommStimulusType.getRadius() - 1; i++) {
+			for (int j = 0; j < chemicalCommStimulusType.getRadius() - 1; j++) {
+				currentNode = (PheromoneNode) currentNode.getNeighbour(horizontalDirection);
+				
+				if (currentNode != null) {
+					if (i + j < chemicalCommStimulusType.getRadius() - i) {
+						this.updateNeighbour(currentNode, chemicalCommStimulusType, i + j + 1);
+					}
+				}
 			}
 			
-			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
+			currentLineNode = (PheromoneNode) currentLineNode.getNeighbour(verticalDirection);
+			currentNode = currentLineNode;
 		}
-		
-		// update the main line direction: west
-		nodeToUpdate = (PheromoneNode) nodeToStartFrom;
-		for (int i = 0; i < numberOfNeighboursEachside; i++) {
-			nodeToUpdate = (PheromoneNode) nodeToUpdate.getNeighbour(Direction.WEST);
-			
-			if (nodeToUpdate == null) {
-				break;
-			}
-			
-			this.updateNeighbour(nodeToUpdate, chemicalCommStimulusType, i + 1);
-		}
-		
 	}
 	
 	private void updateNeighbour(final PheromoneNode node, final ChemicalCommStimulusType chemicalCommStimulusType, final int distanceFromCurrentNode) {
@@ -138,6 +137,4 @@ public class AntAgent extends TaskAgent implements Ant {
 		node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
 		logger.debug("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
 	}
-	
-	
 }
