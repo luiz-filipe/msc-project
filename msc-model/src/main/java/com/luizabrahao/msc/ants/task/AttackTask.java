@@ -7,6 +7,7 @@ import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.env.AttackStimulusType;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
+import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
 
@@ -31,7 +32,9 @@ public class AttackTask extends AbstractTask implements AntTask {
 	@Override
 	public void execute(Agent agent) {
 		AntAgent a = (AntAgent) agent;
-		Node nodeToMoveTo = this.getNodeToMoveTo((AntAgent) agent);
+		Direction d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE, weight_north, weight_east, weight_south, weight_west);
+		
+		Node nodeToMoveTo = agent.getCurrentNode().getNeighbour(d);
 		a.incrementStimulusIntensity(AttackStimulusType.TYPE);
 
 		nodeToMoveTo.addAgent(agent);
@@ -41,10 +44,5 @@ public class AttackTask extends AbstractTask implements AntTask {
 		} catch (InterruptedException e) {
 			logger.trace("Agent '{}' interrupted while waiting.", agent.getId());
 		}
-	}
-	
-	@Override
-	public Node getNodeToMoveTo(AntAgent agent) {
-		return AntTaskUtil.getNodeToMoveTo(agent, ForageStimulusType.TYPE, weight_north, weight_east, weight_south, weight_west);
 	}
 }

@@ -40,9 +40,10 @@ public class WandererTaskTest {
 		center.setNeighbours(Direction.EAST, east);
 		
 		Agent agent = new MockTaskAgent("a", BasicTaskAgentType.TYPE, center);
-		Node nextNode = WandererTask.getRandomNeighbour(agent);
+		Direction d = WandererTask.getRandomDirection(agent);
+		Node nextNode = agent.getCurrentNode().getNeighbour(d);
 		
-		logger.debug("Selected node: " + nextNode);
+		logger.trace("Selected node: " + nextNode);
 		
 		assertTrue(nextNode.equals(east));
 	}

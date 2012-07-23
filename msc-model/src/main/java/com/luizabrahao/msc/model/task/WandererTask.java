@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
-import com.luizabrahao.msc.model.env.Node;
 
 /**
  * A simple implementation of a task. When executing this task the agent
@@ -35,7 +34,8 @@ public class WandererTask extends AbstractTask {
 		logger.info("agent {} started task: {}", agent.getId(), WandererTask.NAME);
 		
 		while (true) {
-			WandererTask.getRandomNeighbour(agent).addAgent(agent);
+			Direction directionToMove = WandererTask.getRandomDirection(agent);
+			agent.getCurrentNode().getNeighbour(directionToMove).addAgent(agent);
 		}
 	}
 	
@@ -50,38 +50,31 @@ public class WandererTask extends AbstractTask {
 	 * @param agent Agent that is performing the task
 	 * @return Node that the agent is going to move to.
 	 */
-	public static Node getRandomNeighbour(Agent agent) {
+	public static Direction getRandomDirection(Agent agent) {
 		Logger logger = LoggerFactory.getLogger(WandererTask.class);
 		
 		// 4 directions
-		int direction = WandererTask.rand.nextInt(4);
-		Node nextNode = null;
+		int randomDirection = WandererTask.rand.nextInt(4);
+		Direction direction = null;
 		
-		switch (direction) {
+		switch (randomDirection) {
 			case 0:
-				nextNode = agent.getCurrentNode().getNeighbour(Direction.NORTH);
+				direction = Direction.NORTH;
 				break;
 			
 			case 1:
-				nextNode = agent.getCurrentNode().getNeighbour(Direction.EAST);
+				direction = Direction.EAST;
 				break;
 			
 			case 2:
-				nextNode = agent.getCurrentNode().getNeighbour(Direction.SOUTH);
+				direction = Direction.SOUTH;
 				break;
 			
 			case 3:
-				nextNode = agent.getCurrentNode().getNeighbour(Direction.WEST);
+				direction = Direction.WEST;
 				break;
 		}
 		
-		if (nextNode == null) {
-			logger.debug("{}: there is no neighbour on direction {}, trying again...", agent.getId(), direction);
-			nextNode = WandererTask.getRandomNeighbour(agent);
-		}
-		
-		return nextNode;
+		return direction;
 	}
-	
-	
 }

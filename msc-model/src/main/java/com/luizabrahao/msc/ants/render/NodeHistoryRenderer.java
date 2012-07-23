@@ -34,6 +34,7 @@ public class NodeHistoryRenderer implements Callable<Void> {
 	
 	@Override
 	public Void call() throws Exception {
+		logger.info("Starting to render visited nodes history for: {} wirh name '{}'", agent.getId(), imagePath);
 		List<Node> nodes = agent.getNodesVisited();
 
 		BufferedImage image = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
@@ -76,6 +77,7 @@ public class NodeHistoryRenderer implements Callable<Void> {
 			logger.error(e.getMessage());
 		}
 		
+		logger.info("Finished rendering nodes history for: {}", agent.getId());
 		return null;
 	}
 

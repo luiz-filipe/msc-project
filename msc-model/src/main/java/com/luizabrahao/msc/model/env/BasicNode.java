@@ -81,7 +81,7 @@ public class BasicNode implements Node {
 			} else  {
 				// if the agent is in the node already, just ignore the call.
 				if ((agent.getCurrentNode() == this)) {
-					logger.trace("Agent {} already in the node {}!", agent.getId(), this.getId());
+					logger.info("Agent {} already in the node {}!", agent.getId(), this.getId());
 					return;
 				}
 			}
@@ -89,7 +89,7 @@ public class BasicNode implements Node {
 		
 		synchronized(agents) {
 			this.agents.add(agent);
-			logger.trace("{}: agent {} moved here.", this.getId(), agent.getId());
+			logger.debug("{}: agent {} moved here.", this.getId(), agent.getId());
 		}
 				
 		// Let's remove the agent from the node's agent list, and after we set

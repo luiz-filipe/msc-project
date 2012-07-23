@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
@@ -18,7 +21,8 @@ import com.luizabrahao.msc.model.env.Node;
  */
 @ThreadSafe
 public abstract class AbstractAgent implements Agent, Callable<Void> {
-	
+	private static final Logger logger = LoggerFactory.getLogger(AbstractAgent.class);
+			
 	protected final String id;
 	protected final AgentType agentType;
 	protected final boolean recordNodeHistory;
@@ -57,7 +61,24 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 		nodesVisited.add(node);
 	}
 
-	// TODO not sure if needs to be synchronised...
-	@Override public synchronized List<Node> getNodesVisited() { return Collections.unmodifiableList(nodesVisited); }
+	@Override
+	public List<Node> getNodesVisited() { 
+		if (!this.recordNodeHistory) {
+			logger.error("Node {} wasn't asked to record the list of nodes it has been, but the recordHistoryNode has tried to be accessed.");
+			return Collections.unmodifiableList(new ArrayList<Node>());
+		}
+		
+		if (nodesVisited != null) {
+			return Collections.unmodifiableList(nodesVisited);
+		}
+		
+		if (this.recordNodeHistory) {
+			logger.warn("{} has no node in the visited list, but was asked to recorcord its moving history", this.getId());
+			return Collections.unmodifiableList(new ArrayList<Node>());
+		}
+		
+		return null;
+	}
+	
 	@Override public boolean shouldRecordNodeHistory() { return recordNodeHistory; }
 }

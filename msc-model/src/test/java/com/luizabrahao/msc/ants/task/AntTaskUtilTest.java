@@ -45,26 +45,31 @@ public class AntTaskUtilTest {
 		
 		a.setMovingDirection(Direction.SOUTH);
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(1);
-		Node n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.TYPE);
+		Direction d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE); 
+		Node n = a.getCurrentNode().getNeighbour(d);
+		
 		assertTrue(n.getId().equals("n2,1"));
 		
 		a.setMovingDirection(Direction.WEST);
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(0);
 		(grid[1][0].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(1);
-		n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.TYPE);
+		d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE); 
+		n = a.getCurrentNode().getNeighbour(d);
 		assertTrue(n.getId().equals("n1,0"));
 		
 		a.setMovingDirection(Direction.NORTH);
 		(grid[1][0].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(0);
 		(grid[0][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(1);
-		n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.TYPE);
+		d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE); 
+		n = a.getCurrentNode().getNeighbour(d);
 		assertTrue(n.getId().equals("n0,1"));
 		
 		a.setMovingDirection(Direction.EAST);
 		grid[1][2].addCommunicationStimulus(new ChemicalCommStimulus(ForageStimulusType.TYPE));
 		(grid[0][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(0);
 		(grid[1][2].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(1);
-		n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.TYPE);
+		d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE); 
+		n = a.getCurrentNode().getNeighbour(d);
 		assertTrue(n.getId().equals("n1,2"));
 	}
 	
@@ -76,7 +81,8 @@ public class AntTaskUtilTest {
 		a.setMovingDirection(Direction.SOUTH);
 		
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(0.1);
-		Node n = AntTaskUtil.getNodeToMoveTo(a, ForageStimulusType.TYPE);
+		Direction d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE);
+		Node n = a.getCurrentNode().getNeighbour(d);
 		assertTrue(n.getId().equals("n2,1"));
 		
 		a.incrementStimulusIntensity(ForageStimulusType.TYPE);

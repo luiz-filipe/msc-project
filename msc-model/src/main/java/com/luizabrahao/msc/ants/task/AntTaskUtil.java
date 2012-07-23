@@ -42,7 +42,7 @@ public class AntTaskUtil {
 	 * @param agent Agent that is going to move.
 	 * @return Node to move to.
 	 */
-	public static Node getNodeToMoveTo(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType,
+	public static Direction getDirectionToMoveTo(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType,
 									   double weightNort, double weightEast, double weightSouth, double weightWest) {
 		
 		double pheromoneNorth = 0;
@@ -92,12 +92,10 @@ public class AntTaskUtil {
 			pheromoneSouth = AntTaskUtil.getNeighbourForagePheromone(agent, southOfTheAgent, chemicalCommStimulusType);
 			pheromoneWest = AntTaskUtil.getNeighbourForagePheromone(agent, westOfTheAgent, chemicalCommStimulusType);
 
-			final int pheromoneWeight = 5;
-			
-			double rateNorth = pheromoneWeight * pheromoneNorth * weightNort;
-			double rateEast = pheromoneWeight * pheromoneEast * weightEast;
-			double rateSouth = pheromoneWeight * pheromoneSouth * weightSouth;
-			double rateWest = pheromoneWeight * pheromoneWest * weightWest;
+			double rateNorth = pheromoneNorth * weightNort;
+			double rateEast = pheromoneEast * weightEast;
+			double rateSouth = pheromoneSouth * weightSouth;
+			double rateWest = pheromoneWest * weightWest;
 			
 			final double sumRates = rateNorth + rateEast + rateSouth + rateWest;
 			
@@ -109,26 +107,26 @@ public class AntTaskUtil {
 			final double randomPoint = Math.random();
 
 			if (rateNorth >= randomPoint) {
-				return agent.getCurrentNode().getNeighbour(northOfTheAgent);
+				return northOfTheAgent;
 			}
 			
 			if ((rateNorth < randomPoint) && (rateEast >= randomPoint)) {
-				return agent.getCurrentNode().getNeighbour(eastOfTheAgent);
+				return eastOfTheAgent;
 			}
 			
 			if ((rateEast < randomPoint) && (rateSouth >= randomPoint)) {
-				return agent.getCurrentNode().getNeighbour(southOfTheAgent);
+				return southOfTheAgent;
 			}
 			
 			if ((rateSouth < randomPoint) && (rateWest >= randomPoint)) {
-				return agent.getCurrentNode().getNeighbour(westOfTheAgent);
+				return westOfTheAgent;
 			}
 			
-			return WandererTask.getRandomNeighbour(agent);
+			return WandererTask.getRandomDirection(agent);
 		}
 	}
 	
-	public static Node getNodeToMoveTo(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType) {
-		return AntTaskUtil.getNodeToMoveTo(agent, chemicalCommStimulusType, ForageTask.WEIGHT_NORTH, ForageTask.WEIGHT_EAST, ForageTask.WEIGHT_SOUTH, ForageTask.WEIGHT_WEST);
+	public static Direction getDirectionToMoveTo(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType) {
+		return AntTaskUtil.getDirectionToMoveTo(agent, chemicalCommStimulusType, ForageTask.WEIGHT_NORTH, ForageTask.WEIGHT_EAST, ForageTask.WEIGHT_SOUTH, ForageTask.WEIGHT_WEST);
 	}
 }

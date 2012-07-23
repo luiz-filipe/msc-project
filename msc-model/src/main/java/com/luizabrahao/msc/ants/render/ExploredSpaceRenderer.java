@@ -31,6 +31,7 @@ public class ExploredSpaceRenderer implements Callable<Void> {
 
 	@Override
 	public Void call() throws Exception {
+		logger.info("Starting to render explored space...");
 		BufferedImage bufferedImage = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = bufferedImage.createGraphics();
 		
@@ -48,7 +49,7 @@ public class ExploredSpaceRenderer implements Callable<Void> {
 		}
 		
 		g2d.dispose();
-		
+		logger.info("Rendering explored space completed...");
 		try {
 			File file = new File(imagePath);
 		    ImageIO.write(bufferedImage, "png", file);

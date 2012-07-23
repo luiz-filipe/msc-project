@@ -25,7 +25,7 @@ public enum WorkerType implements AntType {
 		tasks.add(new ForageTask());
 		
 		stimulusIncrementList = new HashMap<String, Double>();
-		stimulusIncrementList.put(ForageStimulusType.TYPE.getName(), 0.001);
+		stimulusIncrementList.put(ForageStimulusType.TYPE.getName(), 0.02);
 		stimulusIncrementList.put(AttackStimulusType.TYPE.getName(), 0.05);
 	}
 	
