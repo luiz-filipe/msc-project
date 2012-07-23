@@ -129,12 +129,12 @@ public class AntAgent extends TaskAgent implements Ant {
 		
 		if (distanceFromCurrentNode == 0) {
 			node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
-			logger.debug("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
+			logger.trace("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()));
 			
 			return;
 		}
 		
 		node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
-		logger.debug("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
+		logger.trace("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
 	}
 }

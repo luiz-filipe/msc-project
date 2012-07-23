@@ -5,5 +5,9 @@ import com.luizabrahao.msc.model.env.Node;
 
 public interface AntTask {
 	Node getNodeToMoveTo(AntAgent agent);
+	double getNeighbourWeightNorth();
+	double getNeighbourWeightEast();
+	double getNeighbourWeightSouth();
+	double getNeighbourWeightWest();
 
 }

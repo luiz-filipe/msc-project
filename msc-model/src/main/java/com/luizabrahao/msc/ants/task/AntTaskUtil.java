@@ -9,10 +9,7 @@ import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.WandererTask;
 
 public class AntTaskUtil {
-	public static final double WEIGHT_NORTH = 0.40;
-	public static final double WEIGHT_EAST = 0.25;
-	public static final double WEIGHT_SOUTH = 0.10;
-	public static final double WEIGHT_WEST = 0.25;
+
 	
 	public static double getNeighbourForagePheromone(Agent agent, Direction direction, ChemicalCommStimulusType chemicalCommStimulusType) {
 		Node n = agent.getCurrentNode().getNeighbour(direction);
@@ -94,11 +91,13 @@ public class AntTaskUtil {
 			pheromoneEast = AntTaskUtil.getNeighbourForagePheromone(agent, eastOfTheAgent, chemicalCommStimulusType);
 			pheromoneSouth = AntTaskUtil.getNeighbourForagePheromone(agent, southOfTheAgent, chemicalCommStimulusType);
 			pheromoneWest = AntTaskUtil.getNeighbourForagePheromone(agent, westOfTheAgent, chemicalCommStimulusType);
-					    			
-			double rateNorth = pheromoneNorth * weightNort;
-			double rateEast = pheromoneEast * weightEast;
-			double rateSouth = pheromoneSouth * weightSouth;
-			double rateWest = pheromoneWest * weightWest;
+
+			final int pheromoneWeight = 5;
+			
+			double rateNorth = pheromoneWeight * pheromoneNorth * weightNort;
+			double rateEast = pheromoneWeight * pheromoneEast * weightEast;
+			double rateSouth = pheromoneWeight * pheromoneSouth * weightSouth;
+			double rateWest = pheromoneWeight * pheromoneWest * weightWest;
 			
 			final double sumRates = rateNorth + rateEast + rateSouth + rateWest;
 			
@@ -129,9 +128,7 @@ public class AntTaskUtil {
 		}
 	}
 	
-	
-
 	public static Node getNodeToMoveTo(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType) {
-		return AntTaskUtil.getNodeToMoveTo(agent, chemicalCommStimulusType, WEIGHT_NORTH, WEIGHT_EAST, WEIGHT_NORTH, WEIGHT_WEST);
+		return AntTaskUtil.getNodeToMoveTo(agent, chemicalCommStimulusType, ForageTask.WEIGHT_NORTH, ForageTask.WEIGHT_EAST, ForageTask.WEIGHT_SOUTH, ForageTask.WEIGHT_WEST);
 	}
 }

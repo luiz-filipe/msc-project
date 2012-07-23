@@ -12,13 +12,22 @@ import com.luizabrahao.msc.model.task.AbstractTask;
 public class ForageTask extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(ForageTask.class);
 	private static final long milisecondsToWait = 5;
+	public static final String NAME = "ant:task:forage";
 	
-	public static final String NAME = "Forage"; 
+	public static final double WEIGHT_NORTH = 0.40;
+	public static final double WEIGHT_EAST = 0.25;
+	public static final double WEIGHT_SOUTH = 0.10;
+	public static final double WEIGHT_WEST = 0.25;
 
 	public ForageTask() {
 		super(ForageTask.NAME);
 	}
 
+	@Override public double getNeighbourWeightNorth() { return WEIGHT_NORTH; }
+	@Override public double getNeighbourWeightEast() { return WEIGHT_EAST; }
+	@Override public double getNeighbourWeightSouth() { return WEIGHT_SOUTH; }
+	@Override public double getNeighbourWeightWest() { return WEIGHT_WEST; }
+	
 	@Override
 	public void execute(Agent agent) {
 		AntAgent a = (AntAgent) agent;

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.env.AttackStimulusType;
+import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
@@ -12,15 +13,20 @@ import com.luizabrahao.msc.model.task.AbstractTask;
 public class AttackTask extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(AttackTask.class);
 	private static final long milisecondsToWait = 5;
-	public static final String NAME = "Attack";
-	public static final double WEIGHT_NORTH = 0.30;
-	public static final double WEIGHT_EAST = 0.30;
-	public static final double WEIGHT_SOUTH = 0.10;
-	public static final double WEIGHT_WEST = 0.30;
+	public static final String NAME = "ant:task:attack";
+	private static final double weight_north = 0.30;
+	private static final double weight_east = 0.30;
+	private static final double weight_south = 0.10;
+	private static final double weight_west = 0.30;
 	
 	public AttackTask() {
 		super(AttackTask.NAME);
 	}
+
+	@Override public double getNeighbourWeightNorth() { return weight_north; }
+	@Override public double getNeighbourWeightEast() { return weight_east; }
+	@Override public double getNeighbourWeightSouth() { return weight_south; }
+	@Override public double getNeighbourWeightWest() { return weight_west; }
 	
 	@Override
 	public void execute(Agent agent) {
@@ -39,6 +45,6 @@ public class AttackTask extends AbstractTask implements AntTask {
 	
 	@Override
 	public Node getNodeToMoveTo(AntAgent agent) {
-		return AntTaskUtil.getNodeToMoveTo(agent, AttackStimulusType.TYPE);
+		return AntTaskUtil.getNodeToMoveTo(agent, ForageStimulusType.TYPE, weight_north, weight_east, weight_south, weight_west);
 	}
 }
