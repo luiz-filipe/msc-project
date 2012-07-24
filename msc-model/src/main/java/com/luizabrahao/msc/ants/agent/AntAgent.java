@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.agent;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -152,7 +154,7 @@ public class AntAgent extends TaskAgent implements Ant {
 		memory.add(node);
 		
 		if (memory.size() > this.getAgentType().getMemorySize()) {
-			memory.remove();
+			memory.poll();
 		}
 	}
 	
@@ -168,4 +170,9 @@ public class AntAgent extends TaskAgent implements Ant {
 		
 		return null;
 	}
+	
+	public Node getLatestNodeFromMemory() {
+		return this.memory.poll();
+	}
+	
 }

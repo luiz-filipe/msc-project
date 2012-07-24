@@ -21,4 +21,5 @@ public interface Ant {
 	boolean isCarringFood();
 	void addToMemory(Node node);
 	FoodSourceAgent findFoodSource();
+	Node getLatestNodeFromMemory();
 }
