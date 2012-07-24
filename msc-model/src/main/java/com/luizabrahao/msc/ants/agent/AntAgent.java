@@ -39,11 +39,14 @@ public class AntAgent extends TaskAgent implements Ant {
 	@Override public AntType getAgentType() { return (AntType) super.getAgentType(); }
 	
 	@Override
-	public Void call() throws Exception {
-		while (true) {
+	public Void call() {
+		while (!Thread.currentThread().isInterrupted()) {
 			// Running with FORAGE only for now.
 			this.getTaskList().get(0).execute(this);
 		}
+		
+		logger.info("{} is stoping...", this.getId());
+		return null;
 	}
 	
 	@Override

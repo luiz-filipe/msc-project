@@ -62,19 +62,19 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 	}
 
 	@Override
-	public List<Node> getNodesVisited() { 
+	public synchronized List<Node>getNodesVisited() { 
 		if (!this.recordNodeHistory) {
 			logger.error("Node {} wasn't asked to record the list of nodes it has been, but the recordHistoryNode has tried to be accessed.");
-			return Collections.unmodifiableList(new ArrayList<Node>());
+			return new ArrayList<Node>();
 		}
 		
 		if (nodesVisited != null) {
-			return Collections.unmodifiableList(nodesVisited);
+			return nodesVisited;
 		}
 		
 		if (this.recordNodeHistory) {
 			logger.warn("{} has no node in the visited list, but was asked to recorcord its moving history", this.getId());
-			return Collections.unmodifiableList(new ArrayList<Node>());
+			return new ArrayList<Node>();
 		}
 		
 		return null;

@@ -35,6 +35,7 @@ public class PheromoneRenderer implements Callable<Void> {
 	
 	@Override
 	public Void call() throws Exception {
+		logger.info("Pheromone render for '{}' started.", this.chemicalCommStimulusType.getName());
 		BufferedImage bufferedImage = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = bufferedImage.createGraphics();
 	
@@ -62,6 +63,7 @@ public class PheromoneRenderer implements Callable<Void> {
 			logger.error(e.getMessage());
 		}
 		
+		logger.info("Pheromone render for '{}' finished.", this.chemicalCommStimulusType.getName());
 		return null;
 	}
 }
