@@ -33,7 +33,7 @@ public class PathSimulation {
 		List<Callable<Void>> renderers = new ArrayList<Callable<Void>>();
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
-		TestUtil.setIntensity(0, nLines, 0, nColumns, 0.005, grid);
+		TestUtil.setIntensity(0, nLines, 0, nColumns, 0.01, grid);
 		
 		final AntNestAgent nest = new AntNestAgent("nest", grid[0][Integer.valueOf(nColumns / 2)]);
 		final List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "worker", grid[0][Integer.valueOf(nColumns / 2)]);
@@ -42,7 +42,7 @@ public class PathSimulation {
 		
 		renderers.add(new ExploredSpaceRenderer(grid, "target/path - space explored.png", nColumns, nLines));
 		renderers.add(new PheromoneRenderer(grid, "target/path - forage pheoromone.png", nColumns, nLines, ForageStimulusType.TYPE));
-		
+				
 		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
 	}
 }

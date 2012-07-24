@@ -31,20 +31,20 @@ public class ForageTask extends AbstractTask implements AntTask {
 	
 	@Override
 	public void execute(Agent agent) {
-		AntAgent a = (AntAgent) agent;
+		AntAgent ant = (AntAgent) agent;
 		
-		Direction d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE);
+		Direction d = AntTaskUtil.getDirectionToMoveTo(ant, ForageStimulusType.TYPE);
 		Node nodeToMoveTo = agent.getCurrentNode().getNeighbour(d);
 		
 		if (nodeToMoveTo == null) {
-			Direction newDirection = this.findRandomDirectionToMove(a);
-			nodeToMoveTo = a.getCurrentNode().getNeighbour(newDirection);
-			a.setMovingDirection(newDirection);
+			Direction newDirection = this.findRandomDirectionToMove(ant);
+			nodeToMoveTo = ant.getCurrentNode().getNeighbour(newDirection);
+			ant.setMovingDirection(newDirection);
 		}
 		
-		a.incrementStimulusIntensity(ForageStimulusType.TYPE);
+		ant.incrementStimulusIntensity(ForageStimulusType.TYPE);
 
-		
+		ant.addToMemory(ant.getCurrentNode());
 		nodeToMoveTo.addAgent(agent);
 
 		try {

@@ -1,5 +1,8 @@
 package com.luizabrahao.msc.ants.agent;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,6 +10,7 @@ import net.jcip.annotations.GuardedBy;
 
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
+import com.luizabrahao.msc.ants.env.FoodSourceAgentType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.agent.TaskAgent;
@@ -27,6 +31,7 @@ public class AntAgent extends TaskAgent implements Ant {
 	private static final Logger logger = LoggerFactory.getLogger(AntAgent.class);
 	
 	@GuardedBy("this") private Direction movingDirection;
+	@GuardedBy("this") private Queue<Node> memory; 
 	private double amountOfFoodCarring = 0;
 
 	@Override public synchronized Direction getMovingDirection() { return movingDirection; }
@@ -34,6 +39,8 @@ public class AntAgent extends TaskAgent implements Ant {
 
 	public AntAgent(String id, AntType agentType, Node currentNode, boolean recordNodeHistory) {
 		super(id, agentType, currentNode, recordNodeHistory);
+		
+		memory = new LinkedList<Node>();
 	}
 
 	@Override public AntType getAgentType() { return (AntType) super.getAgentType(); }
@@ -41,8 +48,7 @@ public class AntAgent extends TaskAgent implements Ant {
 	@Override
 	public Void call() {
 		while (!Thread.currentThread().isInterrupted()) {
-			// Running with FORAGE only for now.
-			this.getTaskList().get(0).execute(this);
+			this.getAgentType().execute(this);
 		}
 		
 		logger.info("{} is stoping...", this.getId());
@@ -56,7 +62,7 @@ public class AntAgent extends TaskAgent implements Ant {
 		return this.amountOfFoodCarring;
 	}
 	
-	@Override public boolean isCarringFood() { return (amountOfFoodCarring == 0) ? true : false; }
+	@Override public boolean isCarringFood() { return (amountOfFoodCarring != 0) ? true : false; }
 	
 	@Override
 	public void incrementStimulusIntensity(final ChemicalCommStimulusType chemicalCommStimulusType) {
@@ -139,5 +145,27 @@ public class AntAgent extends TaskAgent implements Ant {
 		
 		node.getCommunicationStimulus(chemicalCommStimulusType).increaseIntensity(this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
 		logger.trace("Node {} updated with {}", node.getId(), this.getAgentType().getStimulusIncrement(chemicalCommStimulusType.getName()) / distanceFromCurrentNode);
+	}
+	
+	@Override
+	public void addToMemory(Node node) {
+		memory.add(node);
+		
+		if (memory.size() > this.getAgentType().getMemorySize()) {
+			memory.remove();
+		}
+	}
+	
+	@Override
+	public FoodSourceAgent findFoodSource() {
+		synchronized (currentNode) {
+			for (Agent agent : currentNode.getAgents()) {
+				if (agent.getAgentType() == FoodSourceAgentType.TYPE) {
+					return (FoodSourceAgent) agent;
+				}
+			}
+		}
+		
+		return null;
 	}
 }
