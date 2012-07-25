@@ -22,4 +22,7 @@ public interface Ant {
 	void addToMemory(Node node);
 	FoodSourceAgent findFoodSource();
 	Node getLatestNodeFromMemory();
+	void incrementStimulusIntensityMultipliedByFactor(final ChemicalCommStimulusType chemicalCommStimulusType, int factor);
+	void invertDirection();
+	void depositFood(AntNestAgent nest);
 }

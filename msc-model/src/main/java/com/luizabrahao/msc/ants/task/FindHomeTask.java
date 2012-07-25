@@ -14,7 +14,6 @@ import com.luizabrahao.msc.model.task.AbstractTask;
 
 public class FindHomeTask extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(FindHomeTask.class);
-	private static final long milisecondsToWait = 5;
 	public static final String NAME = "ant:task:find-home";
 
 	public static final double WEIGHT_NORTH = 0.40;
@@ -32,23 +31,30 @@ public class FindHomeTask extends AbstractTask implements AntTask {
 	@Override public double getNeighbourWeightSouth() { return WEIGHT_SOUTH; }
 	@Override public double getNeighbourWeightWest() { return WEIGHT_WEST; }
 
-	private boolean isInNest(Node node) {
+	private AntNestAgent getNest(Node node) {
 		synchronized (node.getAgents()) {
 			for (Agent agent : node.getAgents()) {
 				if (agent.getAgentType() == AntNestType.TYPE) {
-					return true;
+					return (AntNestAgent) agent;
 				}
 			}
 		}
 		
-		return false;
+		return null;
 	}
 
 	@Override
 	public void execute(Agent agent) {
 		AntAgent ant = (AntAgent) agent;
-		if (this.isInNest(agent.getCurrentNode())) {
+		AntNestAgent nest = this.getNest(agent.getCurrentNode());
+		
+		if (nest != null) {
 			// The agent has reached nest... Do something...
+			logger.debug("{} deposited food in the nest", agent.getId());
+			ant.depositFood(nest);
+			ant.invertDirection();
+			
+			return;
 		}
 		
 		Node nodeToMoveTo = ant.getLatestNodeFromMemory();
@@ -65,7 +71,7 @@ public class FindHomeTask extends AbstractTask implements AntTask {
 			}
 		}
 		
-		ant.incrementStimulusIntensity(ForageStimulusType.TYPE);
+		ant.incrementStimulusIntensityMultipliedByFactor(ForageStimulusType.TYPE, 2);
 		nodeToMoveTo.addAgent(agent);
 	}
 	

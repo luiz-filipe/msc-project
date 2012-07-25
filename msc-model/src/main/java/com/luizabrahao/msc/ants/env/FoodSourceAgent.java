@@ -19,7 +19,7 @@ public class FoodSourceAgent extends AbstractAgent {
 		super(id, FoodSourceAgentType.TYPE, currentNode, false);
 		this.foodAmount = amountOfFood;
 		
-		logger.info("Food source '{}' initialised with amount of '{}'", id, amountOfFood);
+		logger.debug("Food source '{}' initialised with amount of '{}'", id, amountOfFood);
 	}
 
 	public synchronized double collectFood(double amountToCollect) {

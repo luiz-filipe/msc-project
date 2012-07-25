@@ -12,7 +12,6 @@ import com.luizabrahao.msc.model.task.AbstractTask;
 
 public class ForageTask extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(ForageTask.class);
-	private static final long milisecondsToWait = 5;
 	public static final String NAME = "ant:task:forage";
 	
 	public static final double WEIGHT_NORTH = 0.40;
@@ -46,12 +45,6 @@ public class ForageTask extends AbstractTask implements AntTask {
 
 		ant.addToMemory(ant.getCurrentNode());
 		nodeToMoveTo.addAgent(agent);
-
-		try {
-			Thread.sleep(milisecondsToWait);
-		} catch (InterruptedException e) {
-			logger.trace("Agent '{}' interrupted while waiting.", agent.getId());
-		}
 	}
 	
 	private Direction findRandomDirectionToMove(AntAgent agent) {

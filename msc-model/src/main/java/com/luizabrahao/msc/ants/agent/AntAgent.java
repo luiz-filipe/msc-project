@@ -1,7 +1,5 @@
 package com.luizabrahao.msc.ants.agent;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -100,11 +98,22 @@ public class AntAgent extends TaskAgent implements Ant {
 		this.updateNeighbours(chemicalCommStimulusType, Direction.SOUTH, Direction.EAST);
 		this.updateNeighbours(chemicalCommStimulusType, Direction.SOUTH, Direction.WEST);
 	}
+
+	@Override
+	public void incrementStimulusIntensityMultipliedByFactor(final ChemicalCommStimulusType chemicalCommStimulusType, int factor) {
+		for (int i = 0; i < factor; i++) {
+			this.incrementStimulusIntensity(chemicalCommStimulusType);
+		}
+	}
 	
 	private void updateNeighbours(final ChemicalCommStimulusType chemicalCommStimulusType, final Direction direction) {
 		PheromoneNode currentNode = (PheromoneNode) this.getCurrentNode();
 		
 		for (int i = 0; i < chemicalCommStimulusType.getRadius(); i++) {
+			if (currentNode == null) {
+				break;
+			}
+			
 			currentNode = (PheromoneNode) currentNode.getNeighbour(direction);
 			
 			if (currentNode != null) {
@@ -119,6 +128,10 @@ public class AntAgent extends TaskAgent implements Ant {
 		
 		for (int i = 0; i < chemicalCommStimulusType.getRadius() - 1; i++) {
 			for (int j = 0; j < chemicalCommStimulusType.getRadius() - 1; j++) {
+				if (currentNode == null) {
+					break;
+				}
+				
 				currentNode = (PheromoneNode) currentNode.getNeighbour(horizontalDirection);
 				
 				if (currentNode != null) {
@@ -126,6 +139,10 @@ public class AntAgent extends TaskAgent implements Ant {
 						this.updateNeighbour(currentNode, chemicalCommStimulusType, i + j + 1);
 					}
 				}
+			}
+			
+			if (currentNode == null) {
+				break;
 			}
 			
 			currentLineNode = (PheromoneNode) currentLineNode.getNeighbour(verticalDirection);
@@ -160,7 +177,7 @@ public class AntAgent extends TaskAgent implements Ant {
 	
 	@Override
 	public FoodSourceAgent findFoodSource() {
-		synchronized (currentNode) {
+		synchronized (currentNode.getAgents()) {
 			for (Agent agent : currentNode.getAgents()) {
 				if (agent.getAgentType() == FoodSourceAgentType.TYPE) {
 					return (FoodSourceAgent) agent;
@@ -173,6 +190,35 @@ public class AntAgent extends TaskAgent implements Ant {
 	
 	public Node getLatestNodeFromMemory() {
 		return this.memory.poll();
+	}
+	
+	@Override
+	public void invertDirection() {
+		if (this.getMovingDirection() == Direction.SOUTH) {
+			this.setMovingDirection(Direction.NORTH);
+			return;
+		}
+		
+		if (this.getMovingDirection() == Direction.NORTH) {
+			this.setMovingDirection(Direction.SOUTH);
+			return;
+		}
+		
+		if (this.getMovingDirection() == Direction.EAST) {
+			this.setMovingDirection(Direction.WEST);
+			return;
+		}
+		
+		if (this.getMovingDirection() == Direction.WEST) {
+			this.setMovingDirection(Direction.EAST);
+			return;
+		}
+	}
+
+	@Override
+	public void depositFood(AntNestAgent nest) {
+		nest.addPortionOfFood(this, this.amountOfFoodCarring);
+		this.amountOfFoodCarring = 0;
 	}
 	
 }

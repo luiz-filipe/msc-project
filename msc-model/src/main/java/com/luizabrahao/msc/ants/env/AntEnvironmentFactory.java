@@ -1,8 +1,15 @@
 package com.luizabrahao.msc.ants.env;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.luizabrahao.msc.ants.agent.AntNestAgent;
 import com.luizabrahao.msc.model.env.Direction;
+import com.luizabrahao.msc.model.env.Node;
 
 public class AntEnvironmentFactory {
+	private AntEnvironmentFactory() {}
+	
 	/**
 	 * Initialises an environment based on PheromoneNode objects.
 	 * This environment has rectangular shape and each node are assigned an 
@@ -32,5 +39,33 @@ public class AntEnvironmentFactory {
 		}
 		
 		return nodes;
+	}
+
+	
+	public static List<FoodSourceAgent> placeRowOfFoodSources(Node initialNode, int numberOfSources, double amountOfFoodInEachSource) {
+		List<FoodSourceAgent> foodSources = new ArrayList<FoodSourceAgent>();
+		Node currentNode = initialNode;
+		
+		for (int i = 0; i < numberOfSources; i++) {
+			foodSources.add(new FoodSourceAgent("food-source-" + i, currentNode, amountOfFoodInEachSource));
+			
+			currentNode = currentNode.getNeighbour(Direction.EAST);
+			
+			if (currentNode == null) {
+				break;
+			}
+		}
+		
+		return foodSources;
+	}
+
+	public static double sumFoodCollected(List<AntNestAgent> nests) {
+		double result = 0;
+		
+		for (AntNestAgent nest : nests) {
+			result = result + nest.getAmountOfFoodHeld();
+		}
+		
+		return result;
 	}
 }

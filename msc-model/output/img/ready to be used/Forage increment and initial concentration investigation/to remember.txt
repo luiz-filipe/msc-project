@@ -1,0 +1,5 @@
+compare cases where forage increment is 0.01 and 0.001, discuss why in the last case the agents get stuck. 
+Probabily because that the increment is so small that does not increase considerably the agent's probability of picking
+the node ahead.
+
+show how the colony tends to stabilise over time and discuss the random paths on the explored space image.

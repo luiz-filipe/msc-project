@@ -129,4 +129,83 @@ public class AntTaskUtil {
 	public static Direction getDirectionToMoveTo(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType) {
 		return AntTaskUtil.getDirectionToMoveTo(agent, chemicalCommStimulusType, ForageTask.WEIGHT_NORTH, ForageTask.WEIGHT_EAST, ForageTask.WEIGHT_SOUTH, ForageTask.WEIGHT_WEST);
 	}
+	
+//	public static Direction getDirectionStrictlyFromStimulus(AntAgent agent, ChemicalCommStimulusType chemicalCommStimulusType) {
+//		double pheromoneNorth = 0;
+//		double pheromoneEast = 0;
+//		double pheromoneSouth = 0;
+//		double pheromoneWest = 0;
+//		
+//		if (agent.getMovingDirection() == null) {
+//			agent.setMovingDirection(Direction.SOUTH);
+//		}
+//		
+//		synchronized (agent.getCurrentNode()) {
+//			// First we need to work out what are the neighbours nodes in
+//			// relation to the agent's current movement.
+//			Direction northOfTheAgent = Direction.NORTH;
+//			Direction eastOfTheAgent = Direction.EAST;
+//			Direction southOfTheAgent = Direction.SOUTH;
+//			Direction westOfTheAgent = Direction.WEST;
+//			
+//			// Transformation of direction from being related to the
+//			// grid to being related to the agent's moving direction.
+//			// If the agent is moving north, nothing is needed to be done.
+//			if (agent.getMovingDirection() == Direction.EAST) {
+//				northOfTheAgent = Direction.EAST;
+//				eastOfTheAgent = Direction.SOUTH;
+//				southOfTheAgent = Direction.WEST;
+//				westOfTheAgent = Direction.NORTH;
+//
+//			} else if (agent.getMovingDirection() == Direction.SOUTH) {
+//				northOfTheAgent = Direction.SOUTH;
+//				eastOfTheAgent = Direction.WEST;
+//				southOfTheAgent = Direction.NORTH;
+//				westOfTheAgent = Direction.EAST;
+//		    
+//		    } else if (agent.getMovingDirection() == Direction.WEST) {
+//		    	northOfTheAgent = Direction.WEST;
+//			    eastOfTheAgent = Direction.NORTH;
+//			    southOfTheAgent = Direction.EAST;
+//			    westOfTheAgent = Direction.SOUTH;
+//		    }
+//		    
+//		    // Get the intensity of the pheromone of the neighbour nodes. The
+//		    // directions are all in relation to the agent movement direction
+//		    // and not to the grid.
+//			pheromoneNorth = AntTaskUtil.getNeighbourForagePheromone(agent, northOfTheAgent, chemicalCommStimulusType);
+//			pheromoneEast = AntTaskUtil.getNeighbourForagePheromone(agent, eastOfTheAgent, chemicalCommStimulusType);
+//			pheromoneSouth = AntTaskUtil.getNeighbourForagePheromone(agent, southOfTheAgent, chemicalCommStimulusType);
+//			pheromoneWest = AntTaskUtil.getNeighbourForagePheromone(agent, westOfTheAgent, chemicalCommStimulusType);
+//
+//			pheromoneWest
+//			
+//			
+//			final double sumRates = rateNorth + rateEast + rateSouth + rateWest;
+//			
+//			rateNorth = rateNorth / sumRates;
+//			rateEast = rateEast / sumRates;
+//			rateSouth = rateSouth / sumRates;
+//			rateWest = rateWest / sumRates;
+//			
+//			final double randomPoint = Math.random();
+//
+//			if (rateNorth >= randomPoint) {
+//				return northOfTheAgent;
+//			}
+//			
+//			if ((rateNorth < randomPoint) && (rateEast >= randomPoint)) {
+//				return eastOfTheAgent;
+//			}
+//			
+//			if ((rateEast < randomPoint) && (rateSouth >= randomPoint)) {
+//				return southOfTheAgent;
+//			}
+//			
+//			if ((rateSouth < randomPoint) && (rateWest >= randomPoint)) {
+//				return westOfTheAgent;
+//			}
+//			
+//			return WandererTask.getRandomDirection(agent);
+//	}
 }
