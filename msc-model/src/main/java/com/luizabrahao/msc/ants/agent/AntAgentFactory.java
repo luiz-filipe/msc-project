@@ -35,7 +35,7 @@ public class AntAgentFactory {
 		List<AntAgent> agents = new ArrayList<AntAgent>();
 		
 		for (int i = 0; i < numberOfAgents; i++) {
-			agents.add(new AntAgent(namePrefix + "-" + i, WorkerType.TYPE, initialNode, false));
+			agents.add(new AntAgent(namePrefix + "-" + i, WorkerAntType.TYPE, initialNode, false));
 		}
 		
 		logger.info("{} agents created with prefix '{}'", agents.size(), namePrefix);
@@ -90,7 +90,7 @@ public class AntAgentFactory {
 		
 		for (int i = 0; i < interations; i++) {
 			for (int j = 0; j < numberOfAgentsPerNode; j++) {
-				agents.add(new AntAgent(namePrefix + "-" + nAgentsCreated, WorkerType.TYPE, grid[line][colunm], false));
+				agents.add(new AntAgent(namePrefix + "-" + nAgentsCreated, WorkerAntType.TYPE, grid[line][colunm], false));
 				nAgentsCreated++;
 			}
 			colunm += horizontalSpacing + 1;

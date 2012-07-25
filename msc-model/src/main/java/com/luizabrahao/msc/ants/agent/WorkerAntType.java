@@ -8,33 +8,34 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.jcip.annotations.ThreadSafe;
-
 import com.luizabrahao.msc.ants.env.AttackStimulusType;
+import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
+import com.luizabrahao.msc.ants.task.FindAndHideInNest;
 import com.luizabrahao.msc.ants.task.FindHomeTask;
 import com.luizabrahao.msc.ants.task.ForageTask;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.task.Task;
 
-@ThreadSafe
-public enum WorkerType implements AntType {
+public enum WorkerAntType implements AntType {
 	TYPE;
 	
-	private static final Logger logger = LoggerFactory.getLogger(WorkerType.class);
+	private static final Logger logger = LoggerFactory.getLogger(WorkerAntType.class);
 	
-	private final String name = "type:ant:worker";
+	private static final String name = "type:ant:worker";
 	private final List<Task> tasks;
 	private final Map<String, Double> stimulusIncrementList;
-	private final int memorySize = 50;
+	private static final int memorySize = 50;
 	private final double amountOfFoodCapableToCollect = 0.1;
 	private static final long milisecondsToWait = 5;
+	private static final double attackThreshold = 0.5;
 
-	WorkerType() {
+	WorkerAntType() {
 		tasks = new ArrayList<Task>();
 		tasks.add(new ForageTask());
 		tasks.add(new FindHomeTask());
+		tasks.add(new FindAndHideInNest());
 		
 		stimulusIncrementList = new HashMap<String, Double>();
 		stimulusIncrementList.put(ForageStimulusType.TYPE.getName(), 0.01);
@@ -60,18 +61,31 @@ public enum WorkerType implements AntType {
 	@Override
 	public void execute(Agent agent) {
 		AntAgent ant = (AntAgent) agent;
+		
+		ChemicalCommStimulus attackStimulus = (ChemicalCommStimulus) ant.getCurrentNode().getCommunicationStimulus(AttackStimulusType.TYPE);
+		
+		if (attackStimulus.getIntensity() > attackThreshold) {
+			// if not caring food, need to turn back to nest.
+			if (!ant.isCaringFood()) {
+				ant.invertDirection();
+			}
+			
+			// hide!!
+			this.tasks.get(2).execute(agent);
+		}
+		
 		FoodSourceAgent  foodSource = ant.findFoodSource();
 		
-		if ((foodSource != null) && (!ant.isCarringFood())) {
+		if ((foodSource != null) && (!ant.isCaringFood())) {
 			ant.collectFood(foodSource, amountOfFoodCapableToCollect);
 			logger.debug("{} found a source food and will try to collect food.", agent.getId());
 			
-			if (ant.isCarringFood()) {
+			if (ant.isCaringFood()) {
 				ant.invertDirection();
 			}
 		}
 				
-		if (!ant.isCarringFood()) {
+		if (!ant.isCaringFood()) {
 			this.tasks.get(0).execute(agent);
 		} else {
 			this.tasks.get(1).execute(agent);

@@ -19,7 +19,6 @@ import com.luizabrahao.msc.model.task.Task;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-@ThreadSafe
 public enum StaticPheromoneUpdaterAgentType implements TaskAgentType {
 	TYPE;
 	

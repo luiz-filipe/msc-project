@@ -14,7 +14,7 @@ public class AntAgentTest {
 	@Test
 	public void incrementRadius0() {
 		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
-		AntAgent a = new AntAgent("a", WorkerType.TYPE, grid[1][1], false);
+		AntAgent a = new AntAgent("a", WorkerAntType.TYPE, grid[1][1], false);
 		
 		a.incrementStimulusIntensity(ForageStimulusType.TYPE);
 		
@@ -32,7 +32,7 @@ public class AntAgentTest {
 	@Test
 	public void incrementRadius3() {
 		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(7, 7);
-		AntAgent a = new AntAgent("a", WorkerType.TYPE, grid[3][3], false);
+		AntAgent a = new AntAgent("a", WorkerAntType.TYPE, grid[3][3], false);
 		ChemicalCommStimulusType attack = AttackStimulusType.TYPE;
 		
 		a.incrementStimulusIntensity(AttackStimulusType.TYPE);

@@ -17,7 +17,7 @@ public class ThreadTest {
 	public void testAgentInterruptionDetection() {
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
-		final AntAgent a = new AntAgent("a-01", WorkerType.TYPE,  grid[1][1], true);
+		final AntAgent a = new AntAgent("a-01", WorkerAntType.TYPE,  grid[1][1], true);
 		
 		Future<Void> future = executor.submit(a);
 		

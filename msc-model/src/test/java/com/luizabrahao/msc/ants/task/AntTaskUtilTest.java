@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 import com.luizabrahao.msc.ants.agent.AntAgent;
-import com.luizabrahao.msc.ants.agent.WorkerType;
+import com.luizabrahao.msc.ants.agent.WorkerAntType;
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
@@ -41,7 +41,7 @@ public class AntTaskUtilTest {
 	public void montecarloRouletteTest() {		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
 		
-		AntAgent a = new AntAgent("a01", WorkerType.TYPE, grid[1][1], false);
+		AntAgent a = new AntAgent("a01", WorkerAntType.TYPE, grid[1][1], false);
 		
 		a.setMovingDirection(Direction.SOUTH);
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(1);
@@ -77,7 +77,7 @@ public class AntTaskUtilTest {
 	public void pheromoneDepositTest() {
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(3, 3);
 		
-		final AntAgent a = new AntAgent("a01", WorkerType.TYPE, grid[1][1], false);
+		final AntAgent a = new AntAgent("a01", WorkerAntType.TYPE, grid[1][1], false);
 		a.setMovingDirection(Direction.SOUTH);
 		
 		(grid[2][1].getCommunicationStimulus(ForageStimulusType.TYPE)).setIntensity(0.1);
@@ -89,7 +89,7 @@ public class AntTaskUtilTest {
 		n.addAgent(a);
 		
 		ChemicalCommStimulus s = (ChemicalCommStimulus) grid[1][1].getCommunicationStimulus(ForageStimulusType.TYPE);
-		assertTrue(s.getIntensity() == WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()));
+		assertTrue(s.getIntensity() == WorkerAntType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()));
 	}
 	
 	@Test(expected=CancellationException.class)
@@ -101,23 +101,23 @@ public class AntTaskUtilTest {
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		
-		this.setIntensity(0, nLines, 0, nColumns, WorkerType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()) * 100, grid);
+		this.setIntensity(0, nLines, 0, nColumns, WorkerAntType.TYPE.getStimulusIncrement(ForageStimulusType.TYPE.getName()) * 100, grid);
 //		this.setIntensity(10, 30, 25, 175, 0.2, grid);
 //		this.setIntensity(30, 80, 50, 150, 0.4, grid);
 //		this.setIntensity(80, 130, 75, 125, 0.6, grid);
 //		this.setIntensity(130, 180, 80, 115, 0.8, grid);
 //		this.setIntensity(180, 270, 90, 105, 1, grid);
 		
-		final AntAgent a01 = new AntAgent("a01", WorkerType.TYPE, grid[0][10], true);
-		final AntAgent a02 = new AntAgent("a02", WorkerType.TYPE, grid[0][20], true);
-		final AntAgent a03 = new AntAgent("a03", WorkerType.TYPE, grid[0][30], true);
-		final AntAgent a04 = new AntAgent("a04", WorkerType.TYPE, grid[0][40], true);
-		final AntAgent a05 = new AntAgent("a05", WorkerType.TYPE, grid[0][50], true);
-		final AntAgent a06 = new AntAgent("a06", WorkerType.TYPE, grid[0][60], true);
-		final AntAgent a07 = new AntAgent("a07", WorkerType.TYPE, grid[0][70], true);
-		final AntAgent a08 = new AntAgent("a08", WorkerType.TYPE, grid[0][80], true);
-		final AntAgent a09 = new AntAgent("a09", WorkerType.TYPE, grid[0][90], true);
-		final AntAgent a10 = new AntAgent("a10", WorkerType.TYPE, grid[0][100], true);
+		final AntAgent a01 = new AntAgent("a01", WorkerAntType.TYPE, grid[0][10], true);
+		final AntAgent a02 = new AntAgent("a02", WorkerAntType.TYPE, grid[0][20], true);
+		final AntAgent a03 = new AntAgent("a03", WorkerAntType.TYPE, grid[0][30], true);
+		final AntAgent a04 = new AntAgent("a04", WorkerAntType.TYPE, grid[0][40], true);
+		final AntAgent a05 = new AntAgent("a05", WorkerAntType.TYPE, grid[0][50], true);
+		final AntAgent a06 = new AntAgent("a06", WorkerAntType.TYPE, grid[0][60], true);
+		final AntAgent a07 = new AntAgent("a07", WorkerAntType.TYPE, grid[0][70], true);
+		final AntAgent a08 = new AntAgent("a08", WorkerAntType.TYPE, grid[0][80], true);
+		final AntAgent a09 = new AntAgent("a09", WorkerAntType.TYPE, grid[0][90], true);
+		final AntAgent a10 = new AntAgent("a10", WorkerAntType.TYPE, grid[0][100], true);
 		
 		List<Agent> agents = new ArrayList<Agent>();
 		agents.add(a01);

@@ -1,8 +1,11 @@
 package com.luizabrahao.msc.ants.agent;
 
+import net.jcip.annotations.ThreadSafe;
+
 import com.luizabrahao.msc.model.agent.AbstractAgent;
 import com.luizabrahao.msc.model.env.Node;
 
+@ThreadSafe
 public class PredatorAgent extends AbstractAgent {
 
 	public PredatorAgent(String id, Node currentNode) {

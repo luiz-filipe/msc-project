@@ -25,7 +25,6 @@ public class FindHomeTask extends AbstractTask implements AntTask {
 		super(FindHomeTask.NAME);
 	}
 
-	
 	@Override public double getNeighbourWeightNorth() { return WEIGHT_NORTH; }
 	@Override public double getNeighbourWeightEast() { return WEIGHT_EAST; }
 	@Override public double getNeighbourWeightSouth() { return WEIGHT_SOUTH; }
@@ -74,7 +73,6 @@ public class FindHomeTask extends AbstractTask implements AntTask {
 		ant.incrementStimulusIntensityMultipliedByFactor(ForageStimulusType.TYPE, 2);
 		nodeToMoveTo.addAgent(agent);
 	}
-	
 	
 	private Direction findRandomDirectionToMove(AntAgent agent) {
 		Direction d = AntTaskUtil.getDirectionToMoveTo(agent, ForageStimulusType.TYPE);

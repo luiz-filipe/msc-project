@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
@@ -27,6 +28,7 @@ import com.luizabrahao.msc.model.env.Node;
  * @see ForageTask
  *
  */
+@ThreadSafe
 public class AntAgent extends TaskAgent implements Ant {
 	private static final Logger logger = LoggerFactory.getLogger(AntAgent.class);
 	
@@ -62,7 +64,7 @@ public class AntAgent extends TaskAgent implements Ant {
 		return this.amountOfFoodCarring;
 	}
 	
-	@Override public boolean isCarringFood() { return (amountOfFoodCarring != 0) ? true : false; }
+	@Override public boolean isCaringFood() { return (amountOfFoodCarring != 0) ? true : false; }
 	
 	@Override
 	public void incrementStimulusIntensity(final ChemicalCommStimulusType chemicalCommStimulusType) {
