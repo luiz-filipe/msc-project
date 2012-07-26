@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.ants.agent.AntAgent;
-import com.luizabrahao.msc.ants.env.AttackStimulusType;
+import com.luizabrahao.msc.ants.env.WarningStimulusType;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
@@ -35,7 +35,7 @@ public class AttackTask extends AbstractTask implements AntTask {
 		Direction d = AntTaskUtil.getDirectionToMoveTo(a, ForageStimulusType.TYPE, weight_north, weight_east, weight_south, weight_west);
 		
 		Node nodeToMoveTo = agent.getCurrentNode().getNeighbour(d);
-		a.incrementStimulusIntensity(AttackStimulusType.TYPE);
+		a.incrementStimulusIntensity(WarningStimulusType.TYPE);
 
 		nodeToMoveTo.addAgent(agent);
 

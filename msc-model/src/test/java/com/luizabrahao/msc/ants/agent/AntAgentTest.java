@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
-import com.luizabrahao.msc.ants.env.AttackStimulusType;
+import com.luizabrahao.msc.ants.env.WarningStimulusType;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
@@ -33,9 +33,9 @@ public class AntAgentTest {
 	public void incrementRadius3() {
 		PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(7, 7);
 		AntAgent a = new AntAgent("a", WorkerAntType.TYPE, grid[3][3], false);
-		ChemicalCommStimulusType attack = AttackStimulusType.TYPE;
+		ChemicalCommStimulusType attack = WarningStimulusType.TYPE;
 		
-		a.incrementStimulusIntensity(AttackStimulusType.TYPE);
+		a.incrementStimulusIntensity(WarningStimulusType.TYPE);
 		
 		assertTrue(grid[0][0].getCommunicationStimulus(attack).getIntensity() == 0);
 		assertTrue(grid[0][1].getCommunicationStimulus(attack).getIntensity() == 0);

@@ -40,13 +40,13 @@ public abstract class TaskAgent extends AbstractAgent {
 		this.currentTask = this.getTaskByName(taskName);
 	}
 	
-	private Task getTaskByName(String name) {
+	public Task getTaskByName(String name) {
 		for (Task task : agentType.getTasks()) {
 			if (task.getName().equals(name)) {
 				return task;
 			}
 		}
 		
-		return null;
+		throw new RuntimeException(this.getId() + " is not capable of performing task " + name);
 	}
 }

@@ -43,7 +43,13 @@ public class PheromoneRenderer implements Callable<Void> {
 		
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
-				pheromoneIntensity = ((ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(chemicalCommStimulusType)).getIntensity();
+				ChemicalCommStimulus stimulus = (ChemicalCommStimulus) grid[l][c].getCommunicationStimulus(chemicalCommStimulusType);
+				
+				if (stimulus == null) {
+					pheromoneIntensity = 0;
+				} else {
+					pheromoneIntensity =stimulus.getIntensity();
+				}
 				
 				int colorRate = 255 - (int) (pheromoneIntensity * 255);
 				g2d.setColor(new Color(255, colorRate, colorRate));

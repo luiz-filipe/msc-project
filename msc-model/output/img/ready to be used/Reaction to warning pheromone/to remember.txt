@@ -1,0 +1,4 @@
+maybe it would be good to see how the raction happens in relation to the number of agents.
+
+it is clear that he pheromone trail get more 'defined' with a larger amount of agetns. so they should get to the nest faster.
+Investigate how much faster depending on the number of agents would be a good experiment.

@@ -14,7 +14,7 @@ import com.luizabrahao.msc.model.task.AbstractTask;
 
 public class FindAndHideInNest extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(FindAndHideInNest.class);
-	public static final String NAME = "ant:task:find-home";
+	public static final String NAME = "ant:task:find-home-and-hide";
 
 	public static final double WEIGHT_NORTH = 0.40;
 	public static final double WEIGHT_EAST = 0.25;
@@ -45,6 +45,8 @@ public class FindAndHideInNest extends AbstractTask implements AntTask {
 	@Override
 	public void execute(Agent agent) {
 		AntAgent ant = (AntAgent) agent;
+		ant.setCurrentTask(this.name);
+		
 		AntNestAgent nest = this.getNest(agent.getCurrentNode());
 		
 		if (nest != null) {

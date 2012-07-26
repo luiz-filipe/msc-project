@@ -137,7 +137,7 @@ public class AntAgent extends TaskAgent implements Ant {
 				currentNode = (PheromoneNode) currentNode.getNeighbour(horizontalDirection);
 				
 				if (currentNode != null) {
-					if (i + j < chemicalCommStimulusType.getRadius() - i) {
+					if (i + j < chemicalCommStimulusType.getRadius() - 1) {
 						this.updateNeighbour(currentNode, chemicalCommStimulusType, i + j + 1);
 					}
 				}

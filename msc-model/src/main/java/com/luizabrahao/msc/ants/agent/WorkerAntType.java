@@ -8,7 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.luizabrahao.msc.ants.env.AttackStimulusType;
+import com.luizabrahao.msc.ants.env.WarningStimulusType;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
@@ -29,7 +29,7 @@ public enum WorkerAntType implements AntType {
 	private static final int memorySize = 50;
 	private final double amountOfFoodCapableToCollect = 0.1;
 	private static final long milisecondsToWait = 5;
-	private static final double attackThreshold = 0.5;
+	private static final double warningThreshold = 0.5;
 
 	WorkerAntType() {
 		tasks = new ArrayList<Task>();
@@ -39,7 +39,7 @@ public enum WorkerAntType implements AntType {
 		
 		stimulusIncrementList = new HashMap<String, Double>();
 		stimulusIncrementList.put(ForageStimulusType.TYPE.getName(), 0.01);
-		stimulusIncrementList.put(AttackStimulusType.TYPE.getName(), 0.05);
+		stimulusIncrementList.put(WarningStimulusType.TYPE.getName(), 0.05);
 	}
 	
 	@Override public String getName() { return name; }
@@ -62,19 +62,34 @@ public enum WorkerAntType implements AntType {
 	public void execute(Agent agent) {
 		AntAgent ant = (AntAgent) agent;
 		
-		ChemicalCommStimulus attackStimulus = (ChemicalCommStimulus) ant.getCurrentNode().getCommunicationStimulus(AttackStimulusType.TYPE);
+		if (ant.getCurrentTask() != null) {
+			// if it is trying to hide, just continue...
+			if (ant.getCurrentTask().getName() == FindAndHideInNest.NAME) {
+				ant.getTaskByName(FindAndHideInNest.NAME).execute(agent);
+				
+				this.waitSomeTime();
+				return;
+			}
+		}
 		
-		if (attackStimulus.getIntensity() > attackThreshold) {
-			// if not caring food, need to turn back to nest.
+		ChemicalCommStimulus warningStimulus = (ChemicalCommStimulus) ant.getCurrentNode().getCommunicationStimulus(WarningStimulusType.TYPE);
+		
+		if ((warningStimulus != null) && (warningStimulus.getIntensity() > warningThreshold)) {
+			// if the ant is caring food it is likely it already is moving
+			// towards the nest, so there is no need to invert its direction.
 			if (!ant.isCaringFood()) {
 				ant.invertDirection();
 			}
 			
-			// hide!!
-			this.tasks.get(2).execute(agent);
+			ant.setCurrentTask(ant.getTaskByName(FindAndHideInNest.NAME));
+			logger.info("{} has switched to {}", agent.getId(), FindAndHideInNest.NAME);
+			ant.getTaskByName(FindAndHideInNest.NAME).execute(agent);
+			
+			this.waitSomeTime();
+			return;
 		}
 		
-		FoodSourceAgent  foodSource = ant.findFoodSource();
+		FoodSourceAgent foodSource = ant.findFoodSource();
 		
 		if ((foodSource != null) && (!ant.isCaringFood())) {
 			ant.collectFood(foodSource, amountOfFoodCapableToCollect);
@@ -86,15 +101,19 @@ public enum WorkerAntType implements AntType {
 		}
 				
 		if (!ant.isCaringFood()) {
-			this.tasks.get(0).execute(agent);
+			ant.getTaskByName(ForageTask.NAME).execute(agent);
 		} else {
-			this.tasks.get(1).execute(agent);
+			ant.getTaskByName(FindHomeTask.NAME).execute(agent);
 		}
 		
+		this.waitSomeTime();
+	}
+	
+	private void waitSomeTime() {
 		try {
 			Thread.sleep(milisecondsToWait);
 		} catch (InterruptedException e) {
-			logger.trace("Agent '{}' interrupted while waiting.", agent.getId());
+			// don't need to do anything...
 		}
 	}
 }
