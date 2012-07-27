@@ -9,6 +9,8 @@ package com.luizabrahao.msc.model.env;
  */
 public class EnvironmentFactory {
 	
+	private EnvironmentFactory() {}
+	
 	/**
 	 * Initialises an environment based on BasicNode objects. This environment
 	 * has rectangular shape and each node are assigned an identifier following
