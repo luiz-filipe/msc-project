@@ -1,0 +1,36 @@
+\select@language {american}
+\vspace {-\cftbeforepartskip }
+\select@language {american}
+\contentsline {part}{i\hspace {1em}\spacedlowsmallcaps {Setting The Context}}{1}{part.1}
+\contentsline {chapter}{\numberline {1}\spacedlowsmallcaps {Introduction}}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Emergence}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}Distributed Systems}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Agent-based Object Models}{3}{section.1.3}
+\contentsline {chapter}{\numberline {2}\spacedlowsmallcaps {Background Information}}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Social Insects}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}Communication}{5}{section.2.2}
+\contentsline {section}{\numberline {2.3}Current research}{5}{section.2.3}
+\contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Model Overview}}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Environment}{7}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Nodes}{7}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Communication Stimuli}{7}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.2.1}Chemical Communication Stimulus}{7}{subsubsection.3.1.2.1}
+\contentsline {section}{\numberline {3.2}Agents}{7}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Task Agents}{7}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Agent Types}{7}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Tasks}{7}{section.3.3}
+\contentsline {part}{ii\hspace {1em}\spacedlowsmallcaps {Experiments And Observations}}{9}{part.2}
+\contentsline {chapter}{\numberline {4}\spacedlowsmallcaps {Experiments And Observations}}{11}{chapter.4}
+\contentsline {section}{\numberline {4.1}Initial Pheromone Concentration Sensibility}{11}{section.4.1}
+\contentsline {section}{\numberline {4.2}Warning Pheromone Response}{11}{section.4.2}
+\contentsline {section}{\numberline {4.3}Forage Radius Investigation}{11}{section.4.3}
+\contentsline {chapter}{\numberline {5}\spacedlowsmallcaps {Future Work}}{13}{chapter.5}
+\contentsline {section}{\numberline {5.1}Model Improvements}{13}{section.5.1}
+\contentsline {section}{\numberline {5.2}Implementation Issues}{13}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Four way connected grid}{13}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Simulation handler}{13}{subsection.5.2.2}
+\contentsline {part}{iii\hspace {1em}\spacedlowsmallcaps {Appendix}}{15}{part.3}
+\contentsline {chapter}{\numberline {A}\spacedlowsmallcaps {Extra Experimental Results}}{17}{appendix.A}
+\contentsline {chapter}{\numberline {B}\spacedlowsmallcaps {Model and Simulation Source Code}}{19}{appendix.B}
+\contentsline {section}{\numberline {B.1}Model Implementation Details}{19}{section.B.1}
+\contentsline {section}{\numberline {B.2}Source Code}{19}{section.B.2}
