@@ -2,5 +2,62 @@
 \label{ch:experiments-and-observations}
 
 \section{Initial Pheromone Concentration Sensibility}
+Explain that the agents are sensitive to initial pheromone concentration due to the model of node selection.
+
+This experiment is proposed to investigate what parameters are the best to be used in the other experiments.
+
+Explain that there are two variables important here, the initial concentration of pheromone throughout the environment and the amount of pheromone deposited by the agents each time they visit a node.
+
+Explain the how the agents choose to move from one node to another, and why the environment pheromone concentration cannot be initialised with 0.
+
+Tell that the initial concentrations values tried were: 0.001, 0.005, 0.01, 0.02, 0.04. And that each agent could deposit 0.01 of chemical communication pheromone when visiting a node.
+
+Each simulation was run for 10 seconds, each agent resting a minimum of 5 milliseconds in each node.
+
+[add a compiled image with pheromone trail for each variation]
+
+0.001 - the agents get trapped in the pheromone trail that they have deposited and end up not being able to explore the environment.
+
+0.005 - Much better result, the agents are able to explore the environment in a way they could not before. But it is quite unlikely for agents to 'break' from the pheromone trail and explore new areas.
+
+0.01 - Most of the agents are able to follow the main pheromone trail, which with time get reinforced by the agent's themselves. But at the same time the agents are able to 'break' from the main pheromone trail and explore new parts of the space available form them.
+
+0.02 - Agents still have a main pheromone trail but they tend to disperse quite a lot over time.
+
+0.04 - No main pheromone trail present at all. The agents get too much dispersed, impossible to communicate properly, for instance when foraging food.
+
+Explain that for the reasons above all the other experiments are run using 0.01 as the initial pheromone concentration. In fact it was observed that what is important is that the initial concentration has to match the agent's capacity of pheromone deposition. So other initial pheromone concentrations could be used, as long as the amount of pheromone deposited by each agent would have been changed to match the initial concentration.
+
 \section{Warning Pheromone Response}
+In this experiment the response of the agents to a warning communication stimulus is tested.
+
+Describe the experiment setup.
+
+Explain that the experiment is done in two phases, the first one the agents react only to amount of warning pheromone and the second one the agents react also to the number of other agents they meet that are traveling in the opposite direction and are not caring food.
+
+Add block diagrams that explain the algorithms the agents use to decide on task selection.
+
+Discuss the results. [experiment not done yet]
+Results should vary with the use of different parameters, such as the number of agents traveling in the opposite direction before the agent abort the current task and change to findNestAndHide task.
+
 \section{Forage Radius Investigation}
+
+In this experiment the radius of action of the forage pheromone is varied in order to check the effects in the amount of food the colony is capable of forage.
+
+Explain how the variation of the radius actually impact the pheromone deposition. Add images to explain how the pheromone is actually deposited depending on the radius. Explain that the deposition follow 1/x.
+
+Describe the experiment setup
+
+Radius values used in the experiment were 0, 1 and 2.
+
+Add simulation images.
+
+Add the simulation data results
+
+Discussion: Agents depend on the pheromone trail that they create to forage food, when the radius is 0 the agents are able to forage well, because the trail is well defined, but this indirectly limit the amount of agents recruited as the width of the main pheromone trail is very narrow. 
+
+Using radius equals to one the main pheromone trail gets wider allowing more agents to be pointed to the right direction.
+
+Now when using radius equals to two, the pheromone trail gets too wide, this gets on the way of the agents as they do not have a clear direction to follow when they are within the trail. 
+
+Add image of an agent history, showing how much steps it spend inside the trail going up and down, going nowhere.

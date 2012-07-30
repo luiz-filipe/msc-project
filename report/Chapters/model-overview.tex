@@ -2,11 +2,46 @@
 \label{ch:model-overview}
 
 \section{Environment}
+
+Explain how the environment is represented.
+
 \subsection{Nodes}
+
+Describe the Node interface and the BasicNode implementation. This implementation is a four-way connected grid.
+
+\subsubsection{Pheromone Nodes}
+
+Pheromone nodes are a specialisation of the BasicNode implementation that containing a list of chemical communication stimuli.
+
 \subsection {Communication Stimuli}
+
+Talk about CommunicationStimulus and CommunicationStimulusType interface. 
+Explain why they are required (different types of communication can be designed and implemented). Relating to what is seen in nature.
+
 \subsubsection{Chemical Communication Stimulus}
+
+Define the new communication stimulus type and its properties as radius and decay factor. Relating to what is seen in nature.
+
+\subsubsection {Forage Communication Stimulus}
+
+Describe the type, its parameters and when it is used.
+
+\subsubsection {Warning Communication Stimulus}
+
+Describe the type, its parameters and when it is used.
+
 \section {Agents}
+
+A small introduction to agents in general, touch BDI agents, relate the feature of the agents of this model with the features of agents discussed in the introduction.
+
 \subsection{Task Agents}
+
+Explain that a specialisation of the Agent interface is proposed to create agents that are capable of executing tasks.
+
 \subsection{Agent Types}
 
+Explain what are agents types and why they are necessary. relate with cases in nature.
+
 \section {Tasks}
+
+Tasks are a unit of specialised work. Agents types have a list of tasks that a particular type is able to execute. Explain how agents can switch between tasks depending on the context.
