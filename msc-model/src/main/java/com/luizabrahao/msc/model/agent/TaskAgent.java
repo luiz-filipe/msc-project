@@ -22,6 +22,9 @@ import com.luizabrahao.msc.model.task.Task;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
+
+// TODO I don't remember why it has a field that is a TaskAgentType... Shouldn't
+// be needed, clients should use generic interface and cast when necessary... 
 @ThreadSafe
 public abstract class TaskAgent extends AbstractAgent {
 	@GuardedBy("this") private Task currentTask;
