@@ -27,9 +27,9 @@
 %----------------------------------------------------------------------
 
 \documentclass[
-		twoside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,
+		openright,titlepage,numbers=noenddot,headinclude,%1headlines,
                 footinclude=true,cleardoublepage=empty,
-                BCOR=5mm,paper=a4,fontsize=11pt, % Binding correction, paper type and font size
+                BCOR=5mm,paper=a4,fontsize=12pt, % Binding correction, paper type and font size
                 ngerman,american, % Languages
                 ]{scrreprt} 
                 
@@ -58,6 +58,8 @@
 \include{FrontBackmatter/Titlepage} % Main title page
 
 %\include{FrontBackmatter/Titleback} % Back of the title page
+
+\begin{addmargin}[+0.8cm]{-0.9cm}
 
 %\cleardoublepage\include{FrontBackmatter/Dedication} % Dedication page
 
@@ -120,5 +122,5 @@
 \cleardoublepage\include{FrontBackmatter/Bibliography} % Bibliography
 
 %----------------------------------------------------------------------
-
+\end{addmargin}
 \end{document}

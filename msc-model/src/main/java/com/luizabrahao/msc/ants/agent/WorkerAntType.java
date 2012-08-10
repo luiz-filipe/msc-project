@@ -37,6 +37,8 @@ public enum WorkerAntType implements AntType {
 		tasks.add(new FindHomeTask());
 		tasks.add(new FindAndHideInNest());
 		
+		// TODO need to add Task to the end of FindAndHideInNest.
+		
 		stimulusIncrementList = new HashMap<String, Double>();
 		stimulusIncrementList.put(ForageStimulusType.TYPE.getName(), 0.01);
 		stimulusIncrementList.put(WarningStimulusType.TYPE.getName(), 0.05);
