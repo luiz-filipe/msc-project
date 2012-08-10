@@ -57,12 +57,12 @@ The \emph{BasicNode} implementation of \emph{getCommunicationStimulus} method re
 The \emph{PheromoneNode} class is a specialisation of the \emph{BasicNode}, exclusive for ant simulations. In addition of everything present in the super class, it declares two new methods that come handy when dealing with chemical communication stimuli (see subsection \ref{subsec:chemical-stimulus}):
 
 \begin{itemize}
-  \item ChemicalCommStimulus getCommunicationStimulus (ChemicalCommStimulusType): This method returns a chemical communication stimulus of the requested type if any is present in the stimuli list. If there are more than one stimulus of the same type, the first one found is returned. If none is present, it created a new chemical stimulus of that type, adds it to the stimuli list and returns the new created stimulus.
+  \item ChemicalCommStimulus getCommunicationStimulus(ChemicalCommStimulusType): This method returns a chemical communication stimulus of the requested type if any is present in the stimuli list. If there are more than one stimulus of the same type, the first one found is returned. If none is present, it created a new chemical stimulus of that type, adds it to the stimuli list and returns the new created stimulus.
 
   \item void increaseStimulusIntensity (ChemicalCommStimulus, double): Increment the intensity of the chemical stimulus of the requested type. If no stimulus of the type is present, it adds one to the list and increment by the specified amount.
 \end{itemize}
 
-The first method is just an overload of the generic \emph{getCommunicationStimulust(CommunicationStimulustType)} method from \emph{Node} interface. Clients do not necessarily need to use this method when creating ants experiments, it is just a shortcut to be used in order to avoid casting.
+The first method is just an overload of the generic \emph{getCommunicationStimulust (CommunicationStimulustType)} method from \emph{Node} interface. Clients do not necessarily need to use this method when creating ants experiments, it is just a shortcut to be used in order to avoid casting.
 
 The same is valid for the second method. Agents could increase a stimulus intensity directly, but buy using the \emph{increaseStimulusIntensity} method clients take advantage of existing infrastructure, simplifying their code.
 
@@ -144,7 +144,7 @@ The enumeration \emph{ForageStimulusType} is an extension of \emph{ChemicalCommS
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\linewidth]{gfx/uml-env-package.png}
-  \caption{The generic model package}
+  \caption{Generic model of environment package}
   \label{fig:gen-env-package}
 \end{figure}
 
@@ -169,13 +169,204 @@ The \emph{AbstractAgent} is the base abstract implementation of the \emph{Agent}
 
 \subsection{Task Agents}
 
-Explain that a specialisation of the Agent interface is proposed to create agents that are capable of executing tasks.
+The smallest unit of work in the computational model is a task, and they are the means to agents to get things done. Please note that this task is different from a Java task discussed in section \ref{subsec:threads-task-exec}. 
+
+In order to enable agents to execute tasks the concrete specialisation of the \emph{AbstractAgent} class, the \emph{TaskAgent} class has a synchronised field called \emph{currentTask} that contains a reference to the task that the agent is executing at the moment. The second difference from the super class, is that task agents have a different \emph{type} associated to them, a \emph{TaskAgentType}, this is important because it is in the \emph{TaskAgentType} that the tasks that an agent is capable of executing are defined, see section \ref{sec:taskagentype} for more details.
 
 \subsection{Agent Types}
 \label{sec:agent-types}
 
-Explain what are agents types and why they are necessary. relate with cases in nature.
+In nature individuals use different ways to differentiate themselves from other individuals, in the proposed computational model each agent belongs to a specific type, something that define them as a class. The \emph{AgentType} interface formalises the most basic abstraction of a type of agents.  It has only one method:\begin{itemize}  \item String getName(): Returns the name of that type, must be unique.\end{itemize}As in the previous cases, the interface does not have any mechanism to make sure a type has a unique name, it is up to de user to make sure that is the case.An implementation of \emph{AgentType} provides the means for agents to distinguish themselves if necessary, one agent can check another agent’s type when they are in the same node, this is very important, because one agent can react differently if it comes across another agent of the same type or if it encounters an agent that might impose some sort of danger.In the sake of performance, agent types must implement the Singleton Pattern, which guarantees only one object instance of a type only.\cite{bloch2008effective} If agent types were not to be singletons, every time a new agent is instanced a new agent type and the other objects that compose it, like tasks, are going to be created as well, consuming large amounts of memory. 
+
+\subsubsection{The TaskAgentType type}
+\label{sec:taskagentype}
+
+The \emph{TaskAgent} interface is simple and has only one method:
+
+\begin{itemize}
+  \item List<Task> getTasks(): Returns a list of tasks that the agents of this type are able to execute.
+\end{itemize}
+
+The enumeration \emph{BasicTaskAgentType} is a reference implementation of the interface. Agents of that type are able to execute only one task, \emph{WandererTask}, see section \ref{sec:wanderer-task} for more details on the task.
+
+\subsection{The Ant Interface}
+
+The ant implementation of the model starts from the \emph{Ant} interface. It declares the public API for any agent that is an ant. The most relevant methods are: 
+\begin{itemize}  \item Direction getMovingDirection(): Returns what direction the ant is moving in relation to the environment grid.  \item void incrementStimulusIntensity(ChemicalStimulusType): Lay pheromone onto the current node that the agent is at.  \item double collectFood(Agent, double): Tries to collect the specified amount of food from the food source specified as parameter, returns the amount of food that the agent was able to collect.  \item Boolean isCaringFood(): Returns true if the agent is caring food, false otherwise.  \item FoodSourceAgent findFoodSource(): Checks if any agent in the current node is a food source, if any is found it is returned otherwise \emph{null} is returned.  \item void invertDirection(): Inverts the direction the agent is traveling, for example, if the agent is traveling East, after this method is called the agent’s moving direction will be West. See section XXX for more details.  \item void depositFood(AntNestAgent): Deposit the food the agent is caring into the nest passed as parameter.\end{itemize}
+For the full API and more detail explanations of all the methods, please see section XXX.
+
+\subsection{Ant Agents}
+
+The \emph{AntAgent} class offer an implementation of the \emph{Ant} interface. Mostly important it has three private methods that are used by \emph{incrementStimulusIntensity (ChemicalCommStimulusType)} for laying pheromone onto the environment. As seen on section \ref{subsec:chemical-stimulus} chemical communication stimulus types have a propriety called \emph{radius} that defines the reach of that particular stimulus around the node where it was deposited, these three methods use this information when depositing pheromone. The intensity of the stimulus decreases as the distance from the node where the agent is at increases according to the following: 
+
+\begin{equation}
+intensity_{new} =  intensity_{current} + increase * (1 / distance)
+\end{equation}
+
+Figure \ref{fig:distanse-vs-inc} shows how the intensity of the deposited amount of chemical stimulus varies according to the distance to the node the agent is executing the increment. The amount of stimulus that each agent increments is defined by the agent type, see section \ref{sec:agent-types} for a detailed explanation.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{gfx/distance-vs-increment.png}
+  \caption{Variation of increment according to distance to central node}
+  \label{fig:distanse-vs-inc}
+\end{figure}
+
+Figure \ref{fig:intensity-example} illustrates how the pheromone is laid depending on the radius of the stimulus. The strong the increment is the brighter the red. Each node is represented by a single square. In the image three different radius are demonstrated, form left to right we have 2, 4 and 5 respectively. It is clear that he increment falls as the distance from the central node gets bigger.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{gfx/intensity-example.png}
+  \caption{Pheromone deposit for stimulus with different radius sizes}
+  \label{fig:intensity-example}
+\end{figure}
+
+\subsection{Ant types}
+
+The interface \emph{AntType} and its implementations are used to represent any specific type of ant in the computational model. The interface declares the following methods:
+
+\begin{itemize}
+
+  \item void execute(Agent): Method executed when the agent is executed by the thread pool.
+  \item double getStimulusIncrement(String): Returns the amount of stimulus the agent is able to lay.
+  \item int getMemorySize(): The number nodes the agent can remember it has been.
+  \item double getAmountOfFoodCapableToCollect(): Returns the amount of food the agent is capable of caring 
+
+\end{itemize}
+
+(((need to discuss the way the memory is implemented)))
+
+By far the most important method in the list is \emph{void execute(Agent)}, because this method is the method that defines the agent's behaviour. It is in this method the agent can analyse the environment state around it and decide which tasks to execute.
+
+As seen, different type of ants are able to deposit different types of pheromone and in different quantities. So every type of ant has a map that tells by name, what is the increment for each stimulus the ant is able to deposit. the method \emph{double getStimulusIncrement(String)} is used to query these amounts.
+
+\subsubsection{WorkerType}
+
+The enumeration \emph{WorkerType} defines the type of ant that represent workers in a colony. The type is capable of executing three tasks, \emph{ForageTask}, \emph{FindHomeTask} and \emph{FindAndHideInNestTask}. Ants of this type are sensitive can lay \emph{ForageStimulusType} and low quantities of \emph{WarningStimulusType}. 
+
+The goal of this type of ant is to explore the environment, find food,  collect as much as possible and take it back to the nest.
+
+(((ADD algorithm description)))
+
+\subsubsection{Ant Nests}
+
+The enumeration \emph{AntNestType} declares a type of agent that represents an ant nest. It implements the base \emph{AgentType} interface, so as one would expect, agents of this types are not able to execute tasks.
+
+The class \emph{AntNestAgent} is an specialisation of \emph{AbstractAgent}, it has an extra synchronised field that works as a counter of how much food is available in the nest, \emph{amountOfFoodHeld}. It also declares a public method called \emph{void addPortionOfFood(AntAgent, double)} which allows ants to deposit food in the nest.
+
+\subsection{Agents Package}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\linewidth]{gfx/uml-agent-package.png}
+  \caption{Generic model of the agent package}
+  \label{fig:gen-agent-package}
+\end{figure}
+
 
 \section {Tasks}
 
-Tasks are a unit of specialised work. Agents types have a list of tasks that a particular type is able to execute. Explain how agents can switch between tasks depending on the context.
+Tasks are a unit of specialised work. They are the means to agents to do something they need to do. Different type of agents can share the same task, but it is up to each of them how to use it.
+
+The \emph{Task} interface formalises two methods:
+
+\begin{itemize}
+  \item String getName(): Returns the unique name that identifies the task.
+  
+  \item void execute(Agent): Runs the task algorithm for the agent used as parameter.
+\end{itemize}
+
+Tasks are a convenient way to process unit of work that are isolated one from another and done by more than one type of agent. The \emph{void execute(Agent)} method contains the actions that the task is to perform, the agent that is requesting the task execution is passed as a parameter so the task is able to access the agent's context, such as neighbours and communication stimuli. The \emph{AbstractTask} class provides the base implementation for concrete tasks.
+
+\subsection{Wanderer Task}
+\label{sec:wanderer-task}
+
+This task is a simple task that agents can use when they are exploring the environment, it causes the agent to move from the current node to one of the available neighbours. It selects which neighbour to move to completely at random.
+
+In the case of ants, for example, they use this task when looking for a new source of food or when they reach one of the environment boundaries and need to switch their moving direction.
+
+\subsection{Ant Tasks}
+\label{sec:ant-tasks}
+
+Ants execute tasks that implement the \emph{AntTask} interface. For the list of methods of the interface, please see XXX.
+
+\subsubsection{Forage Task}
+\label{task:forage}
+
+The \emph{ForageTask} is also used by agents to find food sources and collect food. Differently from the \emph{WandererTask}, it does not pick a node to move to at random, it follows the forage chemical stimulus trail.
+
+Although the pheromone trail is the most important part when the agents are deciding where to go next, another effects should be considered, for instance an agent could be taken away from the trail by the wind or if some information, like chemical landmarks, that the ants use to locate themselves is modified, should somehow be considered. Tt virtually impossible to model all this cases though, more, it would be wrong to try to model all the possible interferences in the colony.
+
+So, the agents present a stochastic behaviour as far as moving through the space is concerned. So the process of choosing the node to move to consists of: 
+
+\begin{enumerate}
+  \item Each neighbour node is associated with a weight.
+  \item The weights are multiplied by the actual pheromone trail found in  each of the neighbour nodes.
+  \item The results of each multiplication in the previous step are summed up to a total.
+  \item Each multiplication of step 2 is divided by the total, in order to find their ratio.
+  \item A Monte Carlo (((cite))) like selection on the neighbour nodes is executed using these rates.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{gfx/choosing-next-node.png}
+  \caption{Elements used to select next node to move to}
+  \label{fig:choosing-next-node}
+\end{figure}
+
+Figure \ref{fig:choosing-next-node} illustrates these steps. It is important to understand that when applying the weights to the neighbours the task uses the agent as reference not the grid. As an example, if we imagine a agent with the moving direction set to East in relation to the grid, so the east neighbour from the node that the agent sits is pointing to the north direction of the agent. Figure \ref{fig:position-reference} illustrates that.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{gfx/reference.png}
+  \caption{Reference of directions}
+  \label{fig:position-reference}
+\end{figure}
+
+It is necessary to know what direction the agent is travelling to and perform this transformation between the grid direction reference to the agent's in order to apply the right selection weights to the neighbour nodes.
+
+This method of selection is implemented by the utility class \emph{AntTaskUtil} and is used in other tasks as well. The method is flexible enough to allow tasks to set their own weights for the neighbour nodes and ask any type of chemical stimulus to be used in the calculation.
+
+Figure \ref{fig:forage-activity} is the active diagram of the algorithm implemented by the \emph{void execute(Agent)} method of the \emph{ForageTask}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{gfx/uml-act-forage.png}
+  \caption{Forage task execution activity diagram}
+  \label{fig:forage-activity}
+\end{figure}
+
+\subsubsection{Find Home Task}
+\label{task:find-home}
+
+The \emph{FindHomeTask} is useful for ants that have collected food and need to deposit it in their nest. It uses the same procedure that \emph{ForageTask} to select which node to move next. The biggest difference is that it tries to use the agent's memory before following the specified pheromone trail. The task's algorithm is illustrated in Figure \ref{fig:find-home-act}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{gfx/uml-act-home.png}
+  \caption{Find home task execution activity diagram}
+  \label{fig:find-home-act}
+\end{figure}
+
+\subsubsection{Find Home And Hide}
+\label{task:find-home-hide}
+
+The \emph{FindHomeAndHideTask} is very similar to \emph{FindHomeTask} the only difference is that if the agent is in a node that contains a nest the task does not try to do anything else, it leaves the agent there. 
+
+is useful for ants that have collected food and need to deposit it in their nest. It uses the same procedure that \emph{ForageTask} to select which node to move next. The biggest difference is that it tries to use the agent's memory before following the specified pheromone trail. The task's algorithm is illustrated in Figure \ref{fig:find-home-hide-act}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{gfx/uml-act-home-hide.png}
+  \caption{Find home and hide task execution activity diagram}
+  \label{fig:find-home-hide-act}
+\end{figure}
+
+\section {Generic Computational Model Diagram}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{gfx/uml-generic-overview.png}
+  \caption{Generic Computational Model}
+  \label{fig:generic-model}
+\end{figure}
