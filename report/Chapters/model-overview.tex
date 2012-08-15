@@ -4,7 +4,9 @@
 
 \section{Environment}
 
-Explain how the environment is represented.
+The computational model describes the environment as a set of connected nodes, objects that implement the \emph{Node} interface. These nodes can be connected as the user wish, creating one, two or three dimensional environments, agents are capable to navigate from nodes to their neighbours, read communication stimuli deposited in the nodes by another agents and alter the environment themselves by depositing communication stimuli if they require.
+
+As we will see the \emph{Node} interface does not formalises how the nodes are connected, so users have the freedom to create the environments that suit their experiments. The standard implementation uses 2 dimensional grids, with each node connected to a maximum of 4 neighbours, one in each possible direction listed in the enumeration \emph{Direction}.
 
 \subsection{Nodes}
 
@@ -244,9 +246,14 @@ As seen, different type of ants are able to deposit different types of pheromone
 
 The enumeration \emph{WorkerType} defines the type of ant that represent workers in a colony. The type is capable of executing three tasks, \emph{ForageTask}, \emph{FindHomeTask} and \emph{FindAndHideInNestTask}. Ants of this type are sensitive can lay \emph{ForageStimulusType} and low quantities of \emph{WarningStimulusType}. 
 
-The goal of this type of ant is to explore the environment, find food,  collect as much as possible and take it back to the nest.
+The goal of this type of ant is to explore the environment, find food,  collect as much as possible and take it back to the nest. Figure \ref{fig:worker-type} fully describes the algorithm implemented by the \emph{WorkerType}.
 
-(((ADD algorithm description)))
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{gfx/uml-worker-type.png}
+  \caption{Worker Type ant algorithm}
+  \label{fig:worker-type}
+\end{figure}
 
 \subsubsection{Ant Nests}
 
