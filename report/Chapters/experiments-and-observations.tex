@@ -1,11 +1,11 @@
 \chapter{Experiments And Observations}
 \label{ch:experiments-and-observations}
 
-\section{Initial Pheromone Concentration Sensibility}
+\section{Pheromone Concentration Sensibility}
 
-Due to the model of node selection agents are sensitive to the initial pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings form $0$ to a $100$ percent very swiftly, causing the agents to get trapped.
+Due to the model of node selection agents are sensitive to the pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings form $0$ to a $100$ percent very swiftly, causing the agents to get trapped.
 
-This experiment investigates how different initial pheromone concentrations in the environment and the amount of pheromone each agent is capable of depositing in each interaction affect the agents navigation through the space. It has objective to determine what values of these two parameters are acceptable to use in the other experiments.
+This experiment investigates how different initial pheromone concentrations in the environment and the amount of pheromone each agent is capable of depositing in each interaction affect the agents navigation through the space. It also has objective to determine what values of these two parameters are acceptable to use in the other experiments.
 
 Firstly, let's examine the case when all the nodes of the environment are created with no initial concentration of \emph{Forage} pheromone (Figure \ref{fig:initial-a}). When the agent is deciding which node it is going to make the first move to, all neighbours have the same probability of being picked, because of the $0$ of pheromone concentration (Figure \ref{fig:initial-b}). So as it was programmed to, the agent picks one node at random. But before moving to the next node it lays a bit of pheromone, suppose the concentration deposited is $0.1$. When the move is done, the environment around the agent should look like the one pictured in Figure \ref{fig:initial-c}.
 
@@ -107,7 +107,7 @@ Figures \ref{fig:initial-var-close} and \ref{fig:initial-var-far} show the resul
 
 The trails left by the colonies can be compared in relation on how strong they are, how the agents are able to 'scape' them to explore the environment and how it shaped when agents get further from the nest.
 
-Starting from $0.001$ as the amount of pheromone to be deposited by agents in each interaction. It is possible to observe from the figures that two very contrasting behaviours emerge, firstly because the environment has so little pheromone and the update is so small, they weight assigned to each of the neighbour nodes count considerably more than the pheromone deposited by the agents, so the agents end up very dispersed, thus no chemical trail is formed at all. This phenomena is actually seen in many other combination of the parameters, all the cases when the update is $0.001$ in fact. 
+Starting from $0.001$ as the amount of pheromone to be deposited by agents in each interaction; it is possible to observe from the figures that two very contrasting behaviours emerge, firstly because the environment has so little pheromone and the update is so small, they weight assigned to each of the neighbour nodes count considerably more than the pheromone deposited by the agents, so the agents end up very dispersed, thus no chemical trail is formed at all. This phenomena is actually seen in many other combination of the parameters, all the cases when the update is $0.001$ in fact. 
 
 When the amount of pheromone deposited by the agents is increased the behaviour of the colony could not be more different than what was seen previously. The agents switch from exploring a large area to be 'trapped' into the pheromone trail. This impedes the agents of exploring the space, what is not desirable for any colony. This behaviour is also seen in other values for the parameters. What seems to be the rule is that if the update is considerable larger than the concentration of pheromone in the environment the agents will start to create a 'bubble' of high pheromone concentration and as consequence they are very unlikely to move to any node outside this area.
 
@@ -148,35 +148,35 @@ Further investigation revealed that the probability of selection increases in a 
   \label{fig:prob-inc}
 \end{figure}
 
-It is very tempting to conclude that if the right ratio between the initial pheromone concentration and the increment step used by the agents is found the, problems of the lack of trail formation and the agent confinement in the trail will be solved. However from figures \ref{fig:initial-var-close} and \ref{fig:initial-var-far} it is observed that the same ratio initial concentration/increase step present different results for different values. That is counter intuitive at first, but what actually gives rise to the conditions to create the trails 
+It is very tempting to conclude that if the right ratio between the initial pheromone concentration and the increment step used by the agents is found the, problems of the lack of trail formation and the agent confinement in the trail will be solved. However from figures \ref{fig:initial-var-close} and \ref{fig:initial-var-far} it is observed that the same ratio (initial concentration/increase step) present different results for different values. In the case $0.001/0.001$ no trail is formed at all, for $0.01/0.01$ a solid trail is formed. 
 
-but what seems to be necessary condition to form the pheromone trails intense enough to guide the agents, but at the same time not restricting agents to explore the environeent 
+The experimental results are that the initial pheromone concentration should not be too low that avoid trail formation or saturation. It has to be an intermediate value that allows the agents to converge to a specific path, generating the trail, but not too fast, allowing the agents to explore other parts of the environment as well. As far as the update step goes, it also needs to be an intermediate value, so it starts actually being part of the node selection process but not big enough to quickly saturate the pheromone trail.
 
-Explain that the agents are sensitive to initial pheromone concentration due to the model of node selection.
+\begin{figure}[H]
+\myfloatalign
+\subfloat[]
+{\label{fig:trail-a}
+\includegraphics[width=.1\linewidth]{gfx/trail-001}} \quad
+\subfloat[]
+{\label{fig:trail-b}
+\includegraphics[width=.1\linewidth]{gfx/trail-01}} \quad
+\subfloat[]
+{\label{fig:trail-c}
+\includegraphics[width=.1\linewidth]{gfx/trail-0201}} \quad
+\subfloat[]
+{\label{fig:trail-d}
+\includegraphics[width=.1\linewidth]{gfx/trail-0202}} \quad
+\subfloat[]
+{\label{fig:trail-e}
+\includegraphics[width=.1\linewidth]{gfx/trail-0404}} \quad
 
-This experiment is proposed to investigate what parameters are the best to be used in the other experiments.
+\caption[Example of complete pheromone trails]{Complete trail pheromone trails left by simulation using 0.001,0.04 (a), 0.01,0.01 (b), 0.02,0.01 (c), 0.02,0.02 (d) and 0.4,04 (e) for initial pheromone concentration and update step respectively}
+\label{fig:trails}
+\end{figure}
 
-Explain that there are two variables important here, the initial concentration of pheromone throughout the environment and the amount of pheromone deposited by the agents each time they visit a node.
+One can conclude from this analysis pair $0.01/0.01$ (Figure \ref{fig:trail-b}) for the initial pheromone concentration and increment step present the best results. It allows pheromone trail to \emph{emerge as a result of the agents' interactions with the environment}. It could also be argued that another pairs such $0.01/0.02$ and $0.02/0.02$ set the right conditions for agent navigation. However, in this experiment the agents are executing the \emph{ForageTask} without actually collecting food, to no agent tries to deposit food in the nest and start foraging again - the trail is not reinforced. Taking that in consideration the other pairs tested could also be considered to lead to a premature saturation of the trail, which is the case of $0.02/0.02$.
 
-Explain the how the agents choose to move from one node to another, and why the environment pheromone concentration cannot be initialised with 0.
-
-Tell that the initial concentrations values tried were: 0.001, 0.005, 0.01, 0.02, 0.04. And that each agent could deposit 0.01 of chemical communication pheromone when visiting a node.
-
-Each simulation was run for 10 seconds, each agent resting a minimum of 5 milliseconds in each node.
-
-[add a compiled image with pheromone trail for each variation]
-
-0.001 - the agents get trapped in the pheromone trail that they have deposited and end up not being able to explore the environment.
-
-0.005 - Much better result, the agents are able to explore the environment in a way they could not before. But it is quite unlikely for agents to 'break' from the pheromone trail and explore new areas.
-
-0.01 - Most of the agents are able to follow the main pheromone trail, which with time get reinforced by the agent's themselves. But at the same time the agents are able to 'break' from the main pheromone trail and explore new parts of the space available form them.
-
-0.02 - Agents still have a main pheromone trail but they tend to disperse quite a lot over time.
-
-0.04 - No main pheromone trail present at all. The agents get too much dispersed, impossible to communicate properly, for instance when foraging food.
-
-Explain that for the reasons above all the other experiments are run using 0.01 as the initial pheromone concentration. In fact it was observed that what is important is that the initial concentration has to match the agent's capacity of pheromone deposition. So other initial pheromone concentrations could be used, as long as the amount of pheromone deposited by each agent would have been changed to match the initial concentration.
+The pair $0.01/0.01$ also proved to be less sensitive to the number of agents used in this and the other experiments.
 
 \section{Warning Pheromone Response}
 \label{sec:warn-phero-inv}
