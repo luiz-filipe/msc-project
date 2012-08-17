@@ -6,19 +6,17 @@
 
 The computational model describes the environment as a set of connected nodes, objects that implement the \emph{Node} interface. These nodes can be connected as the user wish, creating one, two or three dimensional environments, agents are capable to navigate from nodes to their neighbours, read communication stimuli deposited in the nodes by another agents and alter the environment themselves by depositing communication stimuli if they require.
 
-As we will see the \emph{Node} interface does not formalises how the nodes are connected, so users have the freedom to create the environments that suit their experiments. The standard implementation uses 2 dimensional grids, with each node connected to a maximum of 4 neighbours, one in each possible direction listed in the enumeration \emph{Direction}.
+As we will see the \emph{Node} interface does not formalises how the nodes are connected, so users have the freedom to create the environments that suit their experiments. The standard implementation uses $2$ dimensional grids, with each node connected to a maximum of $4$ neighbours, one in each of the directions listed in the enumeration \emph{Direction}.
 
 \subsection{Nodes}
 
 The fundamental entity to represent the environment the \emph{Node} interface. A node can be seen as an infinitesimal piece of the environment. By linking nodes together it is possible to create complex network of objects that will describe the space where agents can navigate.
 
-The \emph{Node} interface does not specify how these connections need to be made and how many neighbours each node has. This gives a great degree of freedom to users, for example it is ease to declare different types of nodes, that can describe different types of environment. For example, the \emph{BasicNode} class is used to describe two dimensional environments, as we will see later on. A three dimensional environment could be easily described as well though, by implementing the \emph{Node} interface with 6 neighbours, one in each direction - north, south, east, west, above and bellow, agents would be able to navigate through nodes in three different axis.
+The \emph{Node} interface does not specify how these connections need to be made and how many neighbours each node has. This gives a great degree of freedom to users, for example it is ease to declare different types of nodes, that can describe different types of environment. For example, the \emph{BasicNode} class is used to describe two dimensional environments, as we will see later on. A three dimensional environment could be easily described as well though, by implementing the \emph{Node} interface with 6 neighbours, one in each direction - north, south, east, west, above and bellow, agents would be able to navigate through nodes in three different axis. For more details on the methods that operate upon the node's neighbours, please see section XXX.
 
-(((add and describe methods for neighbours)))
+Each node has an unique string that is used to identify them. The method \emph{String getId()} returns this string. Note that the \emph{Node} interface does not have any instrument to guarantee that nodes have unique identifiers, it is up to the users of the interface to guarantee that nodes do not have duplicated identifiers. Failing to do so, may cause the framework to operate inconsistently, for there would no way to distinguish nodes that have the same identifier. 
 
-Each node has an unique string that is used to identify them. The method \emph{getId()} returns this string, which should be unique. Note that the \emph{Node} interface does not have any instrument to guarantee that nodes have unique identifiers, it is up to the users of the interface to guarantee that nodes do not have duplicated identifiers. 
-
-Nodes also have a list of agents (see section \ref{sec:agents}), this is the list of agents that are currently in the node. The node interface provides the necessary methods to operate upon the agents, these are:
+Nodes also have a list of agents (see section \ref{sec:agents}), this is the list of agents that are currently in the node. The node interface provides the necessary methods to operate upon these agents:
 
 \begin{itemize}
   \item void addAgent(Agent): Verify if the agent can be added to the node, if yes, adds the agent to the node, if not ignores..
@@ -102,7 +100,7 @@ Implementations of \emph{CommunicationStimulusType}, and any of its specialisati
 \subsubsection{Chemical Communication Stimulus}
 \label{subsec:chemical-stimulus}
 
-As seen in section \ref{sec:ant-comm}, ants use pheromone as a way to communicate indirectly to fellow ants of the same nest. The interface \emph{ChemicalCommStimulusType} extends \emph{CommunicationStimulsType} to formalise pheromone as a type of communication. It declares two public methods:
+As seen in section \ref{sec:ant-comm}, ants use pheromone as a way to communicate indirectly to fellow ants from the same nest. The interface \emph{ChemicalCommStimulusType} extends \emph{CommunicationStimulsType} to formalise pheromone as a type of communication. It declares two public methods:
 
 \begin{itemize}
   \item double getDecayFactor(): Returns the decay factor of the chemical type. 
@@ -119,7 +117,7 @@ The key methods of the class are:
   \item void synchronised decayIntensity(): Decays the intensity of the stimulus depending on its type.
 \end{itemize}
 
-It is important to note that \emph{ChemicalCommStimulus} limits the maximum amount of intensity to 1.0. If an agent tries to increment a stimulus that is already 1.0 in intensity, the request is ignored.
+It is important to note that \emph{ChemicalCommStimulus} limits the maximum amount of intensity to $1.0$. If an agent tries to increment a stimulus that is already $1.0$ in intensity, the request is ignored.
 Another noteworthy point is how \emph{ChemicalCommStimulus} implements the intensity decay. It uses the following:
 
 \begin{equation}
@@ -127,6 +125,8 @@ intensity_{new} = intensity * (1 - decayFactor)
 \end{equation}
 
 The \emph{decayFactor} parameter above comes from the chemical communication type declared by the users. See section \ref{subsec:forage-stimulus} for an example of a type implementation.
+
+The \emph{int getRadius()} method retrieves how many neighbour nodes are actually affected when agents deposit the particular chemical type. It is analogue to the \emph{active space} seen in section \ref{sec:ant-comm}. A details explanation how the \emph{radius} property affects how pheromone is deposited onto the environment see section \ref{sec:pheromone-deposit}.
 
 \subsubsection {Forage Communication Stimulus}
 \label{subsec:forage-stimulus}
@@ -198,6 +198,7 @@ The ant implementation of the model starts from the \emph{Ant} interface. It dec
 For the full API and more detail explanations of all the methods, please see section XXX.
 
 \subsection{Ant Agents}
+\label{sec:pheromone-deposit}
 
 The \emph{AntAgent} class offer an implementation of the \emph{Ant} interface. Mostly important it has three private methods that are used by \emph{incrementStimulusIntensity (ChemicalCommStimulusType)} for laying pheromone onto the environment. As seen on section \ref{subsec:chemical-stimulus} chemical communication stimulus types have a propriety called \emph{radius} that defines the reach of that particular stimulus around the node where it was deposited, these three methods use this information when depositing pheromone. The intensity of the stimulus decreases as the distance from the node where the agent is at increases according to the following: 
 
