@@ -1,6 +1,15 @@
 \chapter{Experiments And Observations}
 \label{ch:experiments-and-observations}
 
+\section{Simulations and data collection}
+\label{sec:running-sim}
+
+The computational model does not formalise any resources to be used to create and run simulations, neither the model formalise any way to collect data from the simulations.
+
+JUnit is the reference unit test framework for Java, and the basic implementation of the proposed computational model is tested against more than 20 unit tests. However, unit tests also provide the perfect environment to run simulations. If resources such as initial node grid, initial pheromone concentrations and agents are going to be the same for more than one simulation, one can take advantage of test \emph{fixture} with the \emph{@Before} annotation to initialise these objects without repeating code. One could could create a class for each simulation with a \emph{Main} method also, however it is more convenient to use the test framework.
+
+Another critical aspect of the simulations is data collection. The model does not describe how data can be acquired during and after the simulation. For the simulations run for this paper logging was used for this intend. Log4j is a thread-safe logging service maintained by the Apache foundation and it was used throughout the implementation and the simulations. In most of the simulations the logger was setup to write into files that are processed after the simulation is finished. Also, it is possible to configure the logger service to write on the console, so information on the agents can be easily visualised during the execution of the simulations.
+
 \section{Pheromone Concentration Sensibility}
 
 Due to the model of node selection agents are sensitive to the pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings form $0$ to a $100$ percent very swiftly, causing the agents to get trapped.

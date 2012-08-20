@@ -29,7 +29,7 @@ Communication is a basic requirement for emergence of complex social systems. \c
 Another very popular communication method is physical contact - in this case there can be a direct communication between the individuals. For instance, honeybees can get hold of their nest mates using their forearms and vibrate their body to transmit information \cite{allen1959}, or indirect communication, that is an individual transmits information just by interacting with other individuals or/and the environment around them, but with no intention to transmit information. For example, workers of some types of ants can interpret the encounter of ants of another casts as a signal of danger. (((need citation))) There is no direct transmission of information in this case, but it does happen, indirectly.
 
 \subsection{Ants}
-
+\label{sec:com-ants}
 
 In order to efficiently forage on the ground, sometimes even underneath its surface, ants rely heavily on the use of chemicals for communicating, but they also make use of tactile signals and vibrations. \cite{holldobler1999} There are at least 12 functional categories of communication deployed by social insects \cite{citeulike:3731267}:
 
@@ -64,7 +64,7 @@ A general concept of emergence can be defined as decentralised, local behaviour 
 
 There are multiple layers of emergence, and this is a crucial concept in understanding complex systems.\cite{miller2007complex} As an illustration to that, one could use any of most of the multi-cellular animals, including ourselves. The theoretical biologist \citeauthor{life1010034} argues that life is an emergent event itself. There are trillions of cells in our body, each of them concerned only with its own very specific context. Many of them are replaced daily, in a couple of years we are very likely to not have any cell that is in our body today, but we will continue to be what we are today, at least physically.
 
-Emergence is not a new concept; it has been around for a long time. A good example of this is the Central Limit Theorem (CLT), which was first postulated in 1733 by the mathematician Abraham de Moivre. \cite{tijms2007understanding}. In few words the CLT states that, if certain conditions are satisfied, the mean of a large number of independent random variables will be distributed following a normal distribution.
+Emergence is not a new concept; it has been around for a long time. A good example of this is the \ac{CLT}, which was first postulated in 1733 by the mathematician Abraham de Moivre. \cite{tijms2007understanding}. In few words the \ac{CLT} states that, if certain conditions are satisfied, the mean of a large number of independent random variables will be distributed following a normal distribution.
 
 \subsection{Types of emergence}
 
@@ -105,7 +105,7 @@ All in all, agent-oriented modelling offers the best methodology representing co
 
 \subsection{Agents and Objects}
 
-It is important to make the distinction between agents and objects. Objects are all about encapsulating state and providing methods to execute operation upon it. Objects do communicate, through messaging or method invocation, but they are passive. Objects and Object Oriented Programming (OOP) are merely the means to build agent systems. Agent-oriented modelling is a whole new programming paradigm. 
+It is important to make the distinction between agents and objects. Objects are all about encapsulating state and providing methods to execute operation upon it. Objects do communicate, through messaging or method invocation, but they are passive. Objects and \ac{OOP} are merely the means to build agent systems. Agent-oriented modelling is a whole new programming paradigm. 
 
 \subsection{Agents as a Theoretical Tool}
 
@@ -150,10 +150,23 @@ The basic representation of a task in Java is the \emph{Runnable} interface, but
 
 Tasks executed by an \emph{Executor} can have various states. As far as this project is concerned, these states are not critical, because all the simulations are run to investigate the colony at a point in time only, so in all the cases, the thread pools will be created to the size of the number of agents necessary to run the simulation.
 
-AS the \emph{Future} interface is an abstraction of the state of a task moving forward, it provides useful methods to manage and retrieve results of tasks.
+AS the \emph{Future} interface is an abstraction of the state of a task moving forward, it provides useful methods to manage and retrieve results of tasks. Perhaps for social insects, the most popular of them is search optimisation.
 
 So the natural way of executing tasks is to create a thread pool using an \emph{Executor} such as \emph{ExecutorService}, and then submitting tasks to it - any classes that implement \emph{Runnable} or \emph{Callable}. The methods used for task submission are likely to return \emph{Future} objects that represent the task state. These objects can be used for a variety of things, e.g. exception checking.
 
-\section{Current research}
+\section{Applications}
 
-Research on agents have been carried on a wide variety of areas.  \citeauthor{994150} \citealt{994150} have 
+The applications of the knowledge gained by researching social insects and agents are present in solutions for a wide range of problems. Perhaps, for social insects, the most popular application is search optimisation. \citeauthor{dorigo-phd} \cite{dorigo-phd} in partnership with \citeauthor{citeulike:5791708} \cite{citeulike:5791708, citeulike:7034555, citeulike:832379} introduced the idea for ants in particular. \citeauthor{Dorigo97antcolony} \cite{Dorigo97antcolonies, Dorigo97antcolony} execute a comparison analysis on the application of \ac{ACS} against other nature-inspired methods as well as to more traditional algorithms for the traveling salesman traveling problem. 
+
+Another example of application of \ac{ACO} is routing in telecommunication networks. \citeauthor{Schoonderwoerd96ant-basedload} \cite{Schoonderwoerd96ant-basedload} introduced \ac{ABC} for telephone networks. Further development on \ac{ABC} has been proposed by \citeauthor{Heusse98adaptiveagent-driven} \cite{Heusse98adaptiveagent-driven} and \citeauthor{Subramanian98antsand} \cite{Subramanian98antsand}. Another algorithm for routing has been proposed by \citeauthor{Caro98antnet:distributed} \cite{Caro98antnet:distributed, Caro97antnet:a, DiCaro:1998:ADS:1622797.1622806}, in contrast to  \ac{ABC} these new algorithm, called \emph{AntNet}, can bee applied to networks that are either connection-oriented or connectionless, such as packet-switching networks.
+
+Based on corpse clustering and larval sorting \citeauthor{citeulike:1646663} \cite{citeulike:1646663} has proposed two clustering models.  \citeauthor{lumer_faieta_1994} \cite{lumer_faieta_1994} have extended \citeauthor{citeulike:1646663}'s work to apply it to data analysis.
+
+Some lessons learned from social insects on self-assembly have been applied on the creation of self-assembling robots. \citeauthor{100066} \cite{100066} was the first person to propose the idea of self-assembly to the robotic field. \cite{bonabeau1999swarm}. \emph{Metamorphic} robots \cite{Chirikjian94} are one of the main research lines on self-assembly robotics. Although this area of study is not directly inspired on social insects, they share many common features such as the simplicity of the agents and access only to local information.
+
+More recently \citeauthor{Dorigo05swarm-bot:an} \cite{Dorigo05swarm-bot:an} has experimented self-assembling robots against tasks that require physical cooperation and coordination coordination. An overview of the \emph{Swarm-bot} \cite{Dorigo05swarm-bot:an} is presented by \citeauthor{6094854} \cite{6094854}.
+
+
+
+
+

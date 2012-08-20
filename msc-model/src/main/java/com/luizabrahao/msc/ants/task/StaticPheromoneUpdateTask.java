@@ -32,7 +32,9 @@ public class StaticPheromoneUpdateTask extends AbstractTask {
 
 	@Override
 	public void execute(Agent agent) {
-		logger.debug("[{}] Starting pherormone update run", agent.getId());
+		Node initialNode = agent.getCurrentNode();
+		
+		logger.info("[{}] Starting pherormone update run", agent.getId());
 		final int maximumNumberOfLines = ((StaticPheromoneUpdaterAgent) agent).getNumberOfLinesToProcess();
 		
 		Node startNode = agent.getCurrentNode();
@@ -71,6 +73,7 @@ public class StaticPheromoneUpdateTask extends AbstractTask {
 			}
 		}
 		
-		logger.debug("[{}] Finished pherormone update run", agent.getId());
+		agent.setCurrentNode(initialNode);
+		logger.info("[{}] Finished pherormone update run", agent.getId());
 	}
 }

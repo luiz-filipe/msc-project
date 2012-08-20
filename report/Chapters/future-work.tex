@@ -2,6 +2,28 @@
 \label{ch:future-work}
 
 \section{Model Improvements}
+
+The model proved to be flexible enough to enable easy implementation of the base classes and the declaration of different agent types and resources. The area that has been least looked after is related with simulation. As explained in section \ref{sec:running-sim} there is no formalisation related to simulations. This did not proved to be of any  inconvenience during the creation and execution of the simulations for this paper. 
+
+However, for the less aquatinted to the model and its implementation it could prove to be a challenge to write simulations and collecting data from them. More important all is the fact that managing all elements that compose a simulation would be very challenging for the users less experienced to the Java language itself.
+
+\subsection{Simulation handler}
+
+Formalising the simulations and data acquisition by the use of interfaces is necessary. Removing from the user the responsibly of creation and management of all elements necessary to run simulations. This could be done by the creation of a \emph{simulation handler} that would contain all the necessary data objects, such as the environment (grid of nodes), list of agents, simulation renderers and the necessary methods to schedule data collection, execution of chemical stimulus renderers and so forth.
+
+\subsection{Ant agent navigation improvements}
+
+When it came to implement the different agents from the different casts, the biggest challenge faced was to create an algorithm to take the agents back to their nest. The method implemented in this paper (see sections \ref{sec:ant-memory}, \ref{task:find-home-hide} and \ref{task:find-home-hide}) should be improved in order to be used in more complex and longer simulations. In some cases the simulations would have a high rate of ants not finding their nest at all.
+
+A possible improvement is to bring chemical landmarks to the model. An agent type could be created for this. This type could have properties that would point the ants to the right direction to the nest.
+
+\subsection{Nests As Agents}
+
+As seen in section \ref{sec:ant-nest} nest are represented as agents. In one hand this is facilitate their declaration and use as they enjoy all the infrastructure already in place for agents. On the other hand they are punctual, that is, they are placed in a node as any other agent and the other agents can see their nests only if they reach the same node that the nest is placed. This is clearly and disadvantage and it does not reflect the reality of natural nests also.
+
+An improvement to the model, that could be used to solve the problem of nests being punctual, could be an new interface to declare \emph{node types}. A node would have a type in the same way agents have. This would open up opportunity to create far more complex environments that it is possible now. For instance, a node could be an  \emph{obstacle} type, agents would not be allowed in there, or even a node could be a chemical landmark. With nodes having types, nests could be modelled as a set of nodes of the \emph{nest type}. This nodes would form a rectangular shape grid, in which if an agent reach any of the nodes they would be able to recognise they have reached their nest.
+
+
+
 \section{Implementation Issues}
 \subsection{Four way connected grid}
-\subsection{Simulation handler}

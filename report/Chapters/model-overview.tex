@@ -2,6 +2,14 @@
 \chapter{Model Overview}
 \label{ch:model-overview}
 
+The model's objective is to describe features present on natural systems in a flexible and robust way. By flexible it is meant the capability of being easily extendable to a wide variety of applications. By robust, it is meant that the model implementation must be always consistent. If the same simulation is carried many times using the same parameters, one would expect to have the same results for every run. \citeauthor{bonabeau1999swarm} \cite{bonabeau1999swarm} describe the task of modelling as:
+
+\begin{quote}
+Modelling is very different from designing an artificial system, because in modelling one tries to uncover what actually happens in the natural system — here an insect colony. Not only should a model reproduce some features of the natural system it is supposed to describe, but its formulation should also be consistent with what is known about the considered natural system: parameters cannot take arbitrary values, and the mechanisms and structures of the model must have some biological plausibility. Furthermore, the model should make testable predictions, and ideally all variables and parameters should be accessible to experiment.
+\end{quote}
+
+The proposed computational model enjoy all the proprieties described above.
+
 \section{Environment}
 
 The computational model describes the environment as a set of connected nodes, objects that implement the \emph{Node} interface. These nodes can be connected as the user wish, creating one, two or three dimensional environments, agents are capable to navigate from nodes to their neighbours, read communication stimuli deposited in the nodes by another agents and alter the environment themselves by depositing communication stimuli if they require.
@@ -118,7 +126,7 @@ The key methods of the class are:
 \end{itemize}
 
 It is important to note that \emph{ChemicalCommStimulus} limits the maximum amount of intensity to $1.0$. If an agent tries to increment a stimulus that is already $1.0$ in intensity, the request is ignored.
-Another noteworthy point is how \emph{ChemicalCommStimulus} implements the intensity decay. It uses the following:
+Another noteworthy point is how \emph{ChemicalCommStimulus} implements the stimulus intensity decay. It uses the following:
 
 \begin{equation}
 intensity_{new} = intensity * (1 - decayFactor)
@@ -155,7 +163,7 @@ The enumeration \emph{ForageStimulusType} is an extension of \emph{ChemicalCommS
 
 To enable the agents defined by the model to enjoy the properties that define agents in general it is critical that they have their own lifecycle, and the most flexible way to achieve that is if each agent is run in an isolated thread in one of the available CPUs of the machine running the simulation. This is guaranteed by the \emph{AbstractAgent} which implements the \emph{Callable} interface (see section \ref{subsec:threads-task-exec} for more details).  
 
-The abstraction of any agent is the \emph{Agent} interface though. It formalises the basic API that is available to any agent in the model. The most relevant are:
+The abstraction of any agent is the \emph{Agent} interface though. It formalises the basic \ac{API} that is available to any agent in the model. The most relevant are:
 
 \begin{itemize}
   \item String getId(): Each agent must have an unique identifier string to be used for identification. This method returns it. Note that is up to the user to make sure this string is unique.
@@ -193,9 +201,9 @@ The enumeration \emph{BasicTaskAgentType} is a reference implementation of the i
 
 \subsection{The Ant Interface}
 
-The ant implementation of the model starts from the \emph{Ant} interface. It declares the public API for any agent that is an ant. The most relevant methods are: 
+The ant implementation of the model starts from the \emph{Ant} interface. It declares the public \ac{API} for any agent that is an ant. The most relevant methods are: 
 \begin{itemize}  \item Direction getMovingDirection(): Returns what direction the ant is moving in relation to the environment grid.  \item void incrementStimulusIntensity(ChemicalStimulusType): Lay pheromone onto the current node that the agent is at.  \item double collectFood(Agent, double): Tries to collect the specified amount of food from the food source specified as parameter, returns the amount of food that the agent was able to collect.  \item Boolean isCaringFood(): Returns true if the agent is caring food, false otherwise.  \item FoodSourceAgent findFoodSource(): Checks if any agent in the current node is a food source, if any is found it is returned otherwise \emph{null} is returned.  \item void invertDirection(): Inverts the direction the agent is traveling, for example, if the agent is traveling East, after this method is called the agent’s moving direction will be West. See section XXX for more details.  \item void depositFood(AntNestAgent): Deposit the food the agent is caring into the nest passed as parameter.\end{itemize}
-For the full API and more detail explanations of all the methods, please see section XXX.
+For the full \ac{API} and more detail explanations of all the methods, please see section XXX.
 
 \subsection{Ant Agents}
 \label{sec:pheromone-deposit}
@@ -237,11 +245,17 @@ The interface \emph{AntType} and its implementations are used to represent any s
 
 \end{itemize}
 
-(((need to discuss the way the memory is implemented)))
 
 By far the most important method in the list is \emph{void execute(Agent)}, because this method is the method that defines the agent's behaviour. It is in this method the agent can analyse the environment state around it and decide which tasks to execute.
 
 As seen, different type of ants are able to deposit different types of pheromone and in different quantities. So every type of ant has a map that tells by name, what is the increment for each stimulus the ant is able to deposit. the method \emph{double getStimulusIncrement(String)} is used to query these amounts.
+
+\subsubsection{Ant Agent's memory}
+\label{sec:ant-memory}
+
+The ant's memory is implemented as a \emph{linked list}, and it is used in a \ac{LIFO} fashion. As we have seen above, each agent type has the public method \emph{getMemorySize()}. This method returns the amount of nodes the agent is capable of remembering being in.
+
+Just before moving to the a new node the agent can be requested to \emph{push} to its memory the node it is in at the moment. If the number of nodes it has already in its 'memory' is greater than the maximum it is supposed to have as a maximum, it \emph{removes} the oldest node from its 'memory'.
 
 \subsubsection{WorkerType}
 
@@ -257,16 +271,28 @@ The goal of this type of ant is to explore the environment, find food,  collect 
 \end{figure}
 
 \subsubsection{Ant Nests}
+\label{sec:ant-nest}
 
 The enumeration \emph{AntNestType} declares a type of agent that represents an ant nest. It implements the base \emph{AgentType} interface, so as one would expect, agents of this types are not able to execute tasks.
 
 The class \emph{AntNestAgent} is an specialisation of \emph{AbstractAgent}, it has an extra synchronised field that works as a counter of how much food is available in the nest, \emph{amountOfFoodHeld}. It also declares a public method called \emph{void addPortionOfFood(AntAgent, double)} which allows ants to deposit food in the nest.
 
+\subsection{Pheromone Decay and the StaticPheromoneUpdaterAgent}
+\label{sec:pheromone-decay}
+
+As a decentralised system, the model lacks a central authority that could handle the chemical stimulus decay question. As seen in section \ref{sec:com-ants}, pheromones are volatile. Section \ref{subsec:chemical-stimulus} explain how the pheromone decay rule implemented by the model. 
+
+However to decay a particular stimulus intensity in a node, the method \emph{decayIntensity()} from \emph{ChemicalCommStimulus} has to be trigged. With no central authority to trigger this method for every node present in the environment, two alternative ways could be deployed, make everyone update itself or create an agent that would navigate through the entire environment, triggering the decay method for every node.
+
+The first option is more attractive initially, but after some consideration, for practical reasons it would be viable. To enable nodes to update themselves they would have to effectively be tasks run by threads as much the same as the agents are. With environments normally containing around $250,000$ nodes, it is obvious that this is not an option at all.
+
+The second option is the creation of a specialised agent to trigger the necessary method to execute the stimuli update. \emph{StaticPheromoneUpdaterAgent} does exactly that. Its implementation also allows to divide the environment in slices and have an agent to update each of these slices, improving performance in large environments, this technique is used in the experiment in section \ref{sec:forage-radius-inv}.
+
 \subsection{Agents Package}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.0\linewidth]{gfx/uml-agent-package.png}
+  \includegraphics[width=0.9\linewidth]{gfx/uml-agent-package.png}
   \caption{Generic model of the agent package}
   \label{fig:gen-agent-package}
 \end{figure}
@@ -361,7 +387,7 @@ The \emph{FindHomeTask} is useful for ants that have collected food and need to 
 
 The \emph{FindHomeAndHideTask} is very similar to \emph{FindHomeTask} the only difference is that if the agent is in a node that contains a nest the task does not try to do anything else, it leaves the agent there. 
 
-is useful for ants that have collected food and need to deposit it in their nest. It uses the same procedure that \emph{ForageTask} to select which node to move next. The biggest difference is that it tries to use the agent's memory before following the specified pheromone trail. The task's algorithm is illustrated in Figure \ref{fig:find-home-hide-act}.
+It is useful for ants that have collected food and need to deposit it in their nest. It uses the same procedure that \emph{ForageTask} to select which node to move next. The biggest difference is that it tries to use the agent's memory before following the specified pheromone trail. The task's algorithm is illustrated in Figure \ref{fig:find-home-hide-act}.
 
 \begin{figure}[H]
   \centering

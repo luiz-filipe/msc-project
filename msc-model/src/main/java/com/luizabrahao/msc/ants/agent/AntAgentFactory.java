@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Node;
 
 /**
@@ -41,7 +42,7 @@ public class AntAgentFactory {
 		logger.info("{} agents created with prefix '{}'", agents.size(), namePrefix);
 		return agents;
 	}
-	
+		
 	/**
 	 * In cases that the population produced should be sprang across a line of
 	 * the grid, this method allows the population to be initialised in chucks
