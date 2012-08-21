@@ -23,7 +23,23 @@ As seen in section \ref{sec:ant-nest} nest are represented as agents. In one han
 
 An improvement to the model, that could be used to solve the problem of nests being punctual, could be an new interface to declare \emph{node types}. A node would have a type in the same way agents have. This would open up opportunity to create far more complex environments that it is possible now. For instance, a node could be an  \emph{obstacle} type, agents would not be allowed in there, or even a node could be a chemical landmark. With nodes having types, nests could be modelled as a set of nodes of the \emph{nest type}. This nodes would form a rectangular shape grid, in which if an agent reach any of the nodes they would be able to recognise they have reached their nest.
 
-
-
 \section{Implementation Issues}
-\subsection{Four way connected grid}
+
+There is room from improvement on the basic implementation of the model. The comments made in the source files should be consolidated and in some cases improved. However a major possible improvement on the basic implementation is to change the ways the nodes are connected to from the environment grid.  
+
+Currently the nodes are connected in a \emph{four-way} fashion, each node has $4$ neighbours, one in each direction: \emph{north, east, south, west}. This creates a major limitation related to agent navigation. Agents are very unlikely to move in diagonals, as it consists in two movements, first the agent move forward and after it moves sideways. It has been observed that agents hardly would do that because they have very low probability of selecting nodes in a diagonal sequence, e.g. north, east, north, east, north, east. Thus agents generally could not find any food sources in more complex environments where they were not directly aligned to the nest where the ants departed from.
+
+An implementation of a grid connected differently would improve the problem considerably. If nodes had $8$ neighbours instead of $4$, agents would be able to navigate directly in the diagonal. Figure \ref{fig:connection} illustrates how the nodes would be connected and all the possible directions the agents could travel twards.
+
+\begin{figure}[H]
+\myfloatalign
+\subfloat[four-way connected grid]
+{\label{fig:connection-a}
+\includegraphics[width=.2\linewidth]{gfx/connection-4}} \quad
+\subfloat[eight-way connected grid]
+{\label{fig:connection-b}
+\includegraphics[width=.2\linewidth]{gfx/connection-8}}
+
+\caption{Node connection to its neighbours}
+\label{fig:connection}
+\end{figure}

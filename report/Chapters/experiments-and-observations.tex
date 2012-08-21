@@ -203,7 +203,73 @@ Results should vary with the use of different parameters, such as the number of 
 \section{Forage Radius Investigation}
 \label{sec:forage-radius-inv}
 
+This experiment investigates the affect of the radius variation of the \emph{Forage} chemical stimulus (section \ref{subsec:forage-stimulus}) on the capacity of the colony to collect food. Four values for the stimulus' radius were tried - $0$, $1$, $2$. The experiment was setup as follows:
+
+\begin{table}[H]
+\myfloatalign
+\begin{tabularx}{\textwidth}{Xll} \toprule
+\tableheadline{Property} & \tableheadline{Value} \\ \midrule
+Number of lines & 500 \\
+Number of columns & 500 \\
+Total number of nodes &  250,000 \\
+Initial grid pheromone intensity & 0.01 \\
+\midrule
+Pheromone radius variations & 0, 1, 2 \\
+Duration of each simulation & 30 s \\
+Number of agents & 50 \\
+Agent Type & WorkerType \\
+Pheromone increment step & 0.01 \\
+Task executed & ForageTask and FindHome\\
+Agent sleep time & 5 ms \\
+Pheromone decay frequency & every 3 seconds \\
+\bottomrule
+\end{tabularx}
+\caption{Experiment setup for pheromone radius variation study}  
+\label{tab:setup-2}
+\end{table}
+
 In this experiment the radius of action of the forage pheromone is varied in order to check the effects in the amount of food the colony is capable of forage.
+
+
+\begin{figure}[H]
+\myfloatalign
+\subfloat[radius = 0]
+{\label{fig:radius-res-a}
+\includegraphics[width=.8\linewidth]{gfx/radius-res-0}} \\
+\subfloat[radius = 1]
+{\label{fig:radius-res-b}
+\includegraphics[width=.8\linewidth]{gfx/radius-res-1}} \\
+\subfloat[radius = 2]
+{\label{fig:radius-res-c}
+\includegraphics[width=.8\linewidth]{gfx/radius-res-2}} \\
+
+\caption[Visual samples of variation of radius]{20 graphical samples of the results in variating forage stimulus' radius}\label{fig:radius-res}
+\end{figure}
+
+
+\begin{figure}[H]
+\myfloatalign
+\subfloat[]
+{\label{fig:radius-a}
+\includegraphics[width=.4\linewidth]{gfx/radius-0}} \quad
+\subfloat[]
+{\label{fig:radius-b}
+\includegraphics[width=.4\linewidth]{gfx/radius-1}} \\
+\subfloat[]
+{\label{fig:radius-c}
+\includegraphics[width=.4\linewidth]{gfx/radius-2}} \quad
+\subfloat[]
+{\label{fig:radius-d}
+\includegraphics[width=.4\linewidth]{gfx/radius-pdf}}
+
+\caption[Radius variation - samples distributions]{Samples distribution variating the pheromone radius - 0 (a), 1 (b) and 2 (c) - and the samples' probability density distribution (d)}\label{fig:radius}
+\end{figure}
+
+
+
+
+
+
 
 Explain how the variation of the radius actually impact the pheromone deposition. Add images to explain how the pheromone is actually deposited depending on the radius. Explain that the deposition follow 1/x.
 
