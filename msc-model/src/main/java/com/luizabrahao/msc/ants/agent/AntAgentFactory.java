@@ -39,7 +39,7 @@ public class AntAgentFactory {
 			agents.add(new AntAgent(namePrefix + "-" + i, WorkerAntType.TYPE, initialNode, false));
 		}
 		
-		logger.info("{} agents created with prefix '{}'", agents.size(), namePrefix);
+		logger.debug("{} agents created with prefix '{}'", agents.size(), namePrefix);
 		return agents;
 	}
 		
