@@ -23,7 +23,6 @@ import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
-import com.luizabrahao.msc.ants.render.ExploredSpaceRenderer;
 import com.luizabrahao.msc.ants.render.PheromoneRenderer;
 import com.luizabrahao.msc.ants.test.TestUtil;
 import com.luizabrahao.msc.sim.util.CallableAdapter;
@@ -39,8 +38,16 @@ public class StudyOnRadius {
 	private final double initialConcentration = 0.01;	
 	private final long secondsToRunDecayAgent = 3;
 	
-	@Test @SuppressWarnings("unused")
-	public void executeExperiment() throws InterruptedException {
+	@Test
+	public void run() throws InterruptedException {
+		for (int i = 16; i < 21; i++) {
+			this.executeExperiment(i);
+		}
+	}
+	
+	
+	@SuppressWarnings("unused")
+	public void executeExperiment(int executionNumber) throws InterruptedException {
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(maximumNumberOfThreads);
 		List<Callable<Void>> renderers = new ArrayList<Callable<Void>>();
 		
@@ -75,20 +82,20 @@ public class StudyOnRadius {
 		}
 		
 //		renderers.add(new ExploredSpaceRenderer(grid, "target/studyOnRadius - space - radius = " + ForageStimulusType.TYPE.getRadius() + ".png", nColumns, nLines));
-//		renderers.add(new PheromoneRenderer(grid, "target/studyOnRadius - trail - radius = " + ForageStimulusType.TYPE.getRadius() + ".png", nColumns, nLines, ForageStimulusType.TYPE));
-//				
-//		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
-//		
-//		for (Future<Void> future : renderersFutures) {
-//			try {
-//				future.get();
-//			} catch (ExecutionException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			future.cancel(true);
-//		}
+		renderers.add(new PheromoneRenderer(grid, "target/studyradius - " + ForageStimulusType.TYPE.getRadius() + " - " + executionNumber + ".png", nColumns, nLines, ForageStimulusType.TYPE));
+				
+		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
 		
-		logger.info("Amount of food collected: {}", nest.getAmountOfFoodHeld());
+		for (Future<Void> future : renderersFutures) {
+			try {
+				future.get();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+			
+			future.cancel(true);
+		}
+		
+		logger.info("Amount of food collected; {}", nest.getAmountOfFoodHeld());
 	}
 }

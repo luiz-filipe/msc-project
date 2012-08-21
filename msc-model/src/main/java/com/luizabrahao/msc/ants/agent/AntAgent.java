@@ -53,7 +53,7 @@ public class AntAgent extends TaskAgent implements Ant {
 			this.getAgentType().execute(this);
 		}
 		
-		logger.info("{} is stoping...", this.getId());
+		logger.debug("{} is stoping...", this.getId());
 		return null;
 	}
 	
