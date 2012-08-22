@@ -43,6 +43,7 @@ public class AntAgent extends TaskAgent implements Ant {
 		super(id, agentType, currentNode, recordNodeHistory);
 		
 		memory = new LinkedList<Node>();
+		this.movingDirection = Direction.SOUTH;
 	}
 
 	@Override public AntType getAgentType() { return (AntType) super.getAgentType(); }

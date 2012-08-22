@@ -40,7 +40,7 @@ public class StudyOnRadius {
 	
 	@Test
 	public void run() throws InterruptedException {
-		for (int i = 16; i < 21; i++) {
+		for (int i = 0; i < 25; i++) {
 			this.executeExperiment(i);
 		}
 	}
@@ -82,19 +82,19 @@ public class StudyOnRadius {
 		}
 		
 //		renderers.add(new ExploredSpaceRenderer(grid, "target/studyOnRadius - space - radius = " + ForageStimulusType.TYPE.getRadius() + ".png", nColumns, nLines));
-		renderers.add(new PheromoneRenderer(grid, "target/studyradius - " + ForageStimulusType.TYPE.getRadius() + " - " + executionNumber + ".png", nColumns, nLines, ForageStimulusType.TYPE));
-				
-		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
-		
-		for (Future<Void> future : renderersFutures) {
-			try {
-				future.get();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-			
-			future.cancel(true);
-		}
+//		renderers.add(new PheromoneRenderer(grid, "target/studyradius - " + ForageStimulusType.TYPE.getRadius() + " - " + executionNumber + ".png", nColumns, nLines, ForageStimulusType.TYPE));
+//				
+//		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
+//		
+//		for (Future<Void> future : renderersFutures) {
+//			try {
+//				future.get();
+//			} catch (ExecutionException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			future.cancel(true);
+//		}
 		
 		logger.info("Amount of food collected; {}", nest.getAmountOfFoodHeld());
 	}

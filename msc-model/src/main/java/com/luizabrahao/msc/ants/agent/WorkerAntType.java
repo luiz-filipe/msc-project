@@ -66,7 +66,7 @@ public enum WorkerAntType implements AntType {
 		
 		if (ant.getCurrentTask() != null) {
 			// if it is trying to hide, just continue...
-			if (ant.getCurrentTask().getName() == FindAndHideInNest.NAME) {
+			if (ant.getCurrentTask().getName().equals(FindAndHideInNest.NAME)) {
 				ant.getTaskByName(FindAndHideInNest.NAME).execute(agent);
 				
 				this.waitSomeTime();
@@ -84,12 +84,14 @@ public enum WorkerAntType implements AntType {
 			}
 			
 			ant.setCurrentTask(ant.getTaskByName(FindAndHideInNest.NAME));
-			logger.info("{} has switched to {}", agent.getId(), FindAndHideInNest.NAME);
+			logger.debug("{} has switched to {}", agent.getId(), FindAndHideInNest.NAME);
+			ant.setCurrentTask(FindAndHideInNest.NAME);
 			ant.getTaskByName(FindAndHideInNest.NAME).execute(agent);
 			
 			this.waitSomeTime();
 			return;
 		}
+		
 		
 		FoodSourceAgent foodSource = ant.findFoodSource();
 		
@@ -103,8 +105,10 @@ public enum WorkerAntType implements AntType {
 		}
 				
 		if (!ant.isCaringFood()) {
+			ant.setCurrentTask(ForageTask.NAME);
 			ant.getTaskByName(ForageTask.NAME).execute(agent);
 		} else {
+			ant.setCurrentTask(FindHomeTask.NAME);
 			ant.getTaskByName(FindHomeTask.NAME).execute(agent);
 		}
 		
