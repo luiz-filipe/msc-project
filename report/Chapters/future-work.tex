@@ -29,7 +29,7 @@ There is room from improvement on the basic implementation of the model. The com
 
 Currently the nodes are connected in a \emph{four-way} fashion, each node has $4$ neighbours, one in each direction: \emph{north, east, south, west}. This creates a major limitation related to agent navigation. Agents are very unlikely to move in diagonals, as it consists in two movements, first the agent move forward and after it moves sideways. It has been observed that agents hardly would do that because they have very low probability of selecting nodes in a diagonal sequence, e.g. north, east, north, east, north, east. Thus agents generally could not find any food sources in more complex environments where they were not directly aligned to the nest where the ants departed from.
 
-An implementation of a grid connected differently would improve the problem considerably. If nodes had $8$ neighbours instead of $4$, agents would be able to navigate directly in the diagonal. Figure \ref{fig:connection} illustrates how the nodes would be connected and all the possible directions the agents could travel twards.
+An implementation of a grid connected differently would improve the problem considerably. If nodes had $8$ neighbours instead of $4$, agents would be able to navigate directly in the diagonal. Figure \ref{fig:connection} illustrates how the nodes would be connected and all the possible directions the agents could travel towards.
 
 \begin{figure}[H]
 \myfloatalign
@@ -43,3 +43,20 @@ An implementation of a grid connected differently would improve the problem cons
 \caption{Node connection to its neighbours}
 \label{fig:connection}
 \end{figure}
+
+\section{Proposed Studies}
+\label{sec:new-studies}
+
+\subsection{Limited Number of Agents Per Node}
+
+This experiment has the potential to explore how the formation and saturation of the pheromone trails would be affected by the limiting the number of agents that can be in a same node at the same time. From the experiment of section \ref{sec:forage-radius-inv} it is clear that in the case of a chemical communication stimulus having radius greater than $0$ agents do not follow a \emph{rational} behaviour towards their goal of foraging. As explained in the experiment discussion the node selection model is responsible for that.
+
+It would be interesting to investigate how the trails would emerge if the nodes had a maximum number of agents allowed in that node at the same time, this would force some agents to move to nodes they would not move to otherwise, it is clear that this is the actual case in nature, as two ants cannot occupy the same physical space. 
+
+\subsection{Improved pheromone sensing capability}
+
+The experiment \emph{Forage Radius Investigation} (ection \ref{sec:forage-radius-inv}) has showed that the agents are too sensitive to the pheromone intensity of the direct neighbours of the node they are currently at. Again, this is due to the node selection model.
+
+This proposed experiment would investigate how the colony forage performance and trail formation would change if agents would take in consideration not only the pheromone intensity of the neighbours of its current node but also the neighbours of the neighbours would be part of the decision process. Different 'depths' of sensibility could be experimented. This new feature would reduce the agent's sensibility to direct neighbours of its current node. 
+
+Another possible improvement on the agent's sensing capacity would be the introduction of some sort of memory that would play part of the node selection process.
