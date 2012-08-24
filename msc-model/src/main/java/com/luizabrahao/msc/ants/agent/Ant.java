@@ -52,7 +52,7 @@ public interface Ant {
 	 * Checks if the agent is caring food.
 	 * @return boolean True if the agent is caring food, false otherwise.
 	 */
-	boolean isCaringFood();
+	boolean isCarryingFood();
 	
 	/**
 	 * Each agent should have a short term memory of where the agent has been.

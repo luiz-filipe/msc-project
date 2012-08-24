@@ -19,11 +19,13 @@ import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.agent.AntAgentFactory;
 import com.luizabrahao.msc.ants.agent.AntNestAgent;
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
+import com.luizabrahao.msc.ants.agent.WorkerAntType;
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
 import com.luizabrahao.msc.ants.env.WarningStimulusType;
+import com.luizabrahao.msc.ants.render.ExploredSpaceRenderer;
 import com.luizabrahao.msc.ants.render.PheromoneRenderer;
 import com.luizabrahao.msc.ants.task.FindAndHideInNest;
 import com.luizabrahao.msc.ants.test.TestUtil;
@@ -44,7 +46,10 @@ public class ReactionToWarning {
 	
 	@Test
 	public void run() throws InterruptedException {
-		this.experiment(1);
+		for (int i = 0; i < 1; i++) {
+			this.experiment(i);
+			logger.info("---------");
+		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -54,9 +59,12 @@ public class ReactionToWarning {
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		TestUtil.setIntensity(0, nLines, 0, nColumns, initialConcentration, grid);
+		TestUtil.setIntensity(0, nLines - 150, nColumns / 2, nColumns / 2 + 1, 1.0, grid);
 		
 		final AntNestAgent nest = new AntNestAgent("nest", grid[0][Integer.valueOf(nColumns / 2)]);
-		final List<AntAgent> agents = AntAgentFactory.produceBunchOfTactileWorkers(100, "t-worker", nest.getCurrentNode());
+		final List<FoodSourceAgent> foodSources = AntEnvironmentFactory.placeRowOfFoodSources(grid[nLines - 150][nColumns / 2 - 1], 2, 100);
+		
+		final List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "worker", nest.getCurrentNode());
 		
 		final StaticPheromoneUpdaterAgent pheromoneUpdater1 = new StaticPheromoneUpdaterAgent("pheromone-updater-1", grid[0][0], nLines / 2);
 		final StaticPheromoneUpdaterAgent pheromoneUpdater2 = new StaticPheromoneUpdaterAgent("pheromone-updater-2", grid[250][0], nLines / 2);
@@ -66,74 +74,106 @@ public class ReactionToWarning {
 		final ScheduledFuture<?> warningPlacer = executor.schedule(new Runnable() {
 			@Override
 			public void run() {
-				TestUtil.setIntensity(WarningStimulusType.TYPE, nLines - 100, nLines - 95, 150, nColumns - 150, 0.8, grid);
+				TestUtil.setIntensity(WarningStimulusType.TYPE, nLines - 160, nLines - 100, nColumns / 2 - 10, nColumns / 2 + 10, 1, grid);
+				logger.info("Warning stimulus added placed");
 			}
 			
 		}, secondsToRun / 4, TimeUnit.SECONDS);
 		
-//		final ScheduledFuture<?> agentsCounter = executor.scheduleWithFixedDelay(new Runnable() {
-//			@Override
-//			public void run() {
-//				int nAgentsInNest = 0;
-//				
-//				for (Agent agent : agents) {
-//					if (agent.getCurrentNode() == nest.getCurrentNode()) {
-//						nAgentsInNest++;
-//					}
-//				}
-//				
-//				logger.info("Number of agents in nest; {}", nAgentsInNest);
-//			}
-//		}, 500, 500, TimeUnit.MILLISECONDS);
 		
 		final ScheduledFuture<?> taskCounter = executor.scheduleWithFixedDelay(new Runnable() {
 			@Override
 			public void run() {
 				int nAgentsIHidding = 0;
-				
+
 				for (Agent agent : agents) {
-					if (((TaskAgent) agent).getCurrentTask().getName().equals(FindAndHideInNest.NAME)) {
-						nAgentsIHidding++;
+					if (((TaskAgent) agent).getCurrentTask() != null) {
+						if (((TaskAgent) agent).getCurrentTask().getName().equals(FindAndHideInNest.NAME)) {
+							nAgentsIHidding++;
+						}
 					}
 				}
 				
-				logger.info("Number of agents executing hidding task; {}", nAgentsIHidding);
+				logger.warn("Number of agents executing hidding task; {}", nAgentsIHidding);
 			}
 		}, 500, 500, TimeUnit.MILLISECONDS);
 		
 		
-		
-		final List<Future<Void>> agentsFutures = executor.invokeAll(agents, secondsToRun, TimeUnit.SECONDS);
-		
-		for (Future<Void> future : agentsFutures) {
-			try {
-				future.get();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			} catch (CancellationException e) {
-				// nothing to do...
+		final ScheduledFuture<?> agents01 = executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < 10; i++) {
+					executor.submit(agents.get(i));
+				}
+				logger.debug("Deplyment 1");
 			}
-			
-			future.cancel(true);
-		}
+		}, 3, TimeUnit.SECONDS);
 		
+		final ScheduledFuture<?> agents02 = executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 10; i < 20; i++) {
+					executor.submit(agents.get(i));
+				}
+				logger.debug("Deplyment 2");
+			}
+		}, 6, TimeUnit.SECONDS);
+		
+		final ScheduledFuture<?> agents03 = executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 20; i < 30; i++) {
+					executor.submit(agents.get(i));
+				}
+				logger.debug("Deplyment 3");
+			}
+		}, 9, TimeUnit.SECONDS);
+		
+		final ScheduledFuture<?> agents04 = executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 30; i < 40; i++) {
+					executor.submit(agents.get(i));
+				}
+				logger.debug("Deplyment 4");
+			}
+		}, 12, TimeUnit.SECONDS);
+		
+		final ScheduledFuture<?> agents05 = executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 40; i < 50; i++) {
+					executor.submit(agents.get(i));
+				}
+				logger.debug("Deplyment 5");
+			}
+		}, 15, TimeUnit.SECONDS);
+
+		List<AntAgent> stopperList = new ArrayList<AntAgent>();
+		stopperList.add(new AntAgent("stopper-worker", WorkerAntType.TYPE, nest.getCurrentNode(), false));
+		
+		executor.invokeAll(stopperList, secondsToRun, TimeUnit.SECONDS);
+		
+//		executor.invokeAll(agents, secondsToRun, TimeUnit.SECONDS);
+		
+		renderers.add(new ExploredSpaceRenderer(grid, "target/reaction - space.png", nColumns, nLines));
 		renderers.add(new PheromoneRenderer(grid, "target/reaction - setup.png", nColumns, nLines, WarningStimulusType.TYPE));
 		renderers.add(new PheromoneRenderer(grid, "target/reaction - hide-only - " + executionNumber + " - forage.png", nColumns, nLines, ForageStimulusType.TYPE));
-		renderers.add(new PheromoneRenderer(grid, "target/reaction - hide-only - " + executionNumber + " - warning.png", nColumns, nLines, WarningStimulusType.TYPE));
-		
+//		renderers.add(new PheromoneRenderer(grid, "target/reaction - hide-only - " + executionNumber + " - warning.png", nColumns, nLines, WarningStimulusType.TYPE));
+//		
 		final List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
-		
-		for (Future<Void> future : renderersFutures) {
-			try {
-				future.get();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			} catch (CancellationException e) {
-				// nothing to do here.
-			}
-			
-			future.cancel(true);
-		}
+//		
+//		for (Future<Void> future : renderersFutures) {
+//			try {
+//				future.get();
+//			} catch (ExecutionException e) {
+//				e.printStackTrace();
+//			} catch (CancellationException e) {
+//				// nothing to do here.
+//			}
+//			
+//			future.cancel(true);
+//		}
 
 	}
 }

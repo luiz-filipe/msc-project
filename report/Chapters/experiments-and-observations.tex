@@ -4,17 +4,17 @@
 \section{Simulations and data collection}
 \label{sec:running-sim}
 
-The computational model does not formalise any resources to be used to create and run simulations, neither the model formalise any way to collect data from the simulations.
+The computational model does not formalise any resources to be used to create and run simulations, neither does the model formalise any way to collect data from the simulations.
 
-JUnit is the reference unit test framework for Java, and the basic implementation of the proposed computational model is tested against more than 20 unit tests. However, unit tests also provide the perfect environment to run simulations. If resources such as initial node grid, initial pheromone concentrations and agents are going to be the same for more than one simulation, one can take advantage of test \emph{fixture} with the \emph{@Before} annotation to initialise these objects without repeating code. One could could create a class for each simulation with a \emph{Main} method also, however it is more convenient to use the test framework.
+JUnit is the reference unit test framework for Java, and the basic implementation of the proposed computational model is tested against more than 20 unit tests. However, unit tests also provide the perfect environment to run simulations. If resources such as initial node grid, initial pheromone concentrations and agents are going to be the same for more than one simulation, one can take advantage of test \emph{fixture} with the \emph{@Before} annotation to initialise these objects without repeating code. One could create a class for each simulation with a \emph{Main} method also, however it is more convenient to use the test framework.
 
-Another critical aspect of the simulations is data collection. The model does not describe how data can be acquired during and after the simulation. For the simulations run for this paper logging was used for this intend. Log4j is a thread-safe logging service maintained by the Apache foundation and it was used throughout the implementation and the simulations. In most of the simulations the logger was setup to write into files that are processed after the simulation is finished. Also, it is possible to configure the logger service to write on the console, so information on the agents can be easily visualised during the execution of the simulations.
+Another critical aspect of the simulations is data collection. The model does not describe how data can be acquired during and after the simulation. For the simulations run for this paper logging was used for this purpose. Log4j is a thread-safe logging service maintained by the Apache foundation and it was used throughout the implementation and the simulations. In most of the simulations the logger was setup to write into files that are processed after the simulation is finished. Also, it is possible to configure the logger service to write on the console, so information on the agents can be easily visualised during the execution of the simulations.
 
-\section{Pheromone Concentration Sensibility}
+\section{Pheromone Concentration Sensitivity}
 
-Due to the model of node selection agents are sensitive to the pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings form $0$ to a $100$ percent very swiftly, causing the agents to get trapped.
+Due to the model of node selection, agents are very sensitive to the pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings from $0%$ to $100%$ very swiftly, causing the agents to get trapped.
 
-This experiment investigates how different initial pheromone concentrations in the environment and the amount of pheromone each agent is capable of depositing in each interaction affect the agents navigation through the space. It also has objective to determine what values of these two parameters are acceptable to use in the other experiments.
+This experiment investigates how different initial pheromone concentrations in the environment and the amount of pheromone each agent is capable of depositing in each interaction affect the agents navigation through the space. It also has an objective to determine what values of these two parameters are acceptable to use in the other experiments.
 
 Firstly, let's examine the case when all the nodes of the environment are created with no initial concentration of \emph{Forage} pheromone (Figure \ref{fig:initial-a}). When the agent is deciding which node it is going to make the first move to, all neighbours have the same probability of being picked, because of the $0$ of pheromone concentration (Figure \ref{fig:initial-b}). So as it was programmed to, the agent picks one node at random. But before moving to the next node it lays a bit of pheromone, suppose the concentration deposited is $0.1$. When the move is done, the environment around the agent should look like the one pictured in Figure \ref{fig:initial-c}.
 
@@ -39,7 +39,7 @@ Firstly, let's examine the case when all the nodes of the environment are create
 {\label{fig:initial-f}
 \includegraphics[width=.3\linewidth]{gfx/initial-06}}
 
-\caption{Affect of initial pheromone concentration at zero}\label{fig:initial}
+\caption{Effect of initial pheromone concentration at zero}\label{fig:initial}
 \end{figure}
 
 Now it is time for the agent to move again. Firstly the agent reads the pheromone intensity in each of the neighbour nodes, after it computes where it is more likely to move. For all the nodes around the agent apart from the one it has just moved from have $0$ pheromone intensity in them, the agent is certain to move back to the previous node (Figure \ref{fig:initial-d}). Before completing the move, it lays pheromone in the current node. When the agent is back to the node it first started from, the scenario repeats and it becomes a cycle. The agent go back and forth, trapped in these two nodes forever, with no changes to explore the environment further. 

@@ -110,7 +110,7 @@ TYPE;
 		if ((warningStimulus != null) && (warningStimulus.getIntensity() > warningThreshold)) {
 			// if the ant is caring food it is likely it already is moving
 			// towards the nest, so there is no need to invert its direction.
-			if (!ant.isCaringFood()) {
+			if (!ant.isCarryingFood()) {
 				ant.invertDirection();
 			}
 			
@@ -126,16 +126,16 @@ TYPE;
 		
 		FoodSourceAgent foodSource = ant.findFoodSource();
 		
-		if ((foodSource != null) && (!ant.isCaringFood())) {
+		if ((foodSource != null) && (!ant.isCarryingFood())) {
 			ant.collectFood(foodSource, amountOfFoodCapableToCollect);
 			logger.debug("{} found a source food and will try to collect food.", agent.getId());
 			
-			if (ant.isCaringFood()) {
+			if (ant.isCarryingFood()) {
 				ant.invertDirection();
 			}
 		}
 				
-		if (!ant.isCaringFood()) {
+		if (!ant.isCarryingFood()) {
 			ant.setCurrentTask(ForageTask.NAME);
 			ant.getTaskByName(ForageTask.NAME).execute(agent);
 		} else {

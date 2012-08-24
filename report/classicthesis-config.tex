@@ -29,7 +29,7 @@
 \newcommand{\myUni}{University of London\xspace}
 \newcommand{\myLocation}{London, United Kingdon\xspace}
 \newcommand{\myTime}{September 2012\xspace}
-\newcommand{\myVersion}{Draft 1\xspace}
+\newcommand{\myVersion}{Draft 2\xspace}
 
 %----------------------------------------------------------------------------------------
 %	USEFUL COMMANDS
@@ -257,3 +257,28 @@ pdfproducer={LaTeX with hyperref and classicthesis}
 \usepackage{float}
 \usepackage{setspace}
 \doublespacing
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+    language=java,
+    basicstyle=\scriptsize,
+    upquote=true,
+    aboveskip={1.5\baselineskip},
+    columns=fullflexible,
+    showstringspaces=false,
+    extendedchars=true,
+    breaklines=true,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    identifierstyle=\ttfamily,
+    keywordstyle=\color[rgb]{0,0,1},
+    commentstyle=\color[rgb]{0.133,0.545,0.133},
+    stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+\lstloadlanguages{Java}

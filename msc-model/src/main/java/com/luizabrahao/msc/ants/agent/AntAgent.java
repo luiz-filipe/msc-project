@@ -65,7 +65,7 @@ public class AntAgent extends TaskAgent implements Ant {
 		return this.amountOfFoodCarring;
 	}
 	
-	@Override public boolean isCaringFood() { return (amountOfFoodCarring != 0) ? true : false; }
+	@Override public boolean isCarryingFood() { return (amountOfFoodCarring != 0) ? true : false; }
 	
 	@Override
 	public void incrementStimulusIntensity(final ChemicalCommStimulusType chemicalCommStimulusType) {
