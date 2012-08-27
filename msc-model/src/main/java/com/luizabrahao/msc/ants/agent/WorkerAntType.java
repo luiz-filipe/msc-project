@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,13 @@ import com.luizabrahao.msc.ants.task.ForageTask;
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.task.Task;
 
+/**
+ * 
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+@ThreadSafe
 public enum WorkerAntType implements AntType {
 	TYPE;
 	

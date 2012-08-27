@@ -1,4 +1,4 @@
-\chapter{Future Work}
+\chapter{Future Work and Conclusion}
 \label{ch:future-work}
 
 \section{Model Improvements}
@@ -29,20 +29,20 @@ There is room from improvement on the basic implementation of the model. The com
 
 Currently the nodes are connected in a \emph{four-way} fashion, each node has $4$ neighbours, one in each direction: \emph{north, east, south, west}. This creates a major limitation related to agent navigation. Agents are very unlikely to move in diagonals, as it consists in two movements, first the agent move forward and after it moves sideways. It has been observed that agents hardly would do that because they have very low probability of selecting nodes in a diagonal sequence, e.g. north, east, north, east, north, east. Thus agents generally could not find any food sources in more complex environments where they were not directly aligned to the nest where the ants departed from.
 
-An implementation of a grid connected differently would improve the problem considerably. If nodes had $8$ neighbours instead of $4$, agents would be able to navigate directly in the diagonal. Figure \ref{fig:connection} illustrates how the nodes would be connected and all the possible directions the agents could travel towards.
-
 \begin{figure}[H]
 \myfloatalign
-\subfloat[four-way connected grid]
+\subfloat[]
 {\label{fig:connection-a}
 \includegraphics[width=.2\linewidth]{gfx/connection-4}} \quad
-\subfloat[eight-way connected grid]
+\subfloat[]
 {\label{fig:connection-b}
 \includegraphics[width=.2\linewidth]{gfx/connection-8}}
 
-\caption{Node connection to its neighbours}
+\caption{Node connection to its neighbours, four-way connected grid (a) and the eight-way connected grid (b)}
 \label{fig:connection}
 \end{figure}
+
+An implementation of a grid connected differently would improve the problem considerably. If nodes had $8$ neighbours instead of $4$, agents would be able to navigate directly in the diagonal. Figure \ref{fig:connection} illustrates how the nodes would be connected and all the possible directions the agents could travel towards.
 
 \section{Proposed Studies}
 \label{sec:new-studies}
@@ -60,3 +60,19 @@ The experiment \emph{Forage Radius Investigation} (ection \ref{sec:forage-radius
 This proposed experiment would investigate how the colony forage performance and trail formation would change if agents would take in consideration not only the pheromone intensity of the neighbours of its current node but also the neighbours of the neighbours would be part of the decision process. Different 'depths' of sensibility could be experimented. This new feature would reduce the agent's sensibility to direct neighbours of its current node. 
 
 Another possible improvement on the agent's sensing capacity would be the introduction of some sort of memory that would play part of the node selection process.
+
+\section{Conclusion}
+
+The proposed computational model proposed by this paper proved to achieve the two objectives set for this project - flexibility and robustness. The generic model infrastructure provided all the necessary entities to define and implement a wide variety of agents, environments and tasks. More than that, it was possible to demonstrate how simple it is to extend the model, using the case of ant colonies and 2 dimensional environments. Layers of complexity were added as needed, taking advantage of all the previously existing infrastructure with minimal effort.
+
+Also, simulations that were run repeatedly using the same parameters returned, within the expected variations, the same results. The simulations scaled well when the number of agents and the size of the environment varied greatly. Some test experiments used as few as 5 agents in small environments containing a few hundreds of nodes. Some simulations were run for minutes using up to 350 agents in environments containing up to 750,000 nodes with no problems at all.
+
+As far as the implementation of the model is concerned, the model of node selection implemented by this paper presented to be inappropriate. Further study should be carried (see section \ref{sec:new-studies} for proposed studies) in order to confirm that. The agents' over-sensitivity to the neighbours of the node it is currently in, is the most problematic effect of the node selection model. The necessity of having to initialise the environment with some pheromone intensity, for the smallest that it might be, is a strong argument against the node selection model implemented by itself. It does not reflect what actually happens in real ant colonies. However this did not affected the two proposed experiments in anyway as their objective was to study how the agent's react to the environment changes, starting from a pre-defined setup, whatever it might be.
+
+As for the agent implementation, the problem of taking the agents back to their nest proved to be by far the most challenging task to be implemented. The tasks \emph{FindHomeTask} (section \ref{task:find-home}) and \emph{FindHomeAndHide} (section \ref{task:find-home-hide}) use the agent's limited memory to direct the  agent on its way to the nest, however they proved to be very inefficient and other mechanisms such as chemical landmarks must be considered.
+
+The first experiment demonstrated how agents react to different concentrations of pheromone, the most important outcome of the experiment was the contestation that the trails are a by product of the agents' interactions not only with the environment but also with other agents. They clearly \emph{emerge} from these interactions. This is a case of \emph{strong} emergence. 
+
+Another noteworthy conclusion taken from the first experiment is that the relationship between the quantity of pheromone that each agent deposit in each interaction and the amount of pheromone already present in the environment regulate the colony's capability to explore the environment around its nest. There is a fine line between having very successful colonies, as far space exploration is concerned, and colonies that could not even reach a source of food. The colony's behaviour switches from one state to another very swiftly depending on this rate.
+
+The second experiment showed that the increase of the communication stimulus' radius did not mean an increase on the forage capacity of the ant colonies, as it was firstly expected. Smaller radiuses give rise to thin, better defined, pheromone trails that allow the agents to move towards the food source direction objectively. Whereas, larger radius 'confuse' the agents within the pheromone trail, seriously undermining the colony's capacity of foraging. The reason for this problem is that communication stimuli with larger radius of reach end up creating clouds of pheromone, and agents have little change to escape this region of high pheromone concentration. This creates a vicious cycle, for the agents in the trail continue to deposit pheromone, over and over again around the same area, saturating the nodes within the trail with pheromone very quickly. Resulting in even smaller probability of 'breaking' from the trail. It is clear that this outcome is also closely related to the agents' over-sensitivity to the pheromone intensity in the neighbour nodes of the current node the agent is in. Another strong result against the model of node selection implemented.

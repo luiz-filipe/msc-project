@@ -3,6 +3,8 @@ package com.luizabrahao.msc.ants.agent;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +16,9 @@ import com.luizabrahao.msc.model.env.Node;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
+@ThreadSafe
 public class AntAgentFactory {
+	// avoid any other class to extend this one.
 	private AntAgentFactory() {}
 	
 	private static final Logger logger = LoggerFactory.getLogger(AntAgentFactory.class);

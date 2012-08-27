@@ -20,7 +20,7 @@ As we will see the \emph{Node} interface does not formalise how the nodes are co
 
 The fundamental entity to represent the environment is the \emph{Node} interface. A node can be seen as an infinitesimal piece of the environment. By linking nodes together it is possible to create complex network of objects that will describe the space where agents can navigate.
 
-The \emph{Node} interface does not specify how these connections need to be made nor how many neighbours each node has. This gives a great degree of freedom to users. Hence, it is easy to declare different types of nodes, that can describe different types of environment. For example, the \emph{BasicNode} class is used to describe two dimensional environments, as we will see later on. A three dimensional environment could be easily described as well, by implementing the \emph{Node} interface with 6 neighbours, one in each direction in space - north, south, east, west, above and below. Agents would be able to navigate through nodes in three different axis. For more details on the methods that operate upon the node's neighbours, please see section XXX.
+The \emph{Node} interface does not specify how these connections need to be made nor how many neighbours each node has. This gives a great degree of freedom to users. Hence, it is easy to declare different types of nodes, that can describe different types of environment. For example, the \emph{BasicNode} class is used to describe two dimensional environments, as we will see later on. A three dimensional environment could be easily described as well, by implementing the \emph{Node} interface with 6 neighbours, one in each direction in space - north, south, east, west, above and below. Agents would be able to navigate through nodes in three different axis. For more details on the methods that operate upon the node's neighbours, please see Listing \ref{Node.java} in Section \ref{code:env}.
 
 Each node has an unique string that is used to identify it. The method \emph{String getId()} returns this string. Note that the \emph{Node} interface does not have any instrument to guarantee that nodes have unique identifiers, it is up to the users of the interface to guarantee that nodes do not have duplicated identifiers. Failing to do so may cause the framework to operate inconsistently, for there would no way to distinguish nodes that have the same identifier. 
 
@@ -54,9 +54,9 @@ In case more than one communication stimulus of the same type is allowed in the 
 
 The \emph{BasicNode} class is the reference implementation of the \emph{Node} interface for a 2 dimensional space, with nodes connected to 4 neighbours.
 
-It is a pseudo-thread-safe class. The methods \emph{getNeighbour(Direction)}, \emph{getNeighbour (Direction, Node)} and \emph{setNeighbours(Direction, Node)} do not make use of synchronisation mechanisms that would guarantee thread-safety. The reason for that is that these  methods are exhaustively used during simulations, and the lack of synchronisation mechanisms here remove any overhead introduced by them. It is safe to not use synchronisation in these methods as long as the environment does not change during the simulations. Note that this is documented in the code by the use of the annotations \emph{@PseudoThreadSafe} and \emph{@ThreadSafetyBreaker}, see subsection \ref{subsec:doc-annotations} for more details.
+It is a pseudo-thread-safe class. The methods \emph{getNeighbour(Direction)}, \emph{getNeighbour (Direction, Node)} and \emph{setNeighbours(Direction, Node)} do not make use of synchronisation mechanisms that would guarantee thread-safety. The reason for that is that these  methods are exhaustively used during simulations, and the lack of synchronisation mechanisms here remove any overhead introduced by them. It is safe to not use synchronisation in these methods as long as the environment does not change during the simulations. Note that this is documented in the code by the use of the annotations \emph{@PseudoThreadSafe} and \emph{@ThreadSafetyBreaker}, see listings in section \ref{code:annotations} for more details.
 
-Each basic node can have a maximum of four neighbours, one in each direction defined by the Direction enumeration (see \ref{subsec:direction-enum}): North, East, South and West.
+Each basic node can have a maximum of four neighbours, one in each direction defined by the Direction enumeration: North, East, South and West.
 
 The \emph{BasicNode} implementation of \emph{getCommunicationStimulus} method returns the first stimulus of the requested type found in the list. If none is found, \emph{null} is returned.
 
@@ -129,7 +129,7 @@ It is important to note that \emph{ChemicalCommStimulus} limits the maximum amou
 Another noteworthy point is how \emph{ChemicalCommStimulus} implements the stimulus intensity decay. It uses the following:
 
 \begin{equation} \label{eq:intensity-update}
-intensity_{new} = intensity * (1 - decayFactor)
+intensity_{new} = intensity_{current} * (1 - decayFactor)
 \end{equation}
 
 The \emph{decayFactor} parameter above comes from the chemical communication type declared by the users. See section \ref{subsec:forage-stimulus} for an example of a type implementation.
@@ -191,7 +191,7 @@ In order to enable agents to execute tasks the concrete specialisation of the \e
 In nature, individuals use different ways to differentiate themselves from other individuals; in the proposed computational model each agent belongs to a specific type, something that define them as a class. The \emph{AgentType} interface formalises the most basic abstraction of a type of agents.  It has only one method:
 \begin{itemize}  \item String getName(): Returns the name of that type, must be unique.\end{itemize}
 
-As in the previous cases, the interface does not have any mechanism to make sure a type has a unique name, it is up to the user to make sure that is the case.An implementation of \emph{AgentType} provides the means for agents to distinguish themselves. If necessary, one agent can check another agent’s type when they are in the same node. This is very important, because one agent can react differently if it comes across another agent of the same type or if it encounters an agent that might impose some sort of danger.In the sake of performance, agent types must implement the Singleton Pattern, which guarantees only one object instance of a type only.\cite{bloch2008effective} If agent types were not to be singletons, every time a new agent is instanced a new agent type and the other objects that compose it, like tasks, are going to be created as well, consuming large amounts of memory. 
+As in the previous cases, the interface does not have any mechanism to make sure a type has a unique name, it is up to the user to make sure that is the case.An implementation of \emph{AgentType} provides the means for agents to distinguish themselves. If necessary, one agent can check another agent’s type when they are in the same node. This is very important, because one agent can react differently if it comes across another agent of the same type or if it encounters an agent that might impose some sort of danger.In the sake of performance, agent types must implement the Singleton Pattern, which guarantees only one object instance of a type only \cite{bloch2008effective}. If agent types were not to be singletons, every time a new agent is instanced a new agent type and the other objects that compose it, like tasks, are going to be created as well, consuming large amounts of memory. 
 
 \subsubsection{The TaskAgentType type}
 \label{sec:taskagentype}
@@ -204,16 +204,16 @@ The \emph{TaskAgent} interface is simple and has only one method:
 
 The enumeration \emph{BasicTaskAgentType} is a reference implementation of the interface. Agents of that type are able to execute only one task, \emph{WandererTask}, see section \ref{sec:wanderer-task} for more details on the task.
 
-\subsubsection{FoodSource Type (((NEED REVIEW)))}
+\subsubsection{FoodSource Type}
 
 Food of sources are modelled as agents, and the \emph{FoodSourceAgentType} interface formalises their type. The \emph{FoodSourceAgent} class is the concrete implementation of the \emph{AbstractAgent} class which defines a guarded field named \emph{foodAmount}. This field indicates how much food is present in a food source.
 
-The method \emph{collectFood(double amountToCollect)} is called for the agents when requesting to collect food. The method returns the amount of food the source was able to deliver.
+The method \emph{collectFood(double amountToCollect)} is called by agents when requesting to collect food. The method returns the amount of food the source was able to deliver to the agent.
 
 \subsection{The Ant Interface}
 
 The ant implementation of the model starts from the \emph{Ant} interface. It declares the public \ac{API} for any agent that is an ant. The most relevant methods are: 
-\begin{itemize}  \item Direction getMovingDirection(): Returns what direction the ant is moving in relation to the environment grid.  \item void incrementStimulusIntensity(ChemicalStimulusType): Lay pheromone onto the current node that the agent is at.  \item double collectFood(Agent, double): Tries to collect the specified amount of food from the food source specified as parameter, returns the amount of food that the agent was able to collect.  \item Boolean isCarryingFood(): Returns true if the agent is carrying food, false otherwise.  \item FoodSourceAgent findFoodSource(): Checks if any agent in the current node is a food source, if any is found it is returned otherwise \emph{null} is returned.  \item void invertDirection(): Inverts the direction the agent is traveling, for example, if the agent is traveling East, after this method is called the agent's moving direction will be West. See section XXX for more details.  \item void depositFood(AntNestAgent): Deposit the food the agent is carrying into the nest passed as parameter.\end{itemize}
+\begin{itemize}  \item Direction getMovingDirection(): Returns what direction the ant is moving in relation to the environment grid.  \item void incrementStimulusIntensity(ChemicalStimulusType): Lay pheromone onto the current node that the agent is at.  \item double collectFood(Agent, double): Tries to collect the specified amount of food from the food source specified as parameter, returns the amount of food that the agent was able to collect.  \item Boolean isCarryingFood(): Returns true if the agent is carrying food, false otherwise.  \item FoodSourceAgent findFoodSource(): Checks if any agent in the current node is a food source, if any is found it is returned otherwise \emph{null} is returned.  \item void invertDirection(): Inverts the direction the agent is traveling, for example, if the agent is traveling East, after this method is called the agent's moving direction will be West.  \item void depositFood(AntNestAgent): Deposit the food the agent is carrying into the nest passed as parameter.\end{itemize}
 For the full \ac{API} and more detail explanations of all the methods, please see Listing \ref{Ant.java} in Section \ref{code:agent}.
 
 \subsection{Ant Agents}
@@ -221,11 +221,11 @@ The ant implementation of the model starts from the \emph{Ant} interface. It dec
 
 The \emph{AntAgent} class offer an implementation of the \emph{Ant} interface. Mostly important it has three private methods that are used by \emph{incrementStimulusIntensity (ChemicalCommStimulusType)} for laying pheromone onto the environment. As seen in section \ref{subsec:chemical-stimulus} chemical communication stimulus types have a propriety called \emph{radius} that defines the reach of that particular stimulus around the node where it was deposited, these three methods use this information when depositing pheromone. The intensity of the stimulus decreases with the distance away from the node where the agent is:
 
-\begin{equation}
+\begin{equation} \label{eq:deposit}
 intensity_{new} =  intensity_{current} + increase * (1 / distance)
 \end{equation}
 
-Figure \ref{fig:distanse-vs-inc} shows how the intensity of the deposited amount of chemical stimulus varies according to the distance to the node the agent is executing the increment. The amount of stimulus that each agent increments is defined by the agent type, see section \ref{sec:agent-types} for a detailed explanation.
+Figure \ref{fig:distanse-vs-inc} shows how the intensity of the deposited amount of chemical stimulus varies according to the distance to the node the agent is executing the increment. The amount of stimulus that each agent increments (the \emph{increase} parameter from Equation \ref{eq:deposit}) is defined by the agent type, see section \ref{sec:agent-types} for a detailed explanation. Note that the \emph{distance} parameter is always greater or equal to $1$, nodes next to the agent's current node have distance equal to $1$.
 
 \begin{figure}[H]
   \centering

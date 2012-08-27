@@ -9,6 +9,18 @@ import org.slf4j.LoggerFactory;
 import com.luizabrahao.msc.model.agent.AbstractAgent;
 import com.luizabrahao.msc.model.env.Node;
 
+
+/**
+ * Objects of this class represent ant nests. They have a special property named
+ * amountOfFoodHeld, which contains the total amount of food that is held in a
+ * particular nest. 
+ * 
+ * This agent should not be executed as a Java task. If a user tries to do so, a
+ * RuntimeExecption is thrown.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 @ThreadSafe
 public class AntNestAgent extends AbstractAgent {
 	private static final Logger logger = LoggerFactory.getLogger(AntNestAgent.class);
@@ -22,7 +34,8 @@ public class AntNestAgent extends AbstractAgent {
 
 	@Override
 	public Void call() throws Exception {
-		throw new RuntimeException("Nests are not to be used as threads... They just take advantage of the infrastructure of agents");
+		throw new RuntimeException("Nests are not to be used as threads... " +
+				"They just take advantage of the infrastructure of agents");
 	}
 
 	public void addPortionOfFood(final AntAgent agent, final double portion) {

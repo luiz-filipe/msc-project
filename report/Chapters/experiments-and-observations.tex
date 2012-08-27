@@ -12,7 +12,7 @@ Another critical aspect of the simulations is data collection. The model does no
 
 \section{Pheromone Concentration Sensitivity}
 
-Due to the model of node selection, agents are very sensitive to the pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings from $0%$ to $100%$ very swiftly, causing the agents to get trapped.
+Due to the model of node selection, agents are very sensitive to the pheromone concentration presented by the environment around them. This happens because the probability of choosing a neighbour node swings from $0\%$ to $100\%$ very swiftly, causing the agents to get trapped.
 
 This experiment investigates how different initial pheromone concentrations in the environment and the amount of pheromone each agent is capable of depositing in each interaction affect the agents navigation through the space. It also has an objective to determine what values of these two parameters are acceptable to use in the other experiments.
 
@@ -92,7 +92,7 @@ In order to compare how each possible value pairs in Table \ref{tab:setup-2} aff
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\linewidth]{gfx/initial-sample.png}
+  \includegraphics[width=0.4\linewidth]{gfx/initial-sample.png}
   \caption{How the two samples of the environment is made}
   \label{fig:initial-sample}
 \end{figure}
@@ -126,29 +126,29 @@ It rises the question, why does it happen? The answer is similar to one of the p
 \myfloatalign
 \subfloat[]
 {\label{fig:update-a}
-\includegraphics[width=.2\linewidth]{gfx/update-01}} \quad
+\includegraphics[width=.25\linewidth]{gfx/update-01}} \quad
 \subfloat[]
 {\label{fig:update-b}
-\includegraphics[width=.2\linewidth]{gfx/update-02}} \\
+\includegraphics[width=.25\linewidth]{gfx/update-02}} \\
 \subfloat[]
 {\label{fig:update-c}
-\includegraphics[width=.2\linewidth]{gfx/update-03}} \quad
+\includegraphics[width=.25\linewidth]{gfx/update-03}} \quad
 \subfloat[]
 {\label{fig:update-d}
-\includegraphics[width=.2\linewidth]{gfx/update-04}} \\
+\includegraphics[width=.25\linewidth]{gfx/update-04}} \\
 \subfloat[]
 {\label{fig:update-e}
-\includegraphics[width=.2\linewidth]{gfx/update-05}} \quad
+\includegraphics[width=.25\linewidth]{gfx/update-05}} \quad
 \subfloat[]
 {\label{fig:update-f}
-\includegraphics[width=.2\linewidth]{gfx/update-06}}
+\includegraphics[width=.25\linewidth]{gfx/update-06}}
 
 \caption{Shift of probability depending on agent update}\label{fig:update}
 \end{figure}
 
 Figure \ref{fig:update} illustrates how swiftly the probabilities can change depending on the amount of pheromone deposited in the node by agents. The node in red in the picture represents a node that has been updated previously by another agent. In the first scenario (Figure \ref{fig:update-c}) the update was $0.001$, in the second (Figure \ref{fig:update-e}) the pheromone deposited was $0.01$. The probability of the node in red being picked up to be the next node the agent will move to more than doubled. (Figure \ref{fig:update-d} and Figure \ref{fig:update-f}).
 
-Further investigation revealed that the probability of selection increases in a logarithmic-like curve. Figure \ref{fig:prob-inc} shows how the increase in probability progress when the amount of pheromone deposited by the agents increases by multiples of the initial concentration in the environment.
+Further investigation revealed that the probability of selection increases in a logarithmic fashion. Figure \ref{fig:prob-inc} shows how the increase in probability progress when the amount of pheromone deposited by the agents increases by multiples of the initial concentration in the environment.
 
 \begin{figure}[H]
   \centering
@@ -324,15 +324,15 @@ This strongly suggests that ants use more than only local information available 
 
 Two new possible experiments to better understand and improve node selection are proposed in section \ref{sec:new-studies}. 
 
-\section{Warning Pheromone Response}
-\label{sec:warn-phero-inv}
-In this experiment the response of the agents to a warning communication stimulus is tested.
+%\section{Warning Pheromone Response}
+%\label{sec:warn-phero-inv}
+%In this experiment the response of the agents to a warning communication stimulus is tested.
 
-Describe the experiment setup.
+%Describe the experiment setup.
 
-Explain that the experiment is done in two phases, the first one the agents react only to amount of warning pheromone and the second one the agents react also to the number of other agents they meet that are traveling in the opposite direction and are not caring food.
+%Explain that the experiment is done in two phases, the first one the agents react only to amount of warning pheromone and the second one the agents react also to the number of other agents they meet that are traveling in the opposite direction and are not caring food.
 
-Add block diagrams that explain the algorithms the agents use to decide on task selection.
+%Add block diagrams that explain the algorithms the agents use to decide on task selection.
 
-Discuss the results. [experiment not done yet]
-Results should vary with the use of different parameters, such as the number of agents traveling in the opposite direction before the agent abort the current task and change to findNestAndHide task.
+%Discuss the results. [experiment not done yet]
+%Results should vary with the use of different parameters, such as the number of agents traveling in the opposite direction before the agent abort the current task and change to findNestAndHide task.

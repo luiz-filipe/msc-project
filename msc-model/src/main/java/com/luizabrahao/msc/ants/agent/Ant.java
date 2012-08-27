@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.agent;
 
+import net.jcip.annotations.ThreadSafe;
+
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
 import com.luizabrahao.msc.model.agent.Agent;
@@ -13,6 +15,7 @@ import com.luizabrahao.msc.model.env.Node;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
+@ThreadSafe
 public interface Ant {
 	/**
 	 * Each agent moves towards to a direction, this effectively means that the
