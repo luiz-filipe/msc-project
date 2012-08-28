@@ -31,13 +31,14 @@ public class PathSimulation {
 	private final long secondsToRender = 10;
 	private final double initialConcentration = 0.001;
 
-	@Test
+	@Test @SuppressWarnings("unused")
 	public void cancelTest() throws InterruptedException {
 		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(maximumNumberOfThreads);
 		List<Callable<Void>> renderers = new ArrayList<Callable<Void>>();
 		
 		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(nLines, nColumns);
 		TestUtil.setIntensity(0, nLines, 0, nColumns, initialConcentration, grid);
+		
 		
 		final AntNestAgent nest = new AntNestAgent("nest", grid[0][Integer.valueOf(nColumns / 2)]);
 		final List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "worker", grid[0][Integer.valueOf(nColumns / 2)]);

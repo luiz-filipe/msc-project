@@ -21,9 +21,7 @@ import com.luizabrahao.msc.ants.agent.AntNestAgent;
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
-import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
-import com.luizabrahao.msc.ants.render.PheromoneRenderer;
 import com.luizabrahao.msc.ants.test.TestUtil;
 import com.luizabrahao.msc.sim.util.CallableAdapter;
 
@@ -44,7 +42,6 @@ public class StudyOnRadius {
 			this.executeExperiment(i);
 		}
 	}
-	
 	
 	@SuppressWarnings("unused")
 	public void executeExperiment(int executionNumber) throws InterruptedException {

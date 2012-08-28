@@ -3,8 +3,6 @@ package com.luizabrahao.msc.simulations;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -154,26 +152,10 @@ public class ReactionToWarning {
 		
 		executor.invokeAll(stopperList, secondsToRun, TimeUnit.SECONDS);
 		
-//		executor.invokeAll(agents, secondsToRun, TimeUnit.SECONDS);
-		
 		renderers.add(new ExploredSpaceRenderer(grid, "target/reaction - space.png", nColumns, nLines));
 		renderers.add(new PheromoneRenderer(grid, "target/reaction - setup.png", nColumns, nLines, WarningStimulusType.TYPE));
 		renderers.add(new PheromoneRenderer(grid, "target/reaction - hide-only - " + executionNumber + " - forage.png", nColumns, nLines, ForageStimulusType.TYPE));
-//		renderers.add(new PheromoneRenderer(grid, "target/reaction - hide-only - " + executionNumber + " - warning.png", nColumns, nLines, WarningStimulusType.TYPE));
-//		
-		final List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
-//		
-//		for (Future<Void> future : renderersFutures) {
-//			try {
-//				future.get();
-//			} catch (ExecutionException e) {
-//				e.printStackTrace();
-//			} catch (CancellationException e) {
-//				// nothing to do here.
-//			}
-//			
-//			future.cancel(true);
-//		}
 
+		final List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
 	}
 }
