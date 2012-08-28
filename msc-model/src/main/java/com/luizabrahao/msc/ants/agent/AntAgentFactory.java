@@ -103,27 +103,4 @@ public class AntAgentFactory {
 		logger.info("{} agents created with prefix '{}'", agents.size(), namePrefix);
 		return agents;
 	}
-	
-	/**
-	 * Sometimes it is necessary to have a reasonable large number of agents to
-	 * use in simulations. This method helps users to create populations of
-	 * ants of the Worker type. Note that the entire population will be placed
-	 * at the same node.
-	 * 
-	 * @param numberOfAgents The size of the population to be generated
-	 * @param namePrefix Each agent will receive a id that starts with the
-	 *        prefix plus a number, e.g. 'prefix-01'.
-	 * @param initialNode The node the population is going to be placed at.
-	 * @return List of ant agents.
-	 */
-	public static List<AntAgent> produceBunchOfTactileWorkers(final int numberOfAgents, final String namePrefix, final Node initialNode) {
-		List<AntAgent> agents = new ArrayList<AntAgent>();
-		
-		for (int i = 0; i < numberOfAgents; i++) {
-			agents.add(new AntAgent(namePrefix + "-" + i, TactileWorkerAntType.TYPE, initialNode, false));
-		}
-		
-		logger.debug("{} agents created with prefix '{}'", agents.size(), namePrefix);
-		return agents;
-	}
 }

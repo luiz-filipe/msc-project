@@ -9,6 +9,17 @@ import net.jcip.annotations.ThreadSafe;
 import com.luizabrahao.msc.model.agent.AbstractAgent;
 import com.luizabrahao.msc.model.env.Node;
 
+/**
+ * <p>Represent an food source. This class takes advantage of the infrastructure
+ * built around agents, modelling food sources as agents.</p>
+ * 
+ * <p>Food source agents contain a field named <em>foodAmount</em>, which
+ * determines how much food this source has.</p>
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
 @ThreadSafe
 public class FoodSourceAgent extends AbstractAgent {
 	private static final Logger logger = LoggerFactory.getLogger(FoodSourceAgent.class);

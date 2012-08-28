@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.task;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,7 @@ import com.luizabrahao.msc.model.task.AbstractTask;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
+@ThreadSafe
 public class StaticPheromoneUpdateTask extends AbstractTask {
 	private static final Logger logger = LoggerFactory.getLogger(StaticPheromoneUpdateTask.class);
 	public static final String NAME = "Static updater";

@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.task;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,15 @@ import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
 
+/**
+ * This task is executed by ants when they have detected any sort of danger and
+ * the most important thing to do is to run back to the nest and hide. When ants
+ * do find their nest, they stay there.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+@ThreadSafe
 public class FindAndHideInNest extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(FindAndHideInNest.class);
 	public static final String NAME = "ant:task:find-home-and-hide";

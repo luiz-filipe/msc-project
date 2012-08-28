@@ -11,6 +11,8 @@ import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,15 @@ import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 
+/**
+ * Renders an image that show the population of ants at the moment the renderer
+ * was called.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
+@ThreadSafe
 public class PopulationRenderer implements Callable<Void>{
 	private static final Logger logger = LoggerFactory.getLogger(PopulationRenderer.class);
 	

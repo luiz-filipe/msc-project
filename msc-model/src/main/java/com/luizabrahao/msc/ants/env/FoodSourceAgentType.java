@@ -7,6 +7,13 @@ import net.jcip.annotations.ThreadSafe;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 import com.luizabrahao.msc.model.task.Task;
 
+/**
+ * Declares the agnet type for food sources.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
 @ThreadSafe
 public enum FoodSourceAgentType implements TaskAgentType {
 	TYPE;

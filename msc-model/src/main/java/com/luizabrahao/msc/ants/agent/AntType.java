@@ -1,7 +1,5 @@
 package com.luizabrahao.msc.ants.agent;
 
-import net.jcip.annotations.ThreadSafe;
-
 import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.agent.TaskAgentType;
 
@@ -19,7 +17,6 @@ import com.luizabrahao.msc.model.agent.TaskAgentType;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  *
  */
-@ThreadSafe
 public interface AntType extends TaskAgentType {
 	/**
 	 * Returns the amount of chemical stimulus that the ant type is enable of

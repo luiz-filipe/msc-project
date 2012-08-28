@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.task;
 
+import net.jcip.annotations.ThreadSafe;
+
 import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
@@ -8,9 +10,26 @@ import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.WandererTask;
 
+/**
+ * Utility methods related to ant tasks.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+@ThreadSafe
 public class AntTaskUtil {
-
+	private AntTaskUtil() {}
 	
+	/**
+	 * Returns the intensity of a chemical stimulus present in a neighbour in
+	 * the requested direction.
+	 * 
+	 * @param agent agent that will be used as reference 
+	 * @param direction direction to look for neighbour node
+	 * @param chemicalCommStimulusType chemical stimulus type to find intensity
+	 * @return intensity of chemical stimulus of neighbour in requested
+	 *         direction
+	 */
 	public static double getNeighbourForagePheromone(Agent agent, Direction direction, ChemicalCommStimulusType chemicalCommStimulusType) {
 		Node n = agent.getCurrentNode().getNeighbour(direction);
 		

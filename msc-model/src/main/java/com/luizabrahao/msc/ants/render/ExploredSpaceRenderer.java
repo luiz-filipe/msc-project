@@ -9,11 +9,21 @@ import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luizabrahao.msc.model.env.Node;
 
+/**
+ * Renders the environment, nodes that have been visited by any agent are
+ * coloured in black, nodes that have not been visited at all are in white.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+@ThreadSafe
 public class ExploredSpaceRenderer implements Callable<Void> {
 	private static final Logger logger = LoggerFactory.getLogger(ExploredSpaceRenderer.class);
 	

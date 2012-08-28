@@ -9,6 +9,8 @@ import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,16 @@ import com.luizabrahao.msc.ants.env.ChemicalCommStimulus;
 import com.luizabrahao.msc.ants.env.ChemicalCommStimulusType;
 import com.luizabrahao.msc.model.env.Node;
 
+/**
+ * Renders an image based on the concentration of a chemical communication
+ * stimulus. The intensity of the stimulus is rendered in 256 different
+ * intensities of red.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
+@ThreadSafe
 public class PheromoneRenderer implements Callable<Void> {
 	private static final Logger logger = LoggerFactory.getLogger(PheromoneRenderer.class);
 	

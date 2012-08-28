@@ -1,5 +1,15 @@
 package com.luizabrahao.msc.ants.env;
 
+import net.jcip.annotations.ThreadSafe;
+
+/**
+ * Delcares the chemical communication stimulus used by ants to signal danger.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
+@ThreadSafe
 public enum WarningStimulusType implements ChemicalCommStimulusType {
 	TYPE;
 

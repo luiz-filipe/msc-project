@@ -1,5 +1,14 @@
 package com.luizabrahao.msc.ants.env;
 
+import net.jcip.annotations.ThreadSafe;
+
+/**
+ * Declares the chemical stimulus used by ants when foraging.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+@ThreadSafe
 public enum ForageStimulusType implements ChemicalCommStimulusType {
 	TYPE;
 

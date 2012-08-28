@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.task;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,14 @@ import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
 
+/**
+ * Ants execute this task after collecting food. The main objective of this task
+ * is to take the agent back to their nest.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+@ThreadSafe
 public class FindHomeTask extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(FindHomeTask.class);
 	public static final String NAME = "ant:task:find-home";

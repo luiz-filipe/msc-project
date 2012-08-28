@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.agent.AntAgentFactory;
 import com.luizabrahao.msc.ants.agent.AntNestAgent;
-import com.luizabrahao.msc.ants.agent.SoldierAntType;
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
@@ -34,32 +33,6 @@ public class WarningStimulusTest {
 	private final int maximumNumberOfThreads = 100;
 	private final long secondsToRun = 20;
 	private final long secondsToRender = 20;
-	
-	@Test
-	public void depositTest() throws InterruptedException {
-		final ScheduledExecutorService executor = Executors.newScheduledThreadPool(maximumNumberOfThreads);
-		List<Callable<Void>> renderers = new ArrayList<Callable<Void>>();
-		
-		final PheromoneNode[][] grid = AntEnvironmentFactory.createPheromoneNodeGrid(15, 15);
-		final AntAgent a = new AntAgent("soldier-01", SoldierAntType.TYPE, grid[7][7], true);
-		
-		a.incrementStimulusIntensity(WarningStimulusType.TYPE);
-		
-		renderers.add(new PheromoneRenderer(grid, "target/warning-stimulus - deposit test.png", 15, 15, WarningStimulusType.TYPE));
-		
-		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
-		
-		for (Future<Void> future : renderersFutures) {
-			try {
-				future.get();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-			
-			future.cancel(true);
-		}
-	}
-	
 	
 	@Test
 	public void warningTest() throws InterruptedException {

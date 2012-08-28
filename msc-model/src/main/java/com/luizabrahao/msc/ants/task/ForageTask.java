@@ -1,5 +1,7 @@
 package com.luizabrahao.msc.ants.task;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +12,15 @@ import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 import com.luizabrahao.msc.model.task.AbstractTask;
 
+/**
+ * This is the most used task by <em>workers</em>. It used executed when agents
+ * wish to forage.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
+@ThreadSafe
 public class ForageTask extends AbstractTask implements AntTask {
 	private static final Logger logger = LoggerFactory.getLogger(ForageTask.class);
 	public static final String NAME = "ant:task:forage";

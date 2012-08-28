@@ -10,6 +10,8 @@ import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,18 @@ import com.luizabrahao.msc.model.agent.Agent;
 import com.luizabrahao.msc.model.env.Direction;
 import com.luizabrahao.msc.model.env.Node;
 
+/**
+ * Renders an image that shows all nodes an agent has visited during a
+ * simulation. Note that the agent must have the flag <em>recordNodeHistory</em>
+ * enabled.
+ * 
+ * @see AbstractAgent
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
+
+@ThreadSafe
 public class NodeHistoryRenderer implements Callable<Void> {
 	private static final Logger logger = LoggerFactory.getLogger(NodeHistoryRenderer.class);
 	
