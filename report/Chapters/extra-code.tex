@@ -1,11 +1,34 @@
 \chapter{Model and Simulation Source Code}
 \label{chapter:model-code}
 
-\section{Model Implementation Details}
+\section{Ant Model Implementation Details}
 
-I'm finalising all the diagrams for the ants package. I will add them here
+The following diagrams show how the ants implementation of the model was extended from the generic part of it. All the ant related entities are coloured in pink.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.55\linewidth]{gfx/ant-task.png}
+  \caption{Ant extension of generic task package}
+  \label{fig:ant-task}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{gfx/ant-env.png}
+  \caption{Ant extension of generic environment package}
+  \label{fig:ant-env}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{gfx/ant-agent.png}
+  \caption{Ant extension of generic agent package}
+  \label{fig:ant-agent}
+\end{figure}
 
 \section{Source Code}
+
+All the software development was done under a public Git repository available at \url{http://github.com/luizabrahao/msc-project/}. For simplicity, test code has not been included in this section, but it can also be found in the Git repository mentioned, as well as spreadsheets, image source files and other resources used for this project.
 
 \subsection{Environment}
 \label{code:env}

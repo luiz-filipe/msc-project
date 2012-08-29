@@ -100,19 +100,17 @@ In order to compare how each possible value pairs in Table \ref{tab:setup-2} aff
 Figures \ref{fig:initial-var-close} and \ref{fig:initial-var-far} show the resulting sampling for all possible combination for the initial pheromone concentration and the amount of pheromone deposited by each agent in each interaction.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\linewidth]{gfx/initial-variations-close.png}
-  \caption{Resulting pheromone trail close to the nest}
-  \label{fig:initial-var-close}
+\myfloatalign
+\subfloat[]
+{\label{fig:initial-var-close}
+\includegraphics[width=.6\linewidth]{gfx/initial-variations-close}} \\
+\subfloat[]
+{\label{fig:initial-var-far}
+\includegraphics[width=.6\linewidth]{gfx/initial-variations-far}} \\
+
+\caption{Samples of the pheromone trail left by the agents close to the nest (a) and far from the nest (b). }\label{fig:initial-var-final}
 \end{figure}
 
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\linewidth]{gfx/initial-variations-far.png}
-  \caption{Resulting pheromone trail far from the nest}
-  \label{fig:initial-var-far}
-\end{figure}
 
 The trails left by the colonies can be compared in relation on how strong they are, how the agents are able to 'scape' them to explore the environment and how it shaped when agents get further from the nest.
 
@@ -121,6 +119,8 @@ Starting from $0.001$ as the amount of pheromone to be deposited by agents in ea
 When the amount of pheromone deposited by the agents is increased the behaviour of the colony could not be more different than what was seen previously. The agents switch from exploring a large area to be 'trapped' into the pheromone trail. This impedes the agents of exploring the space, what is not desirable for any colony. This behaviour is also seen in other values for the parameters. What seems to be the rule is that if the update is considerable larger than the concentration of pheromone in the environment the agents will start to create a 'bubble' of high pheromone concentration and as consequence they are very unlikely to move to any node outside this area.
 
 It rises the question, why does it happen? The answer is similar to one of the problem in initialising the environment with no pheromone at all. In this case, the critical point is the rate between the initial concentration and the amount deposited by the agents in each interaction.
+
+Figure \ref{fig:update} illustrates how swiftly the probabilities can change depending on the amount of pheromone deposited in the node by agents. The node in red in the picture represents a node that has been updated previously by another agent. In the first scenario (Figure \ref{fig:update-c}) the update was $0.001$, in the second (Figure \ref{fig:update-e}) the pheromone deposited was $0.01$. The probability of the node in red being picked up to be the next node the agent will move to more than doubled. (Figure \ref{fig:update-d} and Figure \ref{fig:update-f}).
 
 \begin{figure}[H]
 \myfloatalign
@@ -145,8 +145,6 @@ It rises the question, why does it happen? The answer is similar to one of the p
 
 \caption{Shift of probability depending on agent update}\label{fig:update}
 \end{figure}
-
-Figure \ref{fig:update} illustrates how swiftly the probabilities can change depending on the amount of pheromone deposited in the node by agents. The node in red in the picture represents a node that has been updated previously by another agent. In the first scenario (Figure \ref{fig:update-c}) the update was $0.001$, in the second (Figure \ref{fig:update-e}) the pheromone deposited was $0.01$. The probability of the node in red being picked up to be the next node the agent will move to more than doubled. (Figure \ref{fig:update-d} and Figure \ref{fig:update-f}).
 
 Further investigation revealed that the probability of selection increases in a logarithmic fashion. Figure \ref{fig:prob-inc} shows how the increase in probability progress when the amount of pheromone deposited by the agents increases by multiples of the initial concentration in the environment.
 
@@ -318,11 +316,26 @@ Figure \ref{fig:radius-res} illustrates how the pheromone trails widen with the 
 \caption{Affect of wide pheromone trails on node selection}\label{fig:radius-saturation}
 \end{figure}
 
-This random behaviour, as far node selection is concerned, has a profound impact on the colony's forage performance, as agents will struggle to find their way to the food sources, and when eventually some of them do, there still a good change that many will not reach the nest back in order to deposit the food they have collected. 
+This random behaviour, as far node selection is concerned, has a profound impact on the colony's forage performance, as agents will struggle to find their way to the food sources, and when eventually some of them do, there still a good change that many will not reach the nest back in order to deposit the food they have collected.  Figure \ref{fig:radius-explored}, which is a renderisation  of the space visited by all ants of the colony throughout the simulation and the space visited by only one of the agents of that colony, set to be tracked by the framework. As it is possible to see, as the radius increases so does the number of paths the agents visit and more tortuous they become. Figures \ref{fig:radius-exp-b} and \ref{fig:radius-exp-c} also show how the ants get 'trapped' in the pheromone cloud. In both figures, the paths formed by the single agent (right frame) have the same shape of the main stream of paths visited by the entire colony (left frame). 
 
 This strongly suggests that ants use more than only local information available at the instant they are making decision where to move to. The other communication methods employed by ants should play a vital role in assisting this decision to be made.
 
-Two new possible experiments to better understand and improve node selection are proposed in section \ref{sec:new-studies}. 
+Two new possible experiments to better understand and improve node selection are proposed in section \ref{sec:new-studies}.
+
+\begin{figure}[H]
+\myfloatalign
+\subfloat[]
+{\label{fig:radius-exp-a}
+\includegraphics[width=.25\linewidth]{gfx/radius-explored-0}} \quad
+\subfloat[]
+{\label{fig:radius-exp-b}
+\includegraphics[width=.25\linewidth]{gfx/radius-explored-1}} \quad
+\subfloat[]
+{\label{fig:radius-exp-c}
+\includegraphics[width=.25\linewidth]{gfx/radius-explored-2}}
+
+\caption{Examples of the space explored by the entire colony (left) and by one agent only (right). Varying the stimulus' radius form $0$ (a) and $1$ (b) to $2$ (c).}\label{fig:radius-explored}
+\end{figure}
 
 %\section{Warning Pheromone Response}
 %\label{sec:warn-phero-inv}

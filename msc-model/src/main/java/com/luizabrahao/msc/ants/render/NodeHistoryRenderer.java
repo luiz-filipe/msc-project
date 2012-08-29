@@ -49,38 +49,44 @@ public class NodeHistoryRenderer implements Callable<Void> {
 	@Override
 	public Void call() throws Exception {
 		logger.info("Starting to render visited nodes history for: {} wirh name '{}'", agent.getId(), imagePath);
-		List<Node> nodes = agent.getNodesVisited();
 
 		BufferedImage image = new BufferedImage(nColumns, nLines, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = image.createGraphics();
+		List<Node> nodes = null;
 		
-		g2d.setColor(Color.white);
-		g2d.fillRect(0, 0, nColumns, nLines);
-		g2d.setColor(Color.black);
+		synchronized (agent.getNodesVisited()) {
+			nodes = agent.getNodesVisited();
+
+			g2d.setColor(Color.white);
+			g2d.fillRect(0, 0, nColumns, nLines);
+			g2d.setColor(Color.black);
+			
+			for (Node node : nodes) {
+				int line = 0;
+				int column = 0;
+				
+				Node currentNode = node.getNeighbour(Direction.NORTH);
+				
+				while (currentNode != null) {
+					line++;
+					currentNode = currentNode.getNeighbour(Direction.NORTH);
+				}
+				
+				currentNode = node.getNeighbour(Direction.WEST);
+				
+				while (currentNode != null) {
+					column++;
+					currentNode = currentNode.getNeighbour(Direction.WEST);
+				}
+				
+				image.setRGB(column, line, 0);
+			}
 		
-		for (Node node : nodes) {
-			int line = 0;
-			int column = 0;
-			
-			Node currentNode = node.getNeighbour(Direction.NORTH);
-			
-			while (currentNode != null) {
-				line++;
-				currentNode = currentNode.getNeighbour(Direction.NORTH);
-			}
-			
-			currentNode = node.getNeighbour(Direction.WEST);
-			
-			while (currentNode != null) {
-				column++;
-				currentNode = currentNode.getNeighbour(Direction.WEST);
-			}
-			
-			image.setRGB(column, line, 0);
 		}
 		
 		g2d.dispose();
 		nodes = null;
+		
 		
 		try {
 			File file = new File(imagePath);

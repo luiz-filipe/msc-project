@@ -19,9 +19,14 @@ import com.luizabrahao.msc.ants.agent.AntAgent;
 import com.luizabrahao.msc.ants.agent.AntAgentFactory;
 import com.luizabrahao.msc.ants.agent.AntNestAgent;
 import com.luizabrahao.msc.ants.agent.StaticPheromoneUpdaterAgent;
+import com.luizabrahao.msc.ants.agent.WorkerAntType;
 import com.luizabrahao.msc.ants.env.AntEnvironmentFactory;
 import com.luizabrahao.msc.ants.env.FoodSourceAgent;
+import com.luizabrahao.msc.ants.env.ForageStimulusType;
 import com.luizabrahao.msc.ants.env.PheromoneNode;
+import com.luizabrahao.msc.ants.render.ExploredSpaceRenderer;
+import com.luizabrahao.msc.ants.render.NodeHistoryRenderer;
+import com.luizabrahao.msc.ants.render.PheromoneRenderer;
 import com.luizabrahao.msc.ants.test.TestUtil;
 import com.luizabrahao.msc.sim.util.CallableAdapter;
 
@@ -32,13 +37,13 @@ public class StudyOnRadius {
 	private final int nColumns = 500;
 	private final int maximumNumberOfThreads = 60;
 	private final long secondsToRun = 30;
-	private final long secondsToRender = 10;
+	private final long secondsToRender = 30;
 	private final double initialConcentration = 0.01;	
 	private final long secondsToRunDecayAgent = 3;
 	
 	@Test
 	public void run() throws InterruptedException {
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 1; i++) {
 			this.executeExperiment(i);
 		}
 	}
@@ -53,7 +58,11 @@ public class StudyOnRadius {
 		
 		final AntNestAgent nest = new AntNestAgent("nest", grid[0][Integer.valueOf(nColumns / 2)]);
 		final List<FoodSourceAgent> foodSources = AntEnvironmentFactory.placeRowOfFoodSources(grid[nLines - 100][Integer.valueOf(nColumns / 2) - 100], 200, 30);
-		final List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "worker", grid[0][Integer.valueOf(nColumns / 2)]);
+		List<AntAgent> agents = AntAgentFactory.produceBunchOfWorkers(50, "worker", grid[0][Integer.valueOf(nColumns / 2)]);
+		
+		AntAgent ant = new AntAgent("tracked-worker", WorkerAntType.TYPE, nest.getCurrentNode(), true);
+		agents.add(ant);
+		
 		
 		final StaticPheromoneUpdaterAgent pheromoneUpdater1 = new StaticPheromoneUpdaterAgent("pheromone-updater-1", grid[0][0], nLines / 2);
 		final StaticPheromoneUpdaterAgent pheromoneUpdater2 = new StaticPheromoneUpdaterAgent("pheromone-updater-2", grid[250][0], nLines / 2);
@@ -78,20 +87,22 @@ public class StudyOnRadius {
 			future.cancel(true);
 		}
 		
-//		renderers.add(new ExploredSpaceRenderer(grid, "target/studyOnRadius - space - radius = " + ForageStimulusType.TYPE.getRadius() + ".png", nColumns, nLines));
-//		renderers.add(new PheromoneRenderer(grid, "target/studyradius - " + ForageStimulusType.TYPE.getRadius() + " - " + executionNumber + ".png", nColumns, nLines, ForageStimulusType.TYPE));
-//				
-//		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
-//		
-//		for (Future<Void> future : renderersFutures) {
-//			try {
-//				future.get();
-//			} catch (ExecutionException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			future.cancel(true);
-//		}
+		renderers.add(new NodeHistoryRenderer(ant, "target/studyOnRadius - ant.png", nColumns, nLines));
+		
+		renderers.add(new ExploredSpaceRenderer(grid, "target/studyOnRadius - space - radius = " + ForageStimulusType.TYPE.getRadius() + ".png", nColumns, nLines));
+		renderers.add(new PheromoneRenderer(grid, "target/studyradius - " + ForageStimulusType.TYPE.getRadius() + " - " + executionNumber + ".png", nColumns, nLines, ForageStimulusType.TYPE));
+				
+		List<Future<Void>> renderersFutures = executor.invokeAll(renderers, secondsToRender, TimeUnit.SECONDS);
+		
+		for (Future<Void> future : renderersFutures) {
+			try {
+				future.get();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+			
+			future.cancel(true);
+		}
 		
 		logger.info("Amount of food collected; {}", nest.getAmountOfFoodHeld());
 	}
