@@ -316,9 +316,12 @@ Figure \ref{fig:radius-res} illustrates how the pheromone trails widen with the 
 \caption{Affect of wide pheromone trails on node selection}\label{fig:radius-saturation}
 \end{figure}
 
-This random behaviour, as far node selection is concerned, has a profound impact on the colony's forage performance, as agents will struggle to find their way to the food sources, and when eventually some of them do, there still a good change that many will not reach the nest back in order to deposit the food they have collected.  Figure \ref{fig:radius-explored}, which is a renderisation  of the space visited by all ants of the colony throughout the simulation and the space visited by only one of the agents of that colony, set to be tracked by the framework. As it is possible to see, as the radius increases so does the number of paths the agents visit and more tortuous they become. Figures \ref{fig:radius-exp-b} and \ref{fig:radius-exp-c} also show how the ants get 'trapped' in the pheromone cloud. In both figures, the paths formed by the single agent (right frame) have the same shape of the main stream of paths visited by the entire colony (left frame). 
+This random behaviour, as far node selection is concerned, has a profound impact on the colony's forage performance, as agents will struggle to find their way to the food sources, and when eventually some of them do, there still a good change that many will not reach the nest back in order to deposit the food they have collected.  
 
 This strongly suggests that ants use more than only local information available at the instant they are making decision where to move to. The other communication methods employed by ants should play a vital role in assisting this decision to be made.
+
+Figure \ref{fig:radius-explored} is a renderisation  of the space visited by all ants of the colony throughout the simulation (left frame) and the space visited by only one of the agents of that colony (right frame), set to be tracked by the framework. As it is possible to see, as the radius increases so does the number of paths the agents visit and more tortuous they become. Figures \ref{fig:radius-exp-b} and \ref{fig:radius-exp-c} also show how the ants get 'trapped' in the pheromone cloud. In both figures, the paths formed by the single agent (right frame) have the same shape of the main stream of paths visited by the entire colony (left frame). 
+
 
 Two new possible experiments to better understand and improve node selection are proposed in section \ref{sec:new-studies}.
 
