@@ -188,7 +188,7 @@ The pair $0.01/0.01$ also proved to be less sensitive to the number of agents us
 \section{Forage Radius Investigation}
 \label{sec:forage-radius-inv}
 
-This experiment investigates the affect of the radius variation of the \emph{Forage} chemical stimulus (section \ref{subsec:forage-stimulus}) on the capacity of the colony to collect food. Four values for the stimulus' radius were tried - $0$, $1$, $2$. The experiment was setup as follows:
+This experiment investigates the effect of the radius variation of the \emph{Forage} chemical stimulus (section \ref{subsec:forage-stimulus}) on the capacity of the colony to collect food. Three values for the stimulus' radius were tried - $0$, $1$, $2$. The experiment was setup as follows:
 
 \begin{table}[H]
 \myfloatalign
@@ -213,7 +213,7 @@ Pheromone decay frequency & every 3 seconds \\
 \label{tab:setup-2}
 \end{table}
 
-In this experiment the radius of action of the forage pheromone is varied in order to check the effects in the amount of food the colony is capable of forage. At first one would expect that the increase on the radius of the forage pheromone would have a positive impact on the colony capacity of collecting food as trails that lead to food sources would are reinforced by agents caring food back to the nest and with a wider spread of the pheromone more workers would be fall in these trails. However the data from the simulations show a different picture. The colony collect less and less food as the stimulus' radius increase. Table \ref{tab:radius-results} is a summary of the data collected from the study.
+In this experiment the radius of action of the forage pheromone is varied in order to check the effects on the amount of food the colony is capable of forage. At first, one would expect that the increase on the radius of the forage pheromone would have a positive impact on the colony capacity of collecting food as trails that lead to food sources are reinforced by agents carrying food back to the nest and with a wider spread of the pheromone more workers would fall in these trails. However the data from the simulations show a different picture. The colony collect less and less food as the stimulus' radius increase. Table \ref{tab:radius-results} is a summary of the data collected from the study.
 
 For this experiment a row of food sources was placed far away from the colony. Each source has a total amount of food of $30$. The simulation was run $100$ times for each radius variation. Figure \ref{fig:radius-res} presents part of the middle section (see Figure \ref{fig:radius-full-a}) of the trails created by the agents for the first $20$ simulations for each value used for radius.
 
@@ -254,7 +254,7 @@ For this experiment a row of food sources was placed far away from the colony. E
 \begin{table}[H]
 \myfloatalign
 \begin{tabularx}{\textwidth}{Xll} \toprule
-\tableheadline{Radius} & \tableheadline{Average of food collected} & \tableheadline{Standard deviation} \\ \midrule
+\tableheadline{Radius} & \tableheadline{Mean of food collected} & \tableheadline{Standard deviation} \\ \midrule
 0 & 6.0 & 1.21 \\
 1 & 4.9 & 0.72 \\
 2 & 3.3 & 0.53 \\
@@ -265,7 +265,7 @@ For this experiment a row of food sources was placed far away from the colony. E
 \label{tab:radius-results}
 \end{table}
 
-The averages that are presented in the Table \ref{tab:radius-results} was calculated after statistically validating the dataset collected for each radius value, with any outlier sample was removed from the results collected from the simulations. The following pair of equation are used to define a sample point $x_i$ as outlier or not:
+The averages that are presented in the Table \ref{tab:radius-results} were calculated after statistically validating the dataset collected for each radius value, with any outlier sample was removed from the results collected from the simulations. The following pair of equation are used to define a sample point $x_i$ as outlier or not:
 
 \begin{equation}
 \begin{cases} 
@@ -296,11 +296,11 @@ Where $\bar{x}$ is the average of the resulting dataset for each radius and $\si
 \caption[Radius variation - samples distributions]{Samples distribution variating the pheromone radius - 0 (a), 1 (b) and 2 (c) - and the samples' probability density distribution (d)}\label{fig:radius}
 \end{figure}
 
-Figure \ref{fig:radius} helps to visualise what the standard deviations from Table \ref{tab:radius-results} had already shown - the samples \emph{variance} decreases when the radius increases. The reason for this phenomena is that the bigger the pheromone radius is the lesser agents are probable to 'escape' from the trail, thus they are not able to explore different areas of the environment. For the agents use virtually only the same pheromone trail to forage their outcomes are likely to be very close.  
+Figure \ref{fig:radius} helps to visualise what the standard deviations from Table \ref{tab:radius-results} had already shown - the samples \emph{variance} decreases when the radius increases. The reason for this phenomena is that the bigger the pheromone radius, fewer agents are likely  to 'escape' from the trail, thus they are not able to explore different areas of the environment. This means that the agents will create virtually the same pheromone trail in each case to forage, so that their outcomes are likely to be very close.  
 
-With a more diversified exploratory reach, agents in the simulations using radius $0$ are likely to have different degrees of success in finding food and taking it back to the nest in each simulation run, justifying the greater variance in the colony outcome.
+With a more diversified exploratory reach, agents in the simulations using radius $0$ are likely to have different degrees of success in finding food and taking it back to the nest in each simulation run, justifying the greater variance in the colony outcome. In other words, random events play a large role in determining the outcome.
 
-The study carries raises another question - why does smaller radiuses outperform bigger ones? From Table \ref{tab:radius-results} we can see that the simulations with radius $0$ outperforms the ones with radiuses $1$ and $2$ in $22$ and $82$ percent in average respectively. This occurs due to the formation of trails with large width, leading the agents to move from note to node in almost random fashion. 
+The study carries raises another question - why do smaller radii outperform bigger ones? From Table \ref{tab:radius-results} we can see that the simulations with radius $0$ outperform the ones with radiuses $1$ and $2$ in $22$ and $82$ percent in average respectively. This occurs due to the formation of trails with large width, leading the agents to move from note to node in almost random fashion. 
 
 Figure \ref{fig:radius-res} illustrates how the pheromone trails widen with the increase of the pheromone radius. It might seem contradictory at first that wider trails do not led to better forage performance, for more ants should be lead to food sources. However due to the model of node selection implemented the agents are too sensitive to the pheromone intensity of the direct neighbours of the node they are currently at, and this is translated to random node selection when agents are trapped in wide pheromone trails. 
 
@@ -313,7 +313,7 @@ Figure \ref{fig:radius-res} illustrates how the pheromone trails widen with the 
 {\label{fig:radius-sat-b}
 \includegraphics[width=.3\linewidth]{gfx/radius-sat-nav}}
 
-\caption{Affect of wide pheromone trails on node selection}\label{fig:radius-saturation}
+\caption{Effect of wide pheromone trails on node selection. A 'wide' trail leads to more lateral movement (e.g. $E > W$) and so delays forward (e.g. $N > S$) movement towards the food source}\label{fig:radius-saturation}
 \end{figure}
 
 This random behaviour, as far node selection is concerned, has a profound impact on the colony's forage performance, as agents will struggle to find their way to the food sources, and when eventually some of them do, there still a good change that many will not reach the nest back in order to deposit the food they have collected.  

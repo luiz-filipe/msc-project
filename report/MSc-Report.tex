@@ -36,7 +36,11 @@
 % Includes the file which contains all the document configurations and packages - make sure to edit this file
 \input{classicthesis-config}
 
-%\usepackage[left=35mm,right=14mm,top=14mm,bottom=35mm]{geometry}
+\usepackage[left=35mm, width=158mm, top=24mm, bottom=34mm]{geometry}
+\usepackage{fancyhdr}
+\fancyhead{}
+\cfoot{\fancyplain{}{\thepage}}
+\pagestyle{fancyplain}
 
 \begin{document}
 
@@ -51,8 +55,6 @@
 
 \pagenumbering{roman} % Roman page numbering prior to the start of the thesis content (i, ii, iii, etc)
 
-\pagestyle{plain} % Suppress headers for the pre-content pages
-
 %----------------------------------------------------------------------
 %	PRE-CONTENT THESIS PAGES
 %----------------------------------------------------------------------
@@ -61,9 +63,9 @@
 
 %\include{FrontBackmatter/Titleback} % Back of the title page
 
-\begin{addmargin}[+0.8cm]{-0.9cm}
+%\begin{addmargin}[+0.8cm]{-0.9cm}
 
-%\cleardoublepage\include{FrontBackmatter/Dedication} % Dedication page
+\cleardoublepage\include{FrontBackmatter/Dedication} % Dedication page
 
 %\cleardoublepage\include{FrontBackmatter/Foreword} % Uncomment and create a Foreword.tex to include a foreword
 
@@ -71,7 +73,7 @@
 
 %\cleardoublepage\include{FrontBackmatter/Publication} % Publications from the thesis page
 
-%\cleardoublepage\include{FrontBackmatter/Acknowledgments} % Acknowledgements page
+\cleardoublepage\include{FrontBackmatter/Acknowledgments} % Acknowledgements page
 
 \pagestyle{scrheadings} % Show chapter titles as headings
 
@@ -132,5 +134,5 @@ Improvements to the model, to its implementation and further studies are propose
 \cleardoublepage\include{FrontBackmatter/Bibliography} % Bibliography
 
 %----------------------------------------------------------------------
-\end{addmargin}
+%\end{addmargin}
 \end{document}
