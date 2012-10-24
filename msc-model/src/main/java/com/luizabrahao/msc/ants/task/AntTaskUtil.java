@@ -141,7 +141,7 @@ public class AntTaskUtil {
 				return westOfTheAgent;
 			}
 			
-			return WandererTask.getRandomDirection(agent);
+			return WandererTask.getRandomDirection();
 		}
 	}
 	
