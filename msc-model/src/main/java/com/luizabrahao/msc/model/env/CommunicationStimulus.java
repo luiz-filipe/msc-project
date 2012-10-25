@@ -6,11 +6,12 @@ package com.luizabrahao.msc.model.env;
  * environment, the pheromone is a type of communication stimulus.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 public interface CommunicationStimulus {
 	/**
 	 * Returns the type of communication stimulus the object has.
+	 * 
 	 * @return CommunicationStimulusType Type of communication stimulus.
 	 */
 	CommunicationStimulusType getType();

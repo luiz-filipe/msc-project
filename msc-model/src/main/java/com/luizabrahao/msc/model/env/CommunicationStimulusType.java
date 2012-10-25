@@ -3,10 +3,10 @@ package com.luizabrahao.msc.model.env;
 /**
  * Communication stimulus type allows to differentiate between stimulus that are
  * present in a node. This is important when agents update the present stimuli
- * in the nodes they operate upon. 
- *  
+ * in the nodes they operate upon.
+ * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 public interface CommunicationStimulusType {
 	/**

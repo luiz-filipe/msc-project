@@ -11,17 +11,21 @@ import net.jcip.annotations.Immutable;
  * 
  * @see ChemicalCommStimulus
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 @Immutable
 public class BasicCommunicationStimulus implements CommunicationStimulus {
 	private final CommunicationStimulusType communicationStimulusType;
 
-	public BasicCommunicationStimulus(CommunicationStimulusType communicationStimulusType) {
+	public BasicCommunicationStimulus(
+			CommunicationStimulusType communicationStimulusType) {
 		this.communicationStimulusType = communicationStimulusType;
 	}
 
-	@Override public CommunicationStimulusType getType() { return this.communicationStimulusType; }
+	@Override
+	public CommunicationStimulusType getType() {
+		return this.communicationStimulusType;
+	}
 
 	@Override
 	public int hashCode() {
@@ -36,12 +40,10 @@ public class BasicCommunicationStimulus implements CommunicationStimulus {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		if (!(obj instanceof BasicCommunicationStimulus)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
+
 		BasicCommunicationStimulus other = (BasicCommunicationStimulus) obj;
 		if (communicationStimulusType == null) {
 			if (other.communicationStimulusType != null)
@@ -49,8 +51,24 @@ public class BasicCommunicationStimulus implements CommunicationStimulus {
 		} else if (!communicationStimulusType
 				.equals(other.communicationStimulusType))
 			return false;
+
+		if (!other.canEqual(this))
+			return false;
+
 		return true;
 	}
 
-	
+	/**
+	 * This method in necessary when subclasses of a communication stimulus add
+	 * state and need to redefine <em>equals</em> and <em>hashCode</em> methods
+	 * 
+	 * See http://www.artima.com/lejava/articles/equality.html
+	 * 
+	 * @param other
+	 *            Object to test equality
+	 * @return True if other object can equals objects of the class
+	 */
+	public boolean canEqual(Object obj) {
+		return (obj instanceof BasicCommunicationStimulus);
+	}
 }
