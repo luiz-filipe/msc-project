@@ -1,4 +1,3 @@
-
 package com.luizabrahao.msc.model.annotation;
 
 import java.lang.annotation.Documented;
@@ -15,9 +14,10 @@ import java.lang.annotation.Target;
  * something wrong.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 @Documented
 @Target(value = ElementType.METHOD)
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface FrameworkExclusive {}
+public @interface FrameworkExclusive {
+}
