@@ -17,20 +17,27 @@ import com.luizabrahao.msc.model.task.WandererTask;
  * agent types.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 @ThreadSafe
 public enum BasicTaskAgentType implements TaskAgentType {
 	TYPE;
 
-	private final String name = "BaseTaskAgent Type";
+	private final String name = "agent:type:basic-task";
 	private final List<Task> tasks;
-	
+
 	BasicTaskAgentType() {
 		tasks = new ArrayList<Task>();
 		tasks.add(new WandererTask());
 	}
-	
-	@Override public List<Task> getTasks() { return tasks; }
-	@Override public String getName() { return name; }
+
+	@Override
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
 }

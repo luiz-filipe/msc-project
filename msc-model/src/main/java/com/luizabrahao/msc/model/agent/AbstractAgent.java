@@ -33,7 +33,7 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 
 	public AbstractAgent(String id, AgentType agentType, Node currentNode,
 			boolean recordNodeHistory) {
-		
+
 		this.id = id;
 		this.agentType = agentType;
 		this.recordNodeHistory = recordNodeHistory;
@@ -84,10 +84,10 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 	@Override
 	public synchronized List<Node> getNodesVisited() {
 		if (!this.recordNodeHistory) {
-			logger.error("Node {} wasn't asked to record the list of nodes " +
-					"it has been, but the recordHistoryNode has tried to be" +
-					" accessed.", this.getId());
-			
+			logger.error("Node {} wasn't asked to record the list of nodes "
+					+ "it has been, but the recordHistoryNode has tried to be"
+					+ " accessed.", this.getId());
+
 			return new ArrayList<Node>();
 		}
 
@@ -96,9 +96,9 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 		}
 
 		if (this.recordNodeHistory) {
-			logger.warn("{} has no node in the visited list, but was asked " +
-					"to recorcord its moving history", this.getId());
-			
+			logger.warn("{} has no node in the visited list, but was asked "
+					+ "to recorcord its moving history", this.getId());
+
 			return new ArrayList<Node>();
 		}
 
@@ -108,5 +108,44 @@ public abstract class AbstractAgent implements Agent, Callable<Void> {
 	@Override
 	public boolean shouldRecordNodeHistory() {
 		return recordNodeHistory;
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((agentType == null) ? 0 : agentType.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		if (!(obj instanceof AbstractAgent)) {
+			return false;
+		}
+		
+		AbstractAgent other = (AbstractAgent) obj;
+		if (agentType == null) {
+			if (other.agentType != null)
+				return false;
+		} else if (!agentType.equals(other.agentType))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		
+		if (!other.canEqual(this)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean canEqual(Object obj) {
+		return (obj instanceof AbstractAgent);
 	}
 }
